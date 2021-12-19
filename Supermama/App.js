@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import * as React from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -17,7 +17,8 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   Colors,
   DebugInstructions,
@@ -28,15 +29,15 @@ import {
 
 import firestore from '@react-native-firebase/firestore';
 
-firestore()
-  .collection('Users')
-  .add({
-    name: 'Ada Lovelace',
-    age: 30,
-  })
-  .then(() => {
-    console.log('User added!');
-  });
+// firestore()
+//   .collection('Users')
+//   .add({
+//     name: 'Ada Lovelace',
+//     age: 30,
+//   })
+//   .then(() => {
+//     console.log('User added!');
+//   });
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -64,6 +65,27 @@ const Section = ({children, title}): Node => {
   );
 };
 
+
+
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -72,33 +94,12 @@ const App: () => Node = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 
