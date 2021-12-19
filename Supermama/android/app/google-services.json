@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "944499373257",
+    "project_id": "supermama-6aa87",
+    "storage_bucket": "supermama-6aa87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944499373257:android:1776dccfeec3cf01258918",
+        "android_client_info": {
+          "package_name": "com.supermama"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944499373257-3l1nqj8cuc2kj3nslme4jj2qch3kvhc7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.supermama",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "944499373257-1hgbdt86oal4nc1ii4af2n9qqmjmdsip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE6oddzxeDJIpdBZeU3bH6qV6R9Pg9qUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944499373257-1hgbdt86oal4nc1ii4af2n9qqmjmdsip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
