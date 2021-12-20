@@ -16,6 +16,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Image
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -26,6 +27,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
@@ -72,6 +74,9 @@ function HomeScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Home!</Text>
+      
+      {/* <Icon
+          name='rowing' /> */}
     </View>
   );
 }
@@ -89,6 +94,7 @@ function ForumScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Forum!</Text>
+      
         
     </View>
   );
@@ -115,12 +121,21 @@ const App: () => Node = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+       initialRouteName="Home"
+       screenOptions={{
+         tabBarActiveTintColor:"#FFC0CB",
+       }}  
+      >
         <Tab.Screen 
           name="Home" 
           component={HomeScreen} 
           options={{
             headerShown: false,
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
           }}
         />
         <Tab.Screen 
@@ -128,6 +143,10 @@ const App: () => Node = () => {
           component={StoreScreen} 
           options={{
             headerShown: false,
+            tabBarLabel: 'Store',
+            tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="cart" color={color} size={size} />
+          ),
           }}
         />
         <Tab.Screen 
@@ -135,13 +154,21 @@ const App: () => Node = () => {
           component={ForumScreen} 
           options={{
             headerShown: false,
+            tabBarLabel: 'Forum',
+            tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account-group" color={color} size={size} />
+          ),
           }}
         />
         <Tab.Screen 
           name="Profile" 
           component={ProfileScreen} 
-          options={{
+           options={{
             headerShown: false,
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
           }}
         />
       </Tab.Navigator>
