@@ -26,9 +26,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { Icon } from 'react-native-elements';
 
-import firestore from '@react-native-firebase/firestore';
+
+
 
 // firestore()
 //   .collection('Users')
@@ -76,10 +76,28 @@ function HomeScreen() {
   );
 }
 
-function SettingsScreen() {
+function StoreScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Settings!</Text>
+        
+    </View>
+  );
+}
+
+function ForumScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Forum!</Text>
+        
+    </View>
+  );
+}
+
+function ProfileScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Profile!</Text>
         
     </View>
   );
@@ -98,8 +116,34 @@ const App: () => Node = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen 
+          name="Home" 
+          component={HomeScreen} 
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen 
+          name="Store" 
+          component={StoreScreen} 
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen 
+          name="Forum" 
+          component={ForumScreen} 
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen 
+          name="Profile" 
+          component={ProfileScreen} 
+          options={{
+            headerShown: false,
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
