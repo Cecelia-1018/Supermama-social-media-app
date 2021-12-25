@@ -1,11 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
+import 'react-native-gesture-handler'; //must be at the top
 import * as React from 'react';
 import type {Node} from 'react';
 import {
