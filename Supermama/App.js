@@ -28,7 +28,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import ForumScreen from './components/Forum/ForumScreen';
 
 
 
@@ -90,15 +90,7 @@ function StoreScreen() {
   );
 }
 
-function ForumScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Forum!</Text>
-      
-        
-    </View>
-  );
-}
+
 
 function ProfileScreen() {
   return (
