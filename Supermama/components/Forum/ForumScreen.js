@@ -31,8 +31,8 @@ function ForumHome() {
     <Tab.Navigator
       screenOptions={{
         tabBarLabelStyle: { fontSize: 12 },
-        tabBarIndicatorStyle: { backgroundColor: "white" },
-        tabBarStyle: { backgroundColor: "#f0ccd2" },
+        tabBarIndicatorStyle: { backgroundColor: "#f0ccd2" },
+        tabBarStyle: { backgroundColor: "white" },
       }}
     >
       <Tab.Screen name="Explore" component={ExploreForum} />
@@ -47,7 +47,7 @@ function ForumScreen({ navigation }) {
   return (
     <RootStack.Navigator>
       <RootStack.Screen
-        name="ForumHome"
+        name="Forum Home"
         component={ForumHome}
         options={{
           headerRight: () => (
