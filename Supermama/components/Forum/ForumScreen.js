@@ -56,18 +56,17 @@ function ForumScreen({ navigation }) {
                 icon="plus"
                 color={Colors.black}
                 size={25}
-                onPress={() => navigation.navigate("AddForum")}
+                onPress={() => navigation.navigate("Create Forum")}
               />
-
             </View>
           ),
         }}
       />
-       <RootStack.Screen
+       {/* <RootStack.Screen
         name="AddForum"
         component={AddForum}
         options={{ headerShown: false }}
-      />
+      /> */}
     </RootStack.Navigator>
   );
 }
