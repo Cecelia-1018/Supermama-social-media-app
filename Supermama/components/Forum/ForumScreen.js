@@ -17,7 +17,7 @@ const Tab = createMaterialTopTabNavigator();
 const RootStack = createStackNavigator();
 
 function ExploreForum(){
-  return <Text h1>Explore Forum</Text>;
+  return  <View style={{backgroundColor: '#FFF'}}><Text h1>Explore Forum</Text></View>;
 }
 
 function FollowForum(){
@@ -28,6 +28,7 @@ function FollowForum(){
 function ForumHome() {
   const [folow, setFolow] = useState(0);
   return (
+   
     <Tab.Navigator
       screenOptions={{
         tabBarLabelStyle: { fontSize: 12 },
@@ -38,6 +39,7 @@ function ForumHome() {
       <Tab.Screen name="Explore" component={ExploreForum} />
       <Tab.Screen name="Follow" component={FollowForum} />
     </Tab.Navigator>
+   
   );
 }
 
@@ -62,11 +64,6 @@ function ForumScreen({ navigation }) {
           ),
         }}
       />
-       {/* <RootStack.Screen
-        name="AddForum"
-        component={AddForum}
-        options={{ headerShown: false }}
-      /> */}
     </RootStack.Navigator>
   );
 }

@@ -94,10 +94,10 @@ const Stack = createStackNavigator();
 function HomeTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: '#FFC0CB',
-      }}>
+      }}
+      initialRouteName="Home">
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -158,17 +158,21 @@ const App: () => Node = () => {
   };
 
   return (
-   <NavigationContainer>
-     <Stack.Navigator>
-      <Stack.Screen 
-          name="Home Tabs" 
-          component={HomeTabs} options={{
-          headerShown: false, }} />
-      <Stack.Screen 
-          name="Create Forum" 
-          component={AddForum}  />
-    </Stack.Navigator>
-   </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          cardStyle: { backgroundColor: '#fff' }
+        }} initialRouteName="Home Tabs">
+        <Stack.Screen
+          name="Home Tabs"
+          component={HomeTabs}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen name="Create Forum" component={AddForum} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
