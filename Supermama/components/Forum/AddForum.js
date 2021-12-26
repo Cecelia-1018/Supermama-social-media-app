@@ -12,6 +12,8 @@ import {
   Title, 
   Button
 } from 'react-native-paper';
+import firestore from '@react-native-firebase/firestore';
+
 
 //alert confimation
 const createTwoButtonAlert = () =>
@@ -25,8 +27,20 @@ const createTwoButtonAlert = () =>
 ]);
 
 function AddForum({navigation}){
-  const [text, setText] = React.useState('');
+  const [txtTil, setTxtTitle] = React.useState('');
   const [txtDes, setTxtDes] = React.useState('');
+
+  const ref = firestore().collection('forums');
+
+  async function addForumCol() {
+    await ref.add({
+      title: txtTil,
+      description: txtDes,
+    });
+    setTxtTitle('');
+    setTxtDes('');
+  }
+ 
   return (
     <View style={styles.container}>
       <Card>
@@ -34,8 +48,8 @@ function AddForum({navigation}){
           <Title>Title </Title>
           <TextInput
             label="Title"
-            value={text}
-            onChangeText={text => setText(text)}
+            value={txtTil}
+            onChangeText={setTxtTitle}
             mode="outlined"
             outlineColor="#FFC0CB"
             activeOutlineColor="#FE7E9C"
@@ -46,7 +60,7 @@ function AddForum({navigation}){
           <TextInput
             label="Title"
             value={txtDes}
-            onChangeText={txtDes => setTxtDes(txtDes)}
+            onChangeText={setTxtDes}
             mode="outlined"
             outlineColor="#FFC0CB"
             activeOutlineColor="#FE7E9C"
@@ -59,7 +73,7 @@ function AddForum({navigation}){
       <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={createTwoButtonAlert}
+          onPress={() => addForumCol()}
           color="#FE7E9C"
           style={styles.submitButton}>
           Submit
