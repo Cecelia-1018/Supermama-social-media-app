@@ -52,7 +52,7 @@ function ForumScreen({ navigation }) {
   return (
     <RootStack.Navigator>
       <RootStack.Screen
-        name="Forum Home"
+        name="Q&A"
         component={ForumHome}
         options={{
           headerRight: () => (
