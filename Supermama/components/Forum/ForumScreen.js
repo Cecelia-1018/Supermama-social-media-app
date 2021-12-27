@@ -4,21 +4,24 @@ import {
   View,
   StyleSheet,
 } from "react-native";
+import { 
+  IconButton,
+  Colors
+} from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import {
   getFocusedRouteNameFromRoute,
   NavigationContainer,
 } from "@react-navigation/native";
+
 import AddForum from './AddForum';
-import { IconButton,Colors} from "react-native-paper";
+import ExploreForum from './ExploreForum';
 
 const Tab = createMaterialTopTabNavigator();
 const RootStack = createStackNavigator();
 
-function ExploreForum(){
-  return  <View style={{backgroundColor: '#FFF'}}><Text h1>Explore Forum</Text></View>;
-}
+
 
 function FollowForum(){
   return <Text h1>Follow Forum</Text>;
