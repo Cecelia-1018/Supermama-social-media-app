@@ -10,7 +10,8 @@ import {
   TextInput, 
   Card , 
   Title, 
-  Button
+  Button,
+  Snackbar
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
@@ -27,10 +28,17 @@ const createTwoButtonAlert = () =>
 ]);
 
 function AddForum({navigation}){
+  //input
   const [txtTil, setTxtTitle] = React.useState('');
   const [txtDes, setTxtDes] = React.useState('');
-
+  
+  //firebase
   const ref = firestore().collection('forums');
+
+  //snackbar
+  const [visible, setVisible] = React.useState(false);
+  const onToggleSnackBar = () => setVisible(!visible);
+  const onDismissSnackBar = () => setVisible(false);
 
   async function addForumCol() {
     await ref.add({
@@ -40,6 +48,14 @@ function AddForum({navigation}){
     setTxtTitle('');
     setTxtDes('');
   }
+
+  async function forumPosted(){
+    addForumCol();
+    onToggleSnackBar();
+
+  }
+
+  
  
   return (
     <View style={styles.container}>
@@ -73,11 +89,22 @@ function AddForum({navigation}){
       <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => addForumCol()}
+          onPress={() => forumPosted()}
           color="#FE7E9C"
           style={styles.submitButton}>
-          Submit
+          Submit 
         </Button>
+        <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'See Post',   //add to navigate to forum post detail page
+          onPress: () => {
+            // Do something
+          },
+        }}>
+        Forum post created!
+      </Snackbar>
      
         <Button 
          mode="contained"
