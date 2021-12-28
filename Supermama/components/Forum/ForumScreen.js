@@ -17,15 +17,11 @@ import {
 
 import AddForum from './AddForum';
 import ExploreForum from './ExploreForum';
+import YoursForum from './YoursForum';
 
 const Tab = createMaterialTopTabNavigator();
 const RootStack = createStackNavigator();
 
-
-
-function FollowForum(){
-  return <Text h1>Follow Forum</Text>;
-}
 
 
 function ForumHome() {
@@ -40,7 +36,7 @@ function ForumHome() {
       }}
     >
       <Tab.Screen name="Explore" component={ExploreForum} />
-      <Tab.Screen name="Follow" component={FollowForum} />
+      <Tab.Screen name="Yours" component={YoursForum} />
     </Tab.Navigator>
    
   );
