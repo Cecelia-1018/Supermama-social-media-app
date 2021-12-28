@@ -42,8 +42,10 @@ function AddForum({navigation}){
 
   async function addForumCol() {
     await ref.add({
+      //add id here
       title: txtTil,
       description: txtDes,
+      
     });
     setTxtTitle('');
     setTxtDes('');
