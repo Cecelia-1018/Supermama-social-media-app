@@ -43,8 +43,7 @@ function ExploreForum(){
     <FlatList
       data={forums}
       renderItem={({ item }) => (
-        <View style={{ height: 50, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>ID: {item.id}</Text>
+        <View style={{ height: 100, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text>Title: {item.title}</Text>
           <Text>Description: {item.description}</Text>
         </View>

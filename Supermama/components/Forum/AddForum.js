@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -39,13 +39,33 @@ function AddForum({navigation}){
   const [visible, setVisible] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
+  
+  //declare forum id with 'F + datetime'
+  const [forumId, setForumId] = useState('');
+
+  useEffect(() => {
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    var hours = new Date().getHours(); //Current Hours
+    var min = new Date().getMinutes(); //Current Minutes
+    var sec = new Date().getSeconds(); //Current Seconds
+    setForumId(
+     'F' + date + month + year 
+      +  hours +  min +  sec
+    );
+
+  }, []);
+
 
   async function addForumCol() {
-    await ref.add({
+    await ref.doc(forumId).set({
       //add id here
       title: txtTil,
       description: txtDes,
       
+    }).then(()=>{
+      console.log('Forum added!');
     });
     setTxtTitle('');
     setTxtDes('');
