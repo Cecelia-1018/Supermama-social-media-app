@@ -29,6 +29,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ForumScreen from './components/Forum/ForumScreen';
 import AddForum from './components/Forum/AddForum';
 import EditForum from './components/Forum/EditForum';
+import DetailsForum from './components/Forum/DetailsForum';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -165,6 +166,7 @@ const App: () => Node = () => {
         />
         <Stack.Screen name="Create Forum" component={AddForum} />
         <Stack.Screen name="Edit Forum" component={EditForum} />
+         <Stack.Screen name="Detail Forum" component={DetailsForum} />
       </Stack.Navigator>
     </NavigationContainer>
   );
