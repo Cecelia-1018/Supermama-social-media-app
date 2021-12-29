@@ -11,9 +11,8 @@ import {
   View,
   Image,
   Button,
+  ActivityIndicator,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   Colors,
   DebugInstructions,
@@ -22,18 +21,14 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ForumScreen from './components/Forum/ForumScreen';
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+
+import ForumScreen from './components/Forum/ForumScreen';
 import AddForum from './components/Forum/AddForum';
-// firestore()
-//   .collection('Users')
-//   .add({
-//     name: 'Ada Lovelace',
-//     age: 30,
-//   })
-//   .then(() => {
-//     console.log('User added!');
-//   });
+import EditForum from './components/Forum/EditForum';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -65,9 +60,6 @@ function HomeScreen() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Home!</Text>
-
-      {/* <Icon
-          name='rowing' /> */}
     </View>
   );
 }
@@ -151,8 +143,9 @@ function HomeTabs() {
 }
 
 const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
 
+  const isDarkMode = useColorScheme() === 'dark';
+  
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -171,6 +164,7 @@ const App: () => Node = () => {
           }}
         />
         <Stack.Screen name="Create Forum" component={AddForum} />
+        <Stack.Screen name="Edit Forum" component={EditForum} />
       </Stack.Navigator>
     </NavigationContainer>
   );

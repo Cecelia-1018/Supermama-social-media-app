@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -14,61 +14,16 @@ import {
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
-
-
-
-function AddForum({navigation}){
-  //input
+function EditForum({navigation}){
+   //input
   const [txtTil, setTxtTitle] = React.useState('');
   const [txtDes, setTxtDes] = React.useState('');
   
-  //firebase
-  const ref = firestore().collection('forums');
-
   //snackbar
   const [visible, setVisible] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
-  
-  //declare forum id with 'F + datetime'
-  const [forumId, setForumId] = useState('');
 
-  useEffect(() => {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
-    var sec = new Date().getSeconds(); //Current Seconds
-    setForumId(
-     'F' + date + month + year 
-      +  hours +  min +  sec
-    );
-
-  }, []);
-
-
-  async function addForumCol() {
-    await ref.doc(forumId).set({
-      //add id here
-      title: txtTil,
-      description: txtDes,
-      
-    }).then(()=>{
-      console.log('Forum added!');
-    });
-    setTxtTitle('');
-    setTxtDes('');
-  }
-
-  async function forumPosted(){
-    addForumCol();
-    onToggleSnackBar();
-
-  }
-
-  
- 
   return (
     <View style={styles.container}>
       <Card>
@@ -101,10 +56,10 @@ function AddForum({navigation}){
       <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => forumPosted()}
+          onPress={() => onToggleSnackBar()}
           color="#FE7E9C"
-          style={styles.submitButton}>
-          Submit 
+          style={styles.updateButton}>
+          Update 
         </Button>
         <Snackbar
         visible={visible}
@@ -121,12 +76,11 @@ function AddForum({navigation}){
         <Button 
          mode="contained"
          color="#f0ccd2"
-         style={styles.submitButton}
+         style={styles.updateButton}
          onPress={() => navigation.goBack()}>
          Back
         </Button>
       </View>
-
     </View>
   );
 }
@@ -138,7 +92,7 @@ const styles = StyleSheet.create({
   btnContainer:{
     flexDirection: "row-reverse",
   },
-  submitButton:{
+  updateButton:{
    marginLeft:15,
    marginRight: 15,
    marginBottom: 10,
@@ -146,4 +100,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AddForum;
+export default EditForum;
