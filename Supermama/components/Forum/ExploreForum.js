@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
   StyleSheet,
   ActivityIndicator,
-  FlatList
+  FlatList,
+  Pressable
 } from "react-native";
 import firestore from '@react-native-firebase/firestore';
 
 function ExploreForum(){
+  const flatlistRef = useRef();
+
+  const onPressFunction = () => {
+    flatlistRef.current.scrollToEnd({animating: true});
+  };
+
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
   
@@ -40,17 +47,31 @@ function ExploreForum(){
   }
 
   return (
+    <View style = {styles.container}>
     <FlatList
+      ref={flatlistRef}
       data={forums}
       renderItem={({ item }) => (
-        <View style={{ height: 100, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View>
           <Text>Title: {item.title}</Text>
           <Text>Description: {item.description}</Text>
         </View>
       )}
     />
+    {/* <Pressable android_ripple style={styles.button} onPress={onPressFunction}>
+        <Text style={styles.arrow}>v</Text>
+    </Pressable> */}
+   </View>
   );
 
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+ 
+});
+
 
 export default ExploreForum;
