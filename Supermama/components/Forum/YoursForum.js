@@ -7,7 +7,7 @@ import {
   FlatList,
   Pressable,
   Alert,
-  
+  TouchableOpacity
 } from "react-native";
 import {  
   Button,
@@ -31,6 +31,7 @@ const createTwoButtonAlert = () =>
 ]);
 
 function YoursForum({navigation}){
+
   const flatlistRef = useRef();
 
   const onPressFunction = () => {
@@ -74,6 +75,12 @@ function YoursForum({navigation}){
         ref={flatlistRef}
         data={forums}
         renderItem={({item}) => (
+        <TouchableOpacity
+        onPress={() => { 
+          navigation.navigate('Detail Forum', {
+           //pass params here
+          })
+         }}>
           <View>
             <Card>
               <Card.Content>
@@ -81,17 +88,14 @@ function YoursForum({navigation}){
                 <Paragraph>{item.description}</Paragraph>
               </Card.Content>
               <Card.Actions>
-              <Button onPress={() => navigation.navigate("Edit Forum")}>Edit</Button>
+              <Button onPress={() => navigation.navigate("Edit Forum",{title: 'title',description: 'description'})}>Edit</Button>
               <Button onPress={() => createTwoButtonAlert()}>Delete</Button>
             </Card.Actions>
             </Card>
-            
           </View>
+          </TouchableOpacity>
         )}
       />
-      {/* <Pressable android_ripple style={styles.button} onPress={onPressFunction}>
-        <Text style={styles.arrow}>v</Text>
-    </Pressable> */}
     </View>
   );
 }

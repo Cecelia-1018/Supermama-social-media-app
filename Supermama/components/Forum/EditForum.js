@@ -14,7 +14,7 @@ import {
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
-function EditForum({navigation}){
+function EditForum({navigation,route}){
    //input
   const [txtTil, setTxtTitle] = React.useState('');
   const [txtDes, setTxtDes] = React.useState('');
@@ -31,7 +31,8 @@ function EditForum({navigation}){
           <Title>Title </Title>
           <TextInput
             label="Title"
-            value={txtTil}
+            //continue here
+            value={route.params.title}
             onChangeText={setTxtTitle}
             mode="outlined"
             outlineColor="#FFC0CB"
@@ -42,7 +43,7 @@ function EditForum({navigation}){
           <Title>Description</Title>
           <TextInput
             label="Description"
-            value={txtDes}
+            value={route.params.description}
             onChangeText={setTxtDes}
             mode="outlined"
             outlineColor="#FFC0CB"
