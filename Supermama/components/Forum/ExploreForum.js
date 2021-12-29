@@ -7,7 +7,14 @@ import {
   FlatList,
   Pressable
 } from "react-native";
+import { 
+  Button, 
+  Card, 
+  Title, 
+  Paragraph 
+} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
+
 
 function ExploreForum(){
   const flatlistRef = useRef();
@@ -47,21 +54,30 @@ function ExploreForum(){
   }
 
   return (
-    <View style = {styles.container}>
-    <FlatList
-      ref={flatlistRef}
-      data={forums}
-      renderItem={({ item }) => (
-        <View>
-          <Text>Title: {item.title}</Text>
-          <Text>Description: {item.description}</Text>
-        </View>
-      )}
-    />
-    {/* <Pressable android_ripple style={styles.button} onPress={onPressFunction}>
+    <View style={styles.container}>
+      <FlatList
+        ref={flatlistRef}
+        data={forums}
+        renderItem={({item}) => (
+          <View>
+            <Card>
+              <Card.Content>
+                <Title>{item.title}</Title>
+                <Paragraph>{item.description}</Paragraph>
+              </Card.Content>
+              <Card.Actions>
+              <Button onPress={() => console.log('Edited')}>Edit</Button>
+              <Button onPress={() => console.log('Deleted')}>Delete</Button>
+            </Card.Actions>
+            </Card>
+            
+          </View>
+        )}
+      />
+      {/* <Pressable android_ripple style={styles.button} onPress={onPressFunction}>
         <Text style={styles.arrow}>v</Text>
     </Pressable> */}
-   </View>
+    </View>
   );
 
 }
