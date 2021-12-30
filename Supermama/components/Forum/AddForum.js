@@ -31,7 +31,8 @@ function AddForum({navigation}){
   const onDismissSnackBar = () => setVisible(false);
   
   //declare forum id with 'F + datetime'
-  const [forumId, setForumId] = useState('');
+  const [forumDocId, setForumDocId] = useState('');
+  const [txtForumId, setForumId] = useState('');
 
   useEffect(() => {
     var date = new Date().getDate(); //Current Date
@@ -40,6 +41,10 @@ function AddForum({navigation}){
     var hours = new Date().getHours(); //Current Hours
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
+    setForumDocId(
+     'FD' + date + month + year 
+      +  hours +  min +  sec
+    );
     setForumId(
      'F' + date + month + year 
       +  hours +  min +  sec
@@ -49,8 +54,9 @@ function AddForum({navigation}){
 
 
   async function addForumCol() {
-    await ref.doc(forumId).set({
+    await ref.doc(forumDocId).set({
       //add id here
+      forumId: txtForumId,
       title: txtTil,
       description: txtDes,
       
