@@ -24,26 +24,27 @@ function EditForum({navigation,route}){
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
 
+  const {item,title,description} = route.params;
+
   return (
     <View style={styles.container}>
       <Card>
         <Card.Content>
           <Title>Title </Title>
           <TextInput
-            label="Title"
             //continue here
-            value={route.params.title}
+            value={item.title}
             onChangeText={setTxtTitle}
             mode="outlined"
             outlineColor="#FFC0CB"
             activeOutlineColor="#FE7E9C"
           />
+         
         </Card.Content>
         <Card.Content>
           <Title>Description</Title>
           <TextInput
-            label="Description"
-            value={route.params.description}
+            value={item.description}
             onChangeText={setTxtDes}
             mode="outlined"
             outlineColor="#FFC0CB"
@@ -53,6 +54,7 @@ function EditForum({navigation,route}){
           />
         </Card.Content>
       </Card>
+    
 
       <View style={styles.btnContainer}>
         <Button

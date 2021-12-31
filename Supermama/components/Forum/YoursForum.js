@@ -74,25 +74,35 @@ function YoursForum({navigation}){
       <FlatList
         ref={flatlistRef}
         data={forums}
+        keyExtractor={item => item.forumId}
         renderItem={({item}) => (
-        <TouchableOpacity
-        onPress={() => { 
-          navigation.navigate('Detail Forum', {
-           //pass params here
-          })
-         }}>
-          <View>
-            <Card>
-              <Card.Content>
-                <Title>{item.title}</Title>
-                <Paragraph>{item.description}</Paragraph>
-              </Card.Content>
-              <Card.Actions>
-              <Button onPress={() => navigation.navigate("Edit Forum",{title: 'title',description: 'description'})}>Edit</Button>
-              <Button onPress={() => createTwoButtonAlert()}>Delete</Button>
-            </Card.Actions>
-            </Card>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Detail Forum', {
+                //pass params here
+              });
+            }}>
+            <View>
+              <Card>
+                <Card.Content>
+                  <Title>{item.title}</Title>
+                  <Paragraph>{item.description}</Paragraph>
+                </Card.Content>
+                <Card.Actions>
+                  <Button
+                    onPress={() => {
+                      navigation.navigate('Edit Forum', {
+                        item: {
+                          title: item.title,
+                          description: item.description,
+                        },
+                      });
+                    }}
+                  > Edit </Button>
+                  <Button onPress={() => createTwoButtonAlert()}>Delete</Button>
+                </Card.Actions>
+              </Card>
+            </View>
           </TouchableOpacity>
         )}
       />
