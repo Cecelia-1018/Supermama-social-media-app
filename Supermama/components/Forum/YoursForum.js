@@ -19,16 +19,6 @@ import firestore from '@react-native-firebase/firestore';
 
 import EditForum from './EditForum';
 
-//alert confimation for delete
-const createTwoButtonAlert = () =>
-  Alert.alert('Confirmation', 'Confirm to delete?', [
-    {
-      text: 'Cancel',
-      onPress: () => console.log('Cancel Pressed'),
-      style: 'cancel',
-    },
-    { text: 'Confirm', onPress: () => console.log('Confirm Pressed') },
-]);
 
 function YoursForum({navigation}){
 
@@ -41,6 +31,49 @@ function YoursForum({navigation}){
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
   
+  const renderItem = ({item}) => {
+   return(
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Detail Forum', {
+            //pass params here
+          });
+        }}>
+        <View>
+          <Card>
+            <Card.Content>
+              <Title>{item.title}</Title>
+              <Paragraph>{item.description}</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+
+              <Button
+                onPress={() => {
+                  navigation.navigate('Edit Forum', {
+                    item: {
+                      title: item.title,
+                      description: item.description,
+                      forumId: item.forumId,
+                    },
+                  });
+                }}
+              > Edit </Button>
+
+              <Button onPress={() => {
+                  navigation.navigate('Delete Forum', {
+                    item: {
+                      forumId: item.forumId,
+                    },
+                  });
+                }}
+              >Delete</Button>
+
+            </Card.Actions>
+          </Card>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   useEffect(() => {
     const subscriber = firestore()
@@ -69,43 +102,24 @@ function YoursForum({navigation}){
     return <ActivityIndicator size="large" color="#FFC0CB" />;
   }
 
+  const createTwoButtonAlert = () =>{
+    Alert.alert('Confirmation', 'Confirm to delete?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: 'Confirm', onPress: () => console.log('Confirm Pressed') },
+    ]);
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
         ref={flatlistRef}
         data={forums}
         keyExtractor={item => item.forumId}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Detail Forum', {
-                //pass params here
-              });
-            }}>
-            <View>
-              <Card>
-                <Card.Content>
-                  <Title>{item.title}</Title>
-                  <Paragraph>{item.description}</Paragraph>
-                </Card.Content>
-                <Card.Actions>
-                  <Button
-                    onPress={() => {
-                      navigation.navigate('Edit Forum', {
-                        item: {
-                          title: item.title,
-                          description: item.description,
-                          forumId: item.forumId,
-                        },
-                      });
-                    }}
-                  > Edit </Button>
-                  <Button onPress={() => createTwoButtonAlert()}>Delete</Button>
-                </Card.Actions>
-              </Card>
-            </View>
-          </TouchableOpacity>
-        )}
+        renderItem={renderItem}
       />
     </View>
   );
