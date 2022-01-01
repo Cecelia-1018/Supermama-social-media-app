@@ -25,8 +25,8 @@ function EditForum({navigation,route}){
   const {item} = route.params;
 
   //input
-  const [txtTil, setTxtTitle] = React.useState('');
-  const [txtDes, setTxtDes] = React.useState('');
+  const [txtTil, setTxtTitle] = React.useState(item.title);
+  const [txtDes, setTxtDes] = React.useState(item.description);
 
   //firebase
   const ref = firestore().collection('forums').doc(item.forumId);
@@ -57,7 +57,7 @@ function EditForum({navigation,route}){
           <Title>Title </Title>
           <TextInput
             //continue here
-            label={item.title}
+            // label={item.title}
             value={txtTil}
             onChangeText={setTxtTitle}
             mode="outlined"
@@ -69,7 +69,7 @@ function EditForum({navigation,route}){
         <Card.Content>
           <Title>Description</Title>
           <TextInput
-            label={item.description}
+            // label={item.description}
             value={txtDes}
             onChangeText={setTxtDes}
             mode="outlined"
