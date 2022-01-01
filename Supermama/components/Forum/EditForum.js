@@ -15,16 +15,40 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 function EditForum({navigation,route}){
-   //input
-  const [txtTil, setTxtTitle] = React.useState('');
-  const [txtDes, setTxtDes] = React.useState('');
+  
   
   //snackbar
   const [visible, setVisible] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
 
-  const {item,title,description} = route.params;
+  const {item} = route.params;
+
+  //input
+  const [txtTil, setTxtTitle] = React.useState('');
+  const [txtDes, setTxtDes] = React.useState('');
+
+  //firebase
+  const ref = firestore().collection('forums').doc(item.forumId);
+
+  async function updateForumCol() {
+    await ref.update({
+      //add id here
+      title: txtTil,
+      description: txtDes,
+      
+    }).then(()=>{
+      console.log('Forum updated!');
+    });
+    setTxtTitle('');
+    setTxtDes('');
+  }
+
+  async function forumUpdate(){
+    updateForumCol();
+    onToggleSnackBar();
+
+  }
 
   return (
     <View style={styles.container}>
@@ -33,7 +57,8 @@ function EditForum({navigation,route}){
           <Title>Title </Title>
           <TextInput
             //continue here
-            value={item.title}
+            label={item.title}
+            value={txtTil}
             onChangeText={setTxtTitle}
             mode="outlined"
             outlineColor="#FFC0CB"
@@ -44,7 +69,8 @@ function EditForum({navigation,route}){
         <Card.Content>
           <Title>Description</Title>
           <TextInput
-            value={item.description}
+            label={item.description}
+            value={txtDes}
             onChangeText={setTxtDes}
             mode="outlined"
             outlineColor="#FFC0CB"
@@ -59,7 +85,7 @@ function EditForum({navigation,route}){
       <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => onToggleSnackBar()}
+          onPress={() => forumUpdate()}
           color="#FE7E9C"
           style={styles.updateButton}>
           Update 
@@ -73,7 +99,7 @@ function EditForum({navigation,route}){
             // Do something
           },
         }}>
-        Forum post created!
+        Forum post updated!
       </Snackbar>
      
         <Button 

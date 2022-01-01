@@ -42,7 +42,7 @@ function AddForum({navigation}){
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
     setForumDocId(
-     'FD' + date + month + year 
+     'F' + date + month + year 
       +  hours +  min +  sec
     );
     setForumId(

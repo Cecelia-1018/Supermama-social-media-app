@@ -95,6 +95,7 @@ function YoursForum({navigation}){
                         item: {
                           title: item.title,
                           description: item.description,
+                          forumId: item.forumId,
                         },
                       });
                     }}
