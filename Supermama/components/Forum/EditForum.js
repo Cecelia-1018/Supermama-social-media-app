@@ -33,10 +33,8 @@ function EditForum({navigation,route}){
 
   async function updateForumCol() {
     await ref.update({
-      //add id here
       title: txtTil,
       description: txtDes,
-      
     }).then(()=>{
       console.log('Forum updated!');
     });
