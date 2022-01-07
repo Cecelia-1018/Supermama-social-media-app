@@ -31,6 +31,13 @@ import AddForum from './components/Forum/AddForum';
 import EditForum from './components/Forum/EditForum';
 import DetailsForum from './components/Forum/DetailsForum';
 import DeleteForum from './components/Forum/DeleteForum';
+import HomeScreen from './components/Home/HomeScreen';
+import VideoHome from './components/Home/VideoHome';
+import EntertainmentHome from './components/Home/EntertainmentHome';
+import FeedHome from './components/Home/FeedHome';
+import ForYou from './components/Home/ForYou';
+import MainSign from './components/Home/MainSign';
+
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
@@ -56,14 +63,6 @@ const Section = ({children, title}): Node => {
     </View>
   );
 };
-
-function HomeScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
 
 function StoreScreen() {
   return (
@@ -144,9 +143,8 @@ function HomeTabs() {
 }
 
 const App: () => Node = () => {
-
   const isDarkMode = useColorScheme() === 'dark';
-  
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -155,8 +153,9 @@ const App: () => Node = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          cardStyle: { backgroundColor: '#fff' }
-        }} initialRouteName="Home Tabs">
+          cardStyle: {backgroundColor: '#fff'},
+        }}
+        initialRouteName="Home Tabs">
         <Stack.Screen
           name="Home Tabs"
           component={HomeTabs}
@@ -168,6 +167,12 @@ const App: () => Node = () => {
         <Stack.Screen name="Edit Forum" component={EditForum} />
         <Stack.Screen name="Detail Forum" component={DetailsForum} />
         <Stack.Screen name="Delete Forum" component={DeleteForum} />
+        <Stack.Screen name="Video Home" component={VideoHome} />
+        <Stack.Screen name="Entertainment Home" component={EntertainmentHome} />
+        <Stack.Screen name="Feed Screen" component={FeedHome} />
+
+        <Stack.Screen name="Main Sign" component={MainSign} />
+        <Stack.Screen name="For You" component={ForYou} />
       </Stack.Navigator>
     </NavigationContainer>
   );
