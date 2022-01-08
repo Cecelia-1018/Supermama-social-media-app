@@ -41,13 +41,14 @@ function AddForum({navigation}){
     var hours = new Date().getHours(); //Current Hours
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
+    var milisec = new Date().getMilliseconds();
     setForumDocId(
      'F' + date + month + year 
-      +  hours +  min +  sec
+      +  hours +  min +  sec + milisec
     );
     setForumId(
      'F' + date + month + year 
-      +  hours +  min +  sec
+      +  hours +  min +  sec + milisec
     );
 
   }, []);
