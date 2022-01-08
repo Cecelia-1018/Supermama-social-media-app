@@ -51,6 +51,7 @@ const YoursForum: React.FunctionComponent<BottomSheetComponentProps> = ({
               </Card.Content>
               <Card.Actions>
                 <Button
+                  color="#FE7E9C"
                   onPress={() => {
                     navigation.navigate('Edit Forum', {
                       item: {
@@ -64,6 +65,7 @@ const YoursForum: React.FunctionComponent<BottomSheetComponentProps> = ({
                   Edit{' '}
                 </Button>
                 <Button
+                  color="#FE7E9C"
                   onPress={() =>
                     Alert.alert('Confirmation', 'Confirm to delete?', [
                       {
@@ -82,7 +84,7 @@ const YoursForum: React.FunctionComponent<BottomSheetComponentProps> = ({
                       },
                     ])
                   }>
-                  Delete 1
+                  Delete
                 </Button>
               </Card.Actions>
             </Card>

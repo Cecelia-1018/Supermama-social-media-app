@@ -14,6 +14,7 @@ import {
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
+import YoursForum from './YoursForum';
 
 
 
@@ -70,7 +71,8 @@ function AddForum({navigation}){
 
   async function forumPosted(){
     addForumCol();
-    onToggleSnackBar();
+    // onToggleSnackBar();
+    
 
   }
 
@@ -108,7 +110,7 @@ function AddForum({navigation}){
       <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => forumPosted()}
+          onPress={() => {forumPosted(),navigation.navigate('Yours')}}
           color="#FE7E9C"
           style={styles.submitButton}>
           Submit 
