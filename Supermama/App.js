@@ -30,7 +30,6 @@ import ForumScreen from './components/Forum/ForumScreen';
 import AddForum from './components/Forum/AddForum';
 import EditForum from './components/Forum/EditForum';
 import DetailsForum from './components/Forum/DetailsForum';
-import DeleteForum from './components/Forum/DeleteForum';
 import HomeScreen from './components/Home/HomeScreen';
 import VideoHome from './components/Home/VideoHome';
 import EntertainmentHome from './components/Home/EntertainmentHome';
@@ -166,7 +165,6 @@ const App: () => Node = () => {
         <Stack.Screen name="Create Forum" component={AddForum} />
         <Stack.Screen name="Edit Forum" component={EditForum} />
         <Stack.Screen name="Detail Forum" component={DetailsForum} />
-        <Stack.Screen name="Delete Forum" component={DeleteForum} />
         <Stack.Screen name="Video Home" component={VideoHome} />
         <Stack.Screen name="Entertainment Home" component={EntertainmentHome} />
         <Stack.Screen name="Feed Screen" component={FeedHome} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback, useMemo} from 'react';
 import {
   Text,
   View,
@@ -7,21 +7,19 @@ import {
   FlatList,
   Pressable,
   Alert,
-  TouchableOpacity
-} from "react-native";
-import {  
-  Button,
-  Card, 
-  Title, 
-  Paragraph 
-} from 'react-native-paper';
-import firestore from '@react-native-firebase/firestore';
+  TouchableOpacity,
+} from 'react-native';
+import {Button, Card, Title, Paragraph} from 'react-native-paper';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
+import firestore from '@react-native-firebase/firestore';
 import EditForum from './EditForum';
 
+type BottomSheetComponentProps = {};
 
-function YoursForum({navigation}){
-
+const YoursForum: React.FunctionComponent<BottomSheetComponentProps> = ({
+  navigation,
+}) => {
   const flatlistRef = useRef();
 
   const onPressFunction = () => {
@@ -30,69 +28,86 @@ function YoursForum({navigation}){
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
-  
+
+ //firebase reference
+  const ref = firestore().collection('forums');
+
+  const [isVisible, setIsVisible] = useState(false);
+
   const renderItem = ({item}) => {
-   return(
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Detail Forum', {
-            //pass params here
-          });
-        }}>
-        <View>
-          <Card>
-            <Card.Content>
-              <Title>{item.title}</Title>
-              <Paragraph>{item.description}</Paragraph>
-            </Card.Content>
-            <Card.Actions>
-
-              <Button
-                onPress={() => {
-                  navigation.navigate('Edit Forum', {
-                    item: {
-                      title: item.title,
-                      description: item.description,
-                      forumId: item.forumId,
-                    },
-                  });
-                }}
-              > Edit </Button>
-
-              <Button onPress={() => {
-                  navigation.navigate('Delete Forum', {
-                    item: {
-                      forumId: item.forumId,
-                    },
-                  });
-                }}
-              >Delete</Button>
-
-            </Card.Actions>
-          </Card>
-        </View>
-      </TouchableOpacity>
+    return (
+      <SafeAreaProvider>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Detail Forum', {
+              //pass params here
+            });
+          }}>
+          <View>
+            <Card>
+              <Card.Content>
+                <Title>{item.title}</Title>
+                <Paragraph>{item.description}</Paragraph>
+              </Card.Content>
+              <Card.Actions>
+                <Button
+                  onPress={() => {
+                    navigation.navigate('Edit Forum', {
+                      item: {
+                        title: item.title,
+                        description: item.description,
+                        forumId: item.forumId,
+                      },
+                    });
+                  }}>
+                  {' '}
+                  Edit{' '}
+                </Button>
+                <Button
+                  onPress={() =>
+                    Alert.alert('Confirmation', 'Confirm to delete?', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: () => ref
+                        .doc(item.forumId)
+                        .delete()
+                        .then(() => {
+                          console.log('Forum deleted!');
+                        }) ,
+                      },
+                    ])
+                  }>
+                  Delete 1
+                </Button>
+              </Card.Actions>
+            </Card>
+          </View>
+        </TouchableOpacity>
+      </SafeAreaProvider>
     );
   };
 
   useEffect(() => {
     const subscriber = firestore()
       .collection('forums')
-      .onSnapshot(
-        querySnapshot => {
-          const forums = [];
+      .onSnapshot(querySnapshot => {
+        const forums = [];
 
-          querySnapshot.forEach(documentSnapshot => {
-            forums.push({
-              ...documentSnapshot.data(),
-              key:documentSnapshot.id
-            });
+        querySnapshot.forEach(documentSnapshot => {
+          forums.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
           });
-          
-          setForums(forums);
-          setLoading(false);
-
         });
+
+        setForums(forums);
+        setLoading(false);
+      });
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
@@ -100,17 +115,6 @@ function YoursForum({navigation}){
 
   if (loading) {
     return <ActivityIndicator size="large" color="#FFC0CB" />;
-  }
-
-  const createTwoButtonAlert = () =>{
-    Alert.alert('Confirmation', 'Confirm to delete?', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      { text: 'Confirm', onPress: () => console.log('Confirm Pressed') },
-    ]);
   }
 
   return (
@@ -123,14 +127,12 @@ function YoursForum({navigation}){
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
- 
 });
-
 
 export default YoursForum;
