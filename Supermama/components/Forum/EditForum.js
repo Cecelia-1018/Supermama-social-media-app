@@ -14,6 +14,8 @@ import {
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
+import YoursForum from './YoursForum';
+
 function EditForum({navigation,route}){
   
   
@@ -83,7 +85,7 @@ function EditForum({navigation,route}){
       <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => forumUpdate()}
+          onPress={() => {forumUpdate(),navigation.navigate('Yours')}}
           color="#FE7E9C"
           style={styles.updateButton}>
           Update 
