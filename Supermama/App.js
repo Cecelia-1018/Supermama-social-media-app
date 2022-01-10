@@ -30,12 +30,14 @@ import ForumScreen from './components/Forum/ForumScreen';
 import AddForum from './components/Forum/AddForum';
 import EditForum from './components/Forum/EditForum';
 import DetailsForum from './components/Forum/DetailsForum';
+import ProfileScreen from './components/UserProfile/ProfileScreen';
 import HomeScreen from './components/Home/HomeScreen';
 import VideoHome from './components/Home/VideoHome';
 import EntertainmentHome from './components/Home/EntertainmentHome';
 import FeedHome from './components/Home/FeedHome';
 import ForYou from './components/Home/ForYou';
 import MainSign from './components/Home/MainSign';
+
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -71,13 +73,8 @@ function StoreScreen() {
   );
 }
 
-function ProfileScreen({navigation}) {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

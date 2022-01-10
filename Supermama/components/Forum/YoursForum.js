@@ -15,11 +15,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import EditForum from './EditForum';
 
-type BottomSheetComponentProps = {};
 
-const YoursForum: React.FunctionComponent<BottomSheetComponentProps> = ({
-  navigation,
-}) => {
+function YoursForum({navigation}){
   const flatlistRef = useRef();
 
   const onPressFunction = () => {
