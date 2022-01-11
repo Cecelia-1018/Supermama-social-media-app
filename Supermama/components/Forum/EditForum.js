@@ -21,7 +21,8 @@ function EditForum({navigation,route}){
   const [visible, setVisible] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
-
+  
+  //navigation
   const {item} = route.params;
 
   //input

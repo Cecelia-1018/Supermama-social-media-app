@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import {  
   Card, 
@@ -13,6 +14,7 @@ import {
   Paragraph 
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 
 
@@ -26,6 +28,35 @@ function ExploreForum({navigation}){
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
   
+  const renderItem2 = ({item}) => {
+    return(
+       <SafeAreaProvider>
+       <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Detail Forum', {
+              //pass params here
+              item: {
+                title: item.title,
+                description: item.description,
+                forumId: item.forumId,
+              },
+            });
+          }}>
+          <View>
+            <Card>
+              <Card.Content>
+                <Title>{item.title}</Title>
+                <Paragraph>{item.description}</Paragraph>
+              </Card.Content>
+            </Card>
+            </View>
+              </TouchableOpacity>
+          </SafeAreaProvider>
+    );
+  };
+
+
+
   useEffect(() => {
     const subscriber = firestore()
       .collection('forums')
@@ -58,21 +89,9 @@ function ExploreForum({navigation}){
       <FlatList
         ref={flatlistRef}
         data={forums}
-        renderItem={({item}) => (
-          <View>
-            <Card>
-              <Card.Content>
-                <Title>{item.title}</Title>
-                <Paragraph>{item.description}</Paragraph>
-              </Card.Content>
-            </Card>
-            
-          </View>
-        )}
+        keyExtractor={item => item.forumId}
+        renderItem={renderItem2}
       />
-      {/* <Pressable android_ripple style={styles.button} onPress={onPressFunction}>
-        <Text style={styles.arrow}>v</Text>
-    </Pressable> */}
     </View>
   );
 

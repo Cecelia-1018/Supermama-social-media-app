@@ -15,8 +15,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import EditForum from './EditForum';
 
-
-function YoursForum({navigation}){
+function YoursForum({navigation}) {
   const flatlistRef = useRef();
 
   const onPressFunction = () => {
@@ -26,7 +25,7 @@ function YoursForum({navigation}){
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
 
- //firebase reference
+  //firebase reference
   const ref = firestore().collection('forums');
 
   const [isVisible, setIsVisible] = useState(false);
@@ -38,6 +37,11 @@ function YoursForum({navigation}){
           onPress={() => {
             navigation.navigate('Detail Forum', {
               //pass params here
+              item: {
+                title: item.title,
+                description: item.description,
+                forumId: item.forumId,
+              },
             });
           }}>
           <View>
@@ -72,12 +76,13 @@ function YoursForum({navigation}){
                       },
                       {
                         text: 'Confirm',
-                        onPress: () => ref
-                        .doc(item.forumId)
-                        .delete()
-                        .then(() => {
-                          console.log('Forum deleted!');
-                        }) ,
+                        onPress: () =>
+                          ref
+                            .doc(item.forumId)
+                            .delete()
+                            .then(() => {
+                              console.log('Forum deleted!');
+                            }),
                       },
                     ])
                   }>
@@ -126,7 +131,7 @@ function YoursForum({navigation}){
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View, Text, Button, StyleSheet,StatusBar,Alert} from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Avatar} from './Avatar';
@@ -6,6 +6,7 @@ import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage'; //1
 
 function ProfileScreen() {
+
   
   const onAvatarChange = (image: ImageOrVideo) => {
     console.log(image);
@@ -20,6 +21,8 @@ function ProfileScreen() {
     task.then(() =>{
         console.log('Image uploaded to the bucket!');
     }).catch((e) => console.log('uploading image error =>', e));
+
+   
   };
 
 
