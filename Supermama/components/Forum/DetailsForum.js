@@ -210,12 +210,15 @@ function DetailsForum({navigation,route}) {
 
      
 
-      <View>
+      <View >
         <FlatList
           ref={flatlistRef}
           data={f_answers}
+          initialNumToRender={f_answers.length}
+          maxToRenderPerBatch={f_answers.length}
           key={item => item.F_AnswerId}
           renderItem={renderItem3}
+          windowSize={5}
         />
       </View>
     </View>
