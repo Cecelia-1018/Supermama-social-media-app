@@ -38,6 +38,9 @@ import FeedHome from './components/Home/FeedHome';
 import ForYou from './components/Home/ForYou';
 import MainSign from './components/Home/MainSign';
 
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
