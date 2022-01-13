@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { 
   Card, 
@@ -99,8 +100,34 @@ function DetailsForum({navigation,route}) {
           <Card.Content>
                 <Text>{item.answer}</Text>
           </Card.Content>
+           
+           <Card.Actions>
+           <Button
+                  color="#FE7E9C"
+                  onPress={() =>
+                    Alert.alert('Confirmation', 'Confirm to delete?', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: () =>
+                          ref
+                            .doc(item.F_AnswerId)
+                            .delete()
+                            .then(() => {
+                              console.log('Forum deleted!');
+                            }),
+                      },
+                    ])
+                  }>
+                  Delete
+                </Button>
+             </Card.Actions>
           </Card>
-            </View>
+        </View>
        </SafeAreaProvider>
     );
   };
@@ -197,7 +224,7 @@ function DetailsForum({navigation,route}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 3,
   },
   btnContainer:{
     flexDirection: "row-reverse",
