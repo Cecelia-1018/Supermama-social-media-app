@@ -108,6 +108,7 @@ function DetailsForum({navigation,route}) {
   useEffect(() => {
     const subscriber = firestore()
       .collection('f_answers')
+      .where('forumId','in',[item.forumId])
       .onSnapshot(
         querySnapshot => {
           const f_answers = [];
