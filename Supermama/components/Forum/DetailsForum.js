@@ -1,4 +1,4 @@
-import React, {useState,useEffect, useRef} from 'react';
+import React, {useState,useEffect, useRef, useCallback} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   Text,
@@ -160,10 +160,11 @@ function DetailsForum({navigation,route}) {
     return <ActivityIndicator size="large" color="#FFC0CB" />;
   }
 
-
+  // return this function for Flatlist to call onEndReached
+  // const fetchMore = useCallback(() => setShouldFetch(true), []);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Card>
         <Card.Content>
           <Title>{item.title}</Title>
@@ -172,7 +173,7 @@ function DetailsForum({navigation,route}) {
         </Card.Content>
       </Card>
 
-      <Title>Answers 0</Title>
+      <Title>  Answers 0</Title>
 
       <Button
         onPress={toggleBottomNavigationView}
@@ -210,7 +211,7 @@ function DetailsForum({navigation,route}) {
 
      
 
-      <View >
+     
         <FlatList
           ref={flatlistRef}
           data={f_answers}
@@ -219,15 +220,17 @@ function DetailsForum({navigation,route}) {
           key={item => item.F_AnswerId}
           renderItem={renderItem3}
           windowSize={5}
+         
+
         />
-      </View>
+     
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 3,
+    flex: 1,
   },
   btnContainer:{
     flexDirection: "row-reverse",
