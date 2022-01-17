@@ -1,5 +1,5 @@
-import React, {useState,useEffect, useRef, useCallback} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   Text,
   View,
@@ -8,23 +8,24 @@ import {
   FlatList,
   ActivityIndicator,
   Alert,
-} from "react-native";
-import { 
-  Card, 
-  Title, 
+} from 'react-native';
+import {
+  Card,
+  Title,
   Paragraph,
   Avatar,
   TextInput,
   Button,
+  IconButton,
+  Colors,
+  Dialog,
+  Portal
 } from 'react-native-paper';
-import { BottomSheet } from 'react-native-btr';
+import {BottomSheet} from 'react-native-btr';
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-
-
-function DetailsForum({navigation,route}) {
-  
+function DetailsForum({navigation, route}) {
   //navigation
   const {item} = route.params;
 
@@ -49,31 +50,25 @@ function DetailsForum({navigation,route}) {
     var min = new Date().getMinutes(); //Current Minutes
     var sec = new Date().getSeconds(); //Current Seconds
     var milisec = new Date().getMilliseconds();
-    setAnsDocId(
-     'FA' + date + month + year 
-      +  hours +  min +  sec + milisec
-    );
-    setAnsId(
-     'FA' + date + month + year 
-      +  hours +  min +  sec + milisec
-    );
-
+    setAnsDocId('FA' + date + month + year + hours + min + sec + milisec);
+    setAnsId('FA' + date + month + year + hours + min + sec + milisec);
   }, []);
 
   async function addAnswerCol() {
-    await ref.doc(AnsDocId).set({
-      //add id here
-      F_AnswerId: txtansId,
-      answer: txtAns,
-      forumId: forumId,
-      
-    }).then(()=>{
-      console.log('Answer Forum added!');
-    });
+    await ref
+      .doc(AnsDocId)
+      .set({
+        //add id here
+        F_AnswerId: txtansId,
+        answer: txtAns,
+        forumId: forumId,
+      })
+      .then(() => {
+        console.log('Answer Forum added!');
+      });
     setTxtAnswer('');
   }
-  
-  
+
   //bottom sheet
   const [visible, setVisible] = useState(false);
 
@@ -91,77 +86,83 @@ function DetailsForum({navigation,route}) {
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [f_answers, setAnswer] = useState([]); // Initial empty array of forums
+  
+  //reply 
 
-   const renderItem3 = ({item}) => {
-    return(
-       <SafeAreaProvider >
-          <View>
+
+
+  const renderItem3 = ({item}) => {
+    return (
+      <SafeAreaProvider>
+        <View>
           <Card>
-          <Card.Content>
-                <Text>{item.answer}</Text>
-          </Card.Content>
-           
-           <Card.Actions>
-           <Button
-                  color="#FE7E9C"
-                  onPress={() =>
-                    Alert.alert('Confirmation', 'Confirm to delete?', [
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      {
-                        text: 'Confirm',
-                        onPress: () =>
-                          ref
-                            .doc(item.F_AnswerId)
-                            .delete()
-                            .then(() => {
-                              console.log('Forum deleted!');
-                            }),
-                      },
-                    ])
-                  }>
-                  Delete
-                </Button>
-             </Card.Actions>
+            <Card.Content>
+              <Text>{item.answer}</Text>
+            </Card.Content>
+
+            <Card.Actions>
+              <IconButton
+                icon={require('./reply.png')}
+                color="#FE7E9C"
+                size={20}
+                onPress={() => {}}
+              />
+              <IconButton
+                color="#FE7E9C"
+                size={20}
+                icon={require('./delete-bin.png')}
+                onPress={() =>
+                  Alert.alert('Confirmation', 'Confirm to delete?', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'Confirm',
+                      onPress: () =>
+                        ref
+                          .doc(item.F_AnswerId)
+                          .delete()
+                          .then(() => {
+                            console.log('Forum deleted!');
+                          }),
+                    },
+                  ])
+                }/>
+            </Card.Actions>
           </Card>
         </View>
-       </SafeAreaProvider>
+      </SafeAreaProvider>
     );
   };
 
   useEffect(() => {
     const subscriber = firestore()
       .collection('f_answers')
-      .where('forumId','in',[item.forumId])
-      .onSnapshot(
-        querySnapshot => {
-          const f_answers = [];
+      .where('forumId', 'in', [item.forumId])
+      .onSnapshot(querySnapshot => {
+        const f_answers = [];
 
-          querySnapshot.forEach(documentSnapshot => {
-            f_answers.push({
-              ...documentSnapshot.data(),
-              key:documentSnapshot.id
-            });
+        querySnapshot.forEach(documentSnapshot => {
+          f_answers.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
           });
-          
-          setAnswer(f_answers);
-          setLoading(false);
-
         });
+
+        setAnswer(f_answers);
+        setLoading(false);
+      });
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
-  
+
   if (loading) {
     return <ActivityIndicator size="large" color="#FFC0CB" />;
   }
 
-  // return this function for Flatlist to call onEndReached
-  // const fetchMore = useCallback(() => setShouldFetch(true), []);
 
   return (
     <View style={styles.container}>
@@ -173,7 +174,7 @@ function DetailsForum({navigation,route}) {
         </Card.Content>
       </Card>
 
-      <Title>  Answers 0</Title>
+      <Title> Answers 0</Title>
 
       <Button
         onPress={toggleBottomNavigationView}
@@ -191,39 +192,33 @@ function DetailsForum({navigation,route}) {
       >
         {/*Bottom Sheet inner View*/}
         <View style={styles.bottomNavigationView}>
-         
-            <TextInput
-              value={txtAns}
-              onChangeText={setTxtAnswer}
-              placeholder="Type your answer"
-              multiline={true}
-              numberOfLines={10}
-            />
-            <Button
-          mode="contained"
-          onPress={() => {addAnswerCol(),setVisible(!visible)}}
-          color="#FFF">
-          Submit
-    </Button>
-          
+          <TextInput
+            value={txtAns}
+            onChangeText={setTxtAnswer}
+            placeholder="Type your answer"
+            multiline={true}
+            numberOfLines={10}
+          />
+          <Button
+            mode="contained"
+            onPress={() => {
+              addAnswerCol(), setVisible(!visible);
+            }}
+            color="#FFF">
+            Submit
+          </Button>
         </View>
       </BottomSheet>
 
-     
-
-     
-        <FlatList
-          ref={flatlistRef}
-          data={f_answers}
-          initialNumToRender={f_answers.length}
-          maxToRenderPerBatch={f_answers.length}
-          key={item => item.F_AnswerId}
-          renderItem={renderItem3}
-          windowSize={5}
-         
-
-        />
-     
+      <FlatList
+        ref={flatlistRef}
+        data={f_answers}
+        initialNumToRender={f_answers.length}
+        maxToRenderPerBatch={f_answers.length}
+        key={item => item.F_AnswerId}
+        renderItem={renderItem3}
+        windowSize={5}
+      />
     </View>
   );
 }
@@ -232,24 +227,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  btnContainer:{
-    flexDirection: "row-reverse",
+  btnContainer: {
+    flexDirection: 'row-reverse',
   },
-  layout:{
-   marginLeft:15,
-   marginRight: 15,
-   marginBottom: 10,
-   marginTop: 10
+  layout: {
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 10,
+    marginTop: 10,
   },
-  list:{
-    marginTop: 20
+  list: {
+    marginTop: 20,
   },
   bottomNavigationView: {
     backgroundColor: '#fff',
     width: '100%',
     height: 245,
   },
- 
 });
 
 export default DetailsForum;
