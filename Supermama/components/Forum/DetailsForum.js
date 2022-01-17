@@ -101,12 +101,7 @@ function DetailsForum({navigation, route}) {
             </Card.Content>
 
             <Card.Actions>
-              <IconButton
-                icon={require('./reply.png')}
-                color="#FE7E9C"
-                size={20}
-                onPress={() => {}}
-              />
+            
               <IconButton
                 color="#FE7E9C"
                 size={20}
@@ -172,16 +167,21 @@ function DetailsForum({navigation, route}) {
           <Paragraph>{item.description}</Paragraph>
           <Text>0 Replies</Text>
         </Card.Content>
+        <Card.Actions>
+        <IconButton
+                icon={require('./reply.png')}
+                color="#FE7E9C"
+                size={20}
+               onPress={toggleBottomNavigationView}
+        //on Press of the button bottom sheet will be visible
+              />
+        </Card.Actions>
       </Card>
 
       <Title> Answers 0</Title>
 
-      <Button
-        onPress={toggleBottomNavigationView}
-        //on Press of the button bottom sheet will be visible
-      >
-        Create Answer
-      </Button>
+      
+      
       <BottomSheet
         visible={visible}
         //setting the visibility state of the bottom shee
