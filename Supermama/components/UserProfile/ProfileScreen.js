@@ -3,12 +3,21 @@ import {View, Text, Button, StyleSheet,StatusBar,Alert} from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Avatar} from './Avatar';
 import { utils } from '@react-native-firebase/app';
-import storage from '@react-native-firebase/storage'; //1
+import storage from '@react-native-firebase/storage'; 
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-function ProfileScreen() {
+const Drawer = createDrawerNavigator();
 
-  
-  const onAvatarChange = (image: ImageOrVideo) => {
+  function VerifyPro() {
+  return (
+    <View>
+      <Text>Not VP Yet!</Text>
+    </View>
+  );
+}
+
+function Profile(){
+ const onAvatarChange = (image: ImageOrVideo) => {
     console.log(image);
     
     // user id
@@ -40,6 +49,21 @@ function ProfileScreen() {
       <View style={styles.content} />
     </View>
   );
+}
+
+function ProfileScreen( ) {
+  return (
+  <Drawer.Navigator>
+    <Drawer.Screen name="User Profile" component={Profile} />
+    <Drawer.Screen name="Apply Verify Professional" component={VerifyPro} />
+  </Drawer.Navigator>
+    
+ );
+
+  
+  
+
+ 
 };
 
 export default ProfileScreen;
