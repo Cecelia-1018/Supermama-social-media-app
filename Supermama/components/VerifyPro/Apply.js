@@ -200,43 +200,7 @@ function Apply() {
     //   </ScrollView>
     // </SafeAreaView>
     <SafeAreaView style={{flex: 1}}>
-      <Text style={styles.titleText}>
-        Example of File Picker in React Native
-      </Text>
-      <View style={styles.container}>
-        {/*To show single file attribute*/}
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={styles.buttonStyle}
-          onPress={selectOneFile}>
-          {/*Single file selection button*/}
-          <Text style={{marginRight: 10, fontSize: 19}}>
-            Click here to pick one file
-          </Text>
-          <Image
-            source={{
-              uri: 'https://img.icons8.com/offices/40/000000/attach.png',
-            }}
-            style={styles.imageIconStyle}
-          />
-        </TouchableOpacity>
-        {/*Showing the data of selected Single file*/}
-        <Text style={styles.textStyle}>
-          File Name: {singleFile.name ? singleFile.name : ''}
-          {'\n'}
-          Type: {singleFile.type ? singleFile.type : ''}
-          {'\n'}
-          File Size: {singleFile.size ? singleFile.size : ''}
-          {'\n'}
-          URI: {singleFile.uri ? singleFile.uri : ''}
-          {'\n'}
-        </Text>
-        <View
-          style={{
-            backgroundColor: 'grey',
-            height: 2,
-            margin: 10
-          }} />
+    <View>
         {/*To multiple single file attribute*/}
         <TouchableOpacity
           activeOpacity={0.5}
