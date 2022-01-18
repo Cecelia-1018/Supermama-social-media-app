@@ -5,16 +5,10 @@ import {Avatar} from './Avatar';
 import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage'; 
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import VerifyProScreen from '../VerifyPro/VerifyProScreen';
+
 
 const Drawer = createDrawerNavigator();
-
-  function VerifyPro() {
-  return (
-    <View>
-      <Text>Not VP Yet!</Text>
-    </View>
-  );
-}
 
 function Profile(){
  const onAvatarChange = (image: ImageOrVideo) => {
@@ -55,7 +49,7 @@ function ProfileScreen( ) {
   return (
   <Drawer.Navigator>
     <Drawer.Screen name="User Profile" component={Profile} />
-    <Drawer.Screen name="Apply Verify Professional" component={VerifyPro} />
+    <Drawer.Screen name="Apply Verify Professional" component={VerifyProScreen} />
   </Drawer.Navigator>
     
  );

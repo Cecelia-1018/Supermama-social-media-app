@@ -33,7 +33,7 @@ function DetailsForum({navigation, route}) {
   const [txtAns, setTxtAnswer] = React.useState('');
 
   //firebase
-  const ref = firestore().collection('f_answers');
+  const ref = firestore().collection('answers');
 
   //declare forum answer id with 'fa + datetime'
   const [AnsDocId, setAnsDocId] = useState('');
@@ -43,15 +43,19 @@ function DetailsForum({navigation, route}) {
   const [forumId, setForumId] = useState(item.forumId);
 
   useEffect(() => {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
-    var sec = new Date().getSeconds(); //Current Seconds
-    var milisec = new Date().getMilliseconds();
-    setAnsDocId('FA' + date + month + year + hours + min + sec + milisec);
-    setAnsId('FA' + date + month + year + hours + min + sec + milisec);
+    // var date = new Date().getDate(); //Current Date
+    // var month = new Date().getMonth() + 1; //Current Month
+    // var year = new Date().getFullYear(); //Current Year
+    // var hours = new Date().getHours(); //Current Hours
+    // var min = new Date().getMinutes(); //Current Minutes
+    // var sec = new Date().getSeconds(); //Current Seconds
+    // var milisec = new Date().getMilliseconds();
+
+    var head = Date.now().toString();
+    var tail = Math.random().toString().substr(2);
+
+    setAnsDocId('FA' + head + tail);
+    setAnsId('FA' + head + tail);
   }, []);
 
   async function addAnswerCol() {
@@ -59,7 +63,7 @@ function DetailsForum({navigation, route}) {
       .doc(AnsDocId)
       .set({
         //add id here
-        F_AnswerId: txtansId,
+        answerId: txtansId,
         answer: txtAns,
         forumId: forumId,
       })
@@ -85,7 +89,7 @@ function DetailsForum({navigation, route}) {
   };
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [f_answers, setAnswer] = useState([]); // Initial empty array of forums
+  const [answers, setAnswer] = useState([]); // Initial empty array of forums
   
   //reply 
 
@@ -117,7 +121,7 @@ function DetailsForum({navigation, route}) {
                       text: 'Confirm',
                       onPress: () =>
                         ref
-                          .doc(item.F_AnswerId)
+                          .doc(item.answerId)
                           .delete()
                           .then(() => {
                             console.log('Forum deleted!');
@@ -134,19 +138,19 @@ function DetailsForum({navigation, route}) {
 
   useEffect(() => {
     const subscriber = firestore()
-      .collection('f_answers')
+      .collection('answers')
       .where('forumId', 'in', [item.forumId])
       .onSnapshot(querySnapshot => {
-        const f_answers = [];
+        const answers = [];
 
         querySnapshot.forEach(documentSnapshot => {
-          f_answers.push({
+          answers.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
           });
         });
 
-        setAnswer(f_answers);
+        setAnswer(answers);
         setLoading(false);
       });
 
@@ -212,10 +216,10 @@ function DetailsForum({navigation, route}) {
 
       <FlatList
         ref={flatlistRef}
-        data={f_answers}
-        initialNumToRender={f_answers.length}
-        maxToRenderPerBatch={f_answers.length}
-        key={item => item.F_AnswerId}
+        data={answers}
+        initialNumToRender={answers.length}
+        maxToRenderPerBatch={answers.length}
+        key={item => item.answerId}
         renderItem={renderItem3}
         windowSize={5}
       />

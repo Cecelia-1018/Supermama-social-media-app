@@ -36,21 +36,32 @@ function AddForum({navigation}){
   const [txtForumId, setForumId] = useState('');
 
   useEffect(() => {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
-    var sec = new Date().getSeconds(); //Current Seconds
-    var milisec = new Date().getMilliseconds();
+    // var date = new Date().getDate(); //Current Date
+    // var month = new Date().getMonth() + 1; //Current Month
+    // var year = new Date().getFullYear(); //Current Year
+    // var hours = new Date().getHours(); //Current Hours
+    // var min = new Date().getMinutes(); //Current Minutes
+    // var sec = new Date().getSeconds(); //Current Seconds
+    // var milisec = new Date().getMilliseconds();
+    
+    var head = Date.now().toString();
+    var tail = Math.random().toString().substr(2);
+
     setForumDocId(
-     'F' + date + month + year 
-      +  hours +  min +  sec + milisec
+     'F' + head + tail
     );
     setForumId(
-     'F' + date + month + year 
-      +  hours +  min +  sec + milisec
+     'F' + head + tail
     );
+
+    // setForumDocId(
+    //  'F' + date + month + year 
+    //   +  hours +  min +  sec + milisec
+    // );
+    // setForumId(
+    //  'F' + date + month + year 
+    //   +  hours +  min +  sec + milisec
+    // );
 
   }, []);
 
