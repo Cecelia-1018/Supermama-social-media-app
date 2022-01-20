@@ -9,6 +9,7 @@ import {
   Platform,
   TextInput,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {Avatar, Button, IconButton} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
@@ -110,81 +111,87 @@ const SigninScreen = ({navigation}) => {
           Enter your details to access your account
         </Text>
       </View>
+
       <View style={styles.footer}>
-        {/* <Animatable.View style={styles.footer} animation="fadeInUpBig"> */}
-        <Text style={styles.text_footer}>Username/Email</Text>
-        <View style={styles.action}>
-          <Icon
-            size={20}
-            type="ionicon"
-            name={
-              Platform.OS === 'ios' ? 'ios-person-outline' : 'md-person-outline'
-            }
-          />
-          <TextInput
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => {
-              textInputChange(val);
-              setError;
-            }}
-            error={isValid}
-          />
-          {data.check_textInputChange ? (
-            // <Animatable.View animation="bounceIn">
+        <ScrollView>
+          {/* <Animatable.View style={styles.footer} animation="fadeInUpBig"> */}
+          <Text style={styles.text_footer}>Username/Email</Text>
+          <View style={styles.action}>
+            <Icon
+              size={20}
+              type="ionicon"
+              name={
+                Platform.OS === 'ios'
+                  ? 'ios-person-outline'
+                  : 'md-person-outline'
+              }
+            />
+            <TextInput
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={val => {
+                textInputChange(val);
+                setError;
+              }}
+              error={isValid}
+            />
+            {data.check_textInputChange ? (
+              // <Animatable.View animation="bounceIn">
 
-            <Feather name="check-circle" color="green" size={20} />
-          ) : null}
-        </View>
-        <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
-        <View style={styles.action}>
-          <Icon
-            size={20}
-            type="ionicon"
-            name={
-              Platform.OS === 'ios'
-                ? 'ios-lock-closed-outline'
-                : 'md-lock-closed-outline'
-            }
-          />
-          <TextInput
-            style={styles.textInput}
-            secureTextEntry={data.secureTextEntry ? true : false}
-            autoCapitalize="none"
-            onChangeText={val => handlePasswordChange(val)}
-            error={isValid}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
-        <View style={styles.button}>
-          <Button
-            style={[styles.signIn]}
-            color="pink"
-            onPress={__doLogin}
-            mode="outlined">
-            Log In
-          </Button>
-        </View>
+              <Feather name="check-circle" color="green" size={20} />
+            ) : null}
+          </View>
+          <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
+          <View style={styles.action}>
+            <Icon
+              size={20}
+              type="ionicon"
+              name={
+                Platform.OS === 'ios'
+                  ? 'ios-lock-closed-outline'
+                  : 'md-lock-closed-outline'
+              }
+            />
+            <TextInput
+              style={styles.textInput}
+              secureTextEntry={data.secureTextEntry ? true : false}
+              autoCapitalize="none"
+              onChangeText={val => handlePasswordChange(val)}
+              error={isValid}
+            />
+            <TouchableOpacity onPress={updateSecureTextEntry}>
+              {data.secureTextEntry ? (
+                <Feather name="eye-off" color="grey" size={20} />
+              ) : (
+                <Feather name="eye" color="grey" size={20} />
+              )}
+            </TouchableOpacity>
+          </View>
+          <View style={styles.button}>
+            <Button
+              style={[styles.signIn]}
+              color="pink"
+              onPress={__doLogin}
+              mode="outlined">
+              Log In
+            </Button>
+          </View>
 
-        <View>
-          <Text style={[styles.text_footer, {marginTop: 20}]}>
-            Don't have an account ?{' '}
-          </Text>
-          <Button
-            style={[styles.signUp, {borderColor: 'pink'}]}
-            color="pink"
-            onPress={() => navigation.navigate('SignupScreen')}
-            mode="outlined">
-            Register
-          </Button>
-        </View>
+          <View>
+            <Text style={[styles.text_footer, {marginTop: 20}]}>
+              Don't have an account ?{' '}
+            </Text>
+            <Button
+              style={[styles.signUp, {borderColor: 'pink'}]}
+              color="pink"
+              onPress={() => navigation.navigate('SignupScreen')}
+              mode="outlined">
+              Register
+            </Button>
+          </View>
+        </ScrollView>
       </View>
+
       {/* </Animatable.View> */}
     </View>
   );

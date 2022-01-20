@@ -9,6 +9,7 @@ import {
   Platform,
   TextInput,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {Avatar, Button, IconButton} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
@@ -126,109 +127,113 @@ const SigninScreen = ({navigation}) => {
       </View>
       <View style={styles.footer}>
         {/* <Animatable.View style={styles.footer} animation="fadeInUpBig"> */}
-        <Text style={styles.text_footer}>Username/Email</Text>
-        <View style={styles.action}>
-          <Icon
-            size={20}
-            type="ionicon"
-            name={
-              Platform.OS === 'ios' ? 'ios-person-outline' : 'md-person-outline'
-            }
-          />
-          <TextInput
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => {
-              textInputChange(val);
-              setError;
-            }}
-            error={isValid}
-          />
-          {data.check_textInputChange ? (
-            // <Animatable.View animation="bounceIn">
+        <ScrollView>
+          <Text style={styles.text_footer}>Username/Email</Text>
+          <View style={styles.action}>
+            <Icon
+              size={20}
+              type="ionicon"
+              name={
+                Platform.OS === 'ios'
+                  ? 'ios-person-outline'
+                  : 'md-person-outline'
+              }
+            />
+            <TextInput
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={val => {
+                textInputChange(val);
+                setError;
+              }}
+              error={isValid}
+            />
+            {data.check_textInputChange ? (
+              // <Animatable.View animation="bounceIn">
 
-            <Feather name="check-circle" color="green" size={20} />
-          ) : null}
-        </View>
-        <Text style={[styles.text_footer, {marginTop: 20}]}>Password</Text>
-        <View style={styles.action}>
-          <Icon
-            size={20}
-            type="ionicon"
-            name={
-              Platform.OS === 'ios'
-                ? 'ios-lock-closed-outline'
-                : 'md-lock-closed-outline'
-            }
-          />
-          <TextInput
-            style={styles.textInput}
-            secureTextEntry={data.secureTextEntry ? true : false}
-            autoCapitalize="none"
-            onChangeText={val => handlePasswordChange(val)}
-            error={isValid}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
+              <Feather name="check-circle" color="green" size={20} />
+            ) : null}
+          </View>
+          <Text style={[styles.text_footer, {marginTop: 20}]}>Password</Text>
+          <View style={styles.action}>
+            <Icon
+              size={20}
+              type="ionicon"
+              name={
+                Platform.OS === 'ios'
+                  ? 'ios-lock-closed-outline'
+                  : 'md-lock-closed-outline'
+              }
+            />
+            <TextInput
+              style={styles.textInput}
+              secureTextEntry={data.secureTextEntry ? true : false}
+              autoCapitalize="none"
+              onChangeText={val => handlePasswordChange(val)}
+              error={isValid}
+            />
+            <TouchableOpacity onPress={updateSecureTextEntry}>
+              {data.secureTextEntry ? (
+                <Feather name="eye-off" color="grey" size={20} />
+              ) : (
+                <Feather name="eye" color="grey" size={20} />
+              )}
+            </TouchableOpacity>
+          </View>
 
-        <Text style={[styles.text_footer, {marginTop: 20}]}>
-          Confirm Password
-        </Text>
-        <View style={styles.action}>
-          <Icon
-            size={20}
-            type="ionicon"
-            name={
-              Platform.OS === 'ios'
-                ? 'ios-lock-closed-outline'
-                : 'md-lock-closed-outline'
-            }
-          />
-          <TextInput
-            style={styles.textInput}
-            confirm_secureTextEntry={
-              data.confirm_secureTextEntry ? true : false
-            }
-            autoCapitalize="none"
-            onChangeText={val => handleConfirmPasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-            {data.confirm_secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.button}>
-          <Button
-            style={[styles.signIn]}
-            color="pink"
-            onPress={__doSignUp}
-            mode="outlined">
-            Sign Up
-          </Button>
-        </View>
-
-        <View>
-          <Text style={[styles.text_footer, {marginTop: 10}]}>
-            Have an account ?{' '}
+          <Text style={[styles.text_footer, {marginTop: 20}]}>
+            Confirm Password
           </Text>
-          <Button
-            style={[styles.signUp, {borderColor: 'pink'}]}
-            color="pink"
-            onPress={() => navigation.goBack()}
-            mode="outlined">
-            Sign in
-          </Button>
-        </View>
+          <View style={styles.action}>
+            <Icon
+              size={20}
+              type="ionicon"
+              name={
+                Platform.OS === 'ios'
+                  ? 'ios-lock-closed-outline'
+                  : 'md-lock-closed-outline'
+              }
+            />
+            <TextInput
+              style={styles.textInput}
+              confirm_secureTextEntry={
+                data.confirm_secureTextEntry ? true : false
+              }
+              autoCapitalize="none"
+              onChangeText={val => handleConfirmPasswordChange(val)}
+            />
+            <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
+              {data.confirm_secureTextEntry ? (
+                <Feather name="eye-off" color="grey" size={20} />
+              ) : (
+                <Feather name="eye" color="grey" size={20} />
+              )}
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.button}>
+            <Button
+              style={[styles.signIn]}
+              color="pink"
+              onPress={__doSignUp}
+              mode="outlined">
+              Sign Up
+            </Button>
+          </View>
+
+          <View>
+            <Text style={[styles.text_footer, {marginTop: 10}]}>
+              Have an account ?{' '}
+            </Text>
+            <Button
+              style={[styles.signUp, {borderColor: 'pink'}]}
+              color="pink"
+              onPress={() => navigation.goBack()}
+              mode="outlined">
+              Sign in
+            </Button>
+          </View>
+        </ScrollView>
       </View>
       {/* </Animatable.View> */}
     </View>
