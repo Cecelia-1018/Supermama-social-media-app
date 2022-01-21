@@ -1,16 +1,32 @@
 import React,{useState} from 'react';
-import {View, Text, Button, StyleSheet,StatusBar,Alert} from 'react-native';
+import {View, Text, StyleSheet,StatusBar,Alert, Image} from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Avatar} from './Avatar';
 import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage'; 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
-
+import auth, {firebase} from '@react-native-firebase/auth';
+import {Button,Card, IconButton, Title} from 'react-native-paper';
 
 const Drawer = createDrawerNavigator();
 
-function Profile(){
+function GuestProfile({navigation}){
+  return(
+   <View style={{ flex: 1,alignItems: 'center', justifyContent: 'center',backgroundColor: 'white' }}>
+   
+   <Title>Hey, get your sign in!</Title>
+   <Button> Go Sign In </Button>
+      <Image
+        style={styles.tinyLogo}
+        source={require('./Mobile-login.jpg')}
+      />
+      <Text>Designed by  / Freepik</Text>
+    </View>
+  );
+}
+
+function ProfileInfo(){
  const onAvatarChange = (image: ImageOrVideo) => {
     console.log(image);
     
@@ -28,8 +44,10 @@ function Profile(){
    
   };
 
-
-
+  // const user = firebase.auth().currentUser;
+  // if (user) {
+  //  console.log('User email: ', user.email);
+  // }
   return (
     <View style={styles.scroll}>
       <StatusBar barStyle="dark-content" />
@@ -45,6 +63,21 @@ function Profile(){
   );
 }
 
+
+
+function Profile(){
+ const user = firebase.auth().currentUser;
+ if(user) {
+   return (
+    <Text> {user.email}</Text>
+   );
+ }
+ return (
+   <GuestProfile/>
+ );
+
+}
+
 function ProfileScreen( ) {
   return (
   <Drawer.Navigator>
@@ -53,10 +86,6 @@ function ProfileScreen( ) {
   </Drawer.Navigator>
     
  );
-
-  
-  
-
  
 };
 

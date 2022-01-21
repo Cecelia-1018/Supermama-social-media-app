@@ -18,6 +18,7 @@ import {Icon} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth, {firebase} from '@react-native-firebase/auth';
 // import * as Animatable from 'react-native-animatable';
+import Profile from '../UserProfile/ProfileScreen';
 
 const SigninScreen = ({navigation}) => {
   const [data, setData] = useState({
