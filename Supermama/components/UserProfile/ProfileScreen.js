@@ -6,6 +6,7 @@ import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage'; 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
+import LogOut from './LogOut';
 import auth, {firebase} from '@react-native-firebase/auth';
 import {Button,Card, IconButton, Title} from 'react-native-paper';
 
@@ -83,6 +84,7 @@ function ProfileScreen( ) {
   <Drawer.Navigator>
     <Drawer.Screen name="User Profile" component={Profile} />
     <Drawer.Screen name="Apply Verify Professional" component={VerifyProScreen} />
+    <Drawer.Screen name="Log Out" component={LogOut} />
   </Drawer.Navigator>
     
  );
