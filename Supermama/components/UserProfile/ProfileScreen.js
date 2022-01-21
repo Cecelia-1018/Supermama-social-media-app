@@ -67,10 +67,39 @@ function ProfileInfo(){
 
 
 function Profile(){
+ const onAvatarChange = (image: ImageOrVideo) => {
+    console.log(image);
+    
+    // user id
+    let userId = 'U002';
+
+    // upload image to server here
+    let reference = storage().ref('gs://supermama-6aa87.appspot.com/' + userId);   //2
+    let task = reference.putFile(image.path.toString());
+
+    task.then(() =>{
+        console.log('Image uploaded to the bucket!');
+    }).catch((e) => console.log('uploading image error =>', e));
+
+   
+  };
+
  const user = firebase.auth().currentUser;
  if(user) {
    return (
-    <Text> {user.email}</Text>
+     <View style={styles.scroll}>
+      <StatusBar barStyle="dark-content" />
+      <View style={styles.userRow}>
+        <Avatar
+          onChange={onAvatarChange}
+          source={require('./sample.jpg')}
+        />
+       <Text> {user.email}</Text>
+       {/* <Text>Need User Info</Text> */}
+      </View>
+      <View style={styles.content} />
+    </View>
+   
    );
  }
  return (
