@@ -8,7 +8,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
 import LogOut from './LogOut';
 import auth, {firebase} from '@react-native-firebase/auth';
-import {Button, Card, IconButton, Title} from 'react-native-paper';
+import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
 
@@ -88,18 +88,17 @@ function ProfileInfo(){
 const user = firebase.auth().currentUser;
 return (
       <View style={styles.scroll}>
-      {/* <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          /> */}
       <StatusBar barStyle="dark-content" />
       <View style={styles.userRow}>
+      <IconButton style={[styles.editButton]} color={Colors.grey600} size={20} icon="pen" onPress={() => console.log('Pressed')} />
         <Avatar
           onChange={onAvatarChange}
           source={require('./sample.jpg')}
         />
        <Text> {user.email}</Text>
-       {/* <Text>Need User Info</Text> */}
+        <Button mode="contained" onPress={() => alert('Button clicked')}  color="#f0ccd2" style={styles.followButton}>
+            Follow
+          </Button>
       </View>
       <View style={styles.content} />
     </View>
@@ -140,24 +139,6 @@ function ProfileScreen() {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    padding: 0,
-    flexDirection: "column",
-    backgroundColor: 'white',
-  },
-  leftItem: {
-    flexGrow: 0,
-    flexShrink: 1,
-    flexBasis: "auto",
-  },
-  rightItem: {
-    flexGrow: 0,
-    flexShrink: 1,
-    flexBasis: 200,
-    paddingLeft: 25,
-    paddingTop: 15,
-  },
   scroll: {
     backgroundColor: 'white',
     flex: 1,
@@ -165,10 +146,21 @@ const styles = StyleSheet.create({
   userRow: {
     alignItems: 'center',
     padding: 15,
-    marginTop: 70,
+    marginTop: 10,
   },
   content: {
     flex: 1,
     backgroundColor: '#d8d8db',
+  },
+  followButton:{
+    marginLeft:10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  editButton:{
+     position: 'absolute',
+                right: 5,
+                top: 5,
   },
 });
