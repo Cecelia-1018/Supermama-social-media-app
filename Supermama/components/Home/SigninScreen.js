@@ -19,6 +19,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth, {firebase} from '@react-native-firebase/auth';
 // import * as Animatable from 'react-native-animatable';
 import Profile from '../UserProfile/ProfileScreen';
+import RNRestart from 'react-native-restart';
 
 const SigninScreen = ({navigation}) => {
   const [data, setData] = useState({
@@ -65,10 +66,10 @@ const SigninScreen = ({navigation}) => {
     try {
       let response = await auth().signInWithEmailAndPassword(email, password);
       if (response && response.user) {
-        Alert.alert('Success ✅', 'Logged successfully');
+        Alert.alert('Success ✅', 'Logged successfully'), RNRestart.Restart();
       }
     } catch (e) {
-      console.error(e.message);
+      Alert.alert(e.message);
     }
   };
 

@@ -17,12 +17,14 @@ import {
   getFocusedRouteNameFromRoute,
   NavigationContainer,
 } from '@react-navigation/native';
+import auth, {firebase} from '@react-native-firebase/auth';
 import VideoHome from './VideoHome';
 import EntertainmentHome from './EntertainmentHome';
 import FeedHome from './FeedHome';
 import Chat from './ChatScreen';
 import Add from './AddPost';
 import MainSign from './MainSign';
+import ForYou from './ForYou';
 
 const Tab = createMaterialTopTabNavigator();
 const RootStack = createStackNavigator();
@@ -49,7 +51,12 @@ function forYou() {
 }
 
 function following() {
-  return <MainSign />;
+  const user = firebase.auth().currentUser;
+  if (user) {
+    return <ForYou />;
+  } else {
+    return <MainSign />;
+  }
 }
 
 function HomeScreen() {
