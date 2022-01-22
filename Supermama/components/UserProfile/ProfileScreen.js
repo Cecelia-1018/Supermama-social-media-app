@@ -1,4 +1,4 @@
-import React, {useState,useCallback} from 'react';
+import React, {useState,useCallback,useEffect} from 'react';
 import {View, RefreshControl,Linking, Text, StyleSheet, StatusBar, Alert, Image} from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Avatar} from './Avatar';
@@ -10,6 +10,7 @@ import LogOut from './LogOut';
 import auth, {firebase} from '@react-native-firebase/auth';
 import {Button, Card, IconButton, Title} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import RNRestart from 'react-native-restart';
 
 const Drawer = createDrawerNavigator();
 const wait = (timeout) => {
@@ -18,6 +19,16 @@ const wait = (timeout) => {
 
 function GuestProfile() {
   const navigation = useNavigation();
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    // Resetting default value for the input on restart
+    setValue('Default Value');
+  }, []);
+
+  const onButtonClick = () => {
+    RNRestart.Restart();
+  };
 
   return (
     <View
@@ -35,13 +46,11 @@ function GuestProfile() {
         color="#FE7E9C">
         Go Sign In{' '}
       </Button>
-      {/* <Button
-        onPress={() => {
-         navigation.navigate('Profile');
-        }}
+      <Button
+        onPress={onButtonClick}
         color="#FE7E9C">
-        Press if you signed in.{' '}
-      </Button> */}
+        Press refresh if you signed in.{' '}
+      </Button>
       <Image style={styles.tinyLogo} source={require('./Mobile-login.jpg')} />
       <Text style={{color: 'blue'}}
       onPress={() => Linking.openURL('http://www.freepik.com')}>
@@ -100,11 +109,7 @@ return (
 
 class Profile extends React.Component{
    
-  //  const [refreshing, setRefreshing] = useState("");
-  //  const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   wait(2000).then(() => setRefreshing(false));
-  // }, []);
+ 
   
   render() {
   
