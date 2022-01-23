@@ -17,7 +17,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Icon} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth, {firebase} from '@react-native-firebase/auth';
-import RNRestart from 'react-native-restart';
 // import * as Animatable from 'react-native-animatable';
 
 const SigninScreen = ({navigation}) => {
@@ -111,8 +110,7 @@ const SigninScreen = ({navigation}) => {
         password,
       );
       if (response && response.user) {
-        Alert.alert('Success ✅', 'Account created successfully'),
-          RNRestart.Restart();
+        Alert.alert('Success ✅', 'Account created successfully');
       }
     } catch (e) {
       console.error(e.message);

@@ -7,24 +7,8 @@ import RNRestart from 'react-native-restart';
 const logout = () => {
   return firebase.auth().signOut(), RNRestart.Restart();
 };
-// class Profile extends React.Component {
-//   render() {
-//     const user = firebase.auth().currentUser;
-//     if (user) {
-//       return <ForYou />;
-//     } else {
-//       return <ForYouX />;
-//     }
-//   }
-// }
+
 const ForYou = () => {
-  const [value, setValue] = useState('');
-
-  useEffect(() => {
-    // Resetting default value for the input on restart
-    setValue('Default Value');
-  }, []);
-
   return (
     <View style={styles.container}>
       <Text>ForYou</Text>
