@@ -17,6 +17,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
 import auth, {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
@@ -94,12 +95,28 @@ const onAvatarChange = (image: ImageOrVideo) => {
 function ProfileInfo() {
   const navigation = useNavigation();
 
+  
+
+  // this may delete ..
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       console.log('user logged');
     }
   });
   const user = firebase.auth().currentUser;
+  
+  const [txtUserId, setTxtUserId] = React.useState(user.uid);
+  //firebase
+  const ref = firestore().collection('users');
+
+  ref.doc(txtUserId).set({
+    userId: txtUserId,
+  }).then(()=>{
+      console.log('User Info added!');
+  });
+
+  
+
   return (
     <View style={styles.scroll}>
       <StatusBar barStyle="dark-content" />
@@ -113,6 +130,7 @@ function ProfileInfo() {
         />
         <Avatar onChange={onAvatarChange} source={require('./sample.jpg')} />
         <Text> {user.email}</Text>
+        <Text> {user.uid}</Text>
         <Button
           mode="contained"
           onPress={() => alert('Button clicked')}
