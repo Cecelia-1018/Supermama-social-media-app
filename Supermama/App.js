@@ -31,6 +31,7 @@ import AddForum from './components/Forum/AddForum';
 import EditForum from './components/Forum/EditForum';
 import DetailsForum from './components/Forum/DetailsForum';
 import ProfileScreen from './components/UserProfile/ProfileScreen';
+import EditProfile from './components/UserProfile/EditProfile';
 import HomeScreen from './components/Home/HomeScreen';
 import VideoHome from './components/Home/VideoHome';
 import EntertainmentHome from './components/Home/EntertainmentHome';
@@ -171,6 +172,9 @@ const App: () => Node = () => {
 
         <Stack.Screen name="Main Sign" component={MainSign} />
         <Stack.Screen name="For You" component={ForYou} />
+        
+        <Stack.Screen name="Edit Profile" component={EditProfile} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

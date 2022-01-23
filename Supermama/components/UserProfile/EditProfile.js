@@ -1,16 +1,16 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 
-const LogOut = () => {
+const EditProfile = () => {
   return (
     <View style={styles.container}>
-      <Text>Log out</Text>
+      <Text>EditProfile</Text>
       <Button title="Click Here" onPress={() => alert('Button clicked')} />
     </View>
   );
 };
 
-export default LogOut;
+export default EditProfile;
 
 const styles = StyleSheet.create({
   container: {

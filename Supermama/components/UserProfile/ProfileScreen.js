@@ -14,14 +14,16 @@ import {Avatar} from './Avatar';
 import {utils} from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
-//import LogOut from './LogOut';
 import auth, {firebase} from '@react-native-firebase/auth';
 import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
 
 const Drawer = createDrawerNavigator();
+const Tab = createMaterialTopTabNavigator();
+
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
@@ -90,6 +92,8 @@ const onAvatarChange = (image: ImageOrVideo) => {
 };
 
 function ProfileInfo() {
+  const navigation = useNavigation();
+
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       console.log('user logged');
@@ -105,7 +109,7 @@ function ProfileInfo() {
           color={Colors.grey600}
           size={20}
           icon="pen"
-          onPress={() => console.log('Pressed')}
+          onPress={() => navigation.navigate("Edit Profile")}
         />
         <Avatar onChange={onAvatarChange} source={require('./sample.jpg')} />
         <Text> {user.email}</Text>
@@ -117,9 +121,31 @@ function ProfileInfo() {
           Follow
         </Button>
       </View>
-      <View style={styles.content} />
+      <View style={styles.content}>
+      <Tab.Navigator screenOptions={{
+      tabBarLabelStyle: { fontSize: 12 },
+      tabBarIndicatorStyle: { backgroundColor: "#f0ccd2"},
+      tabBarStyle: { backgroundColor: 'white'  },
+    }} >
+          <Tab.Screen name="Posts" component={Posts} />
+          <Tab.Screen name="Collections" component={Collections} />
+          <Tab.Screen name="Products" component={Products} />
+        </Tab.Navigator>
+      </View>
     </View>
   );
+}
+
+function Posts(){
+  return <Text>Post</Text>;
+}
+
+function Collections(){
+  return <Text>Collections</Text>;
+}
+
+function Products(){
+  return <Text>Products</Text>;
 }
 
 class Profile extends React.Component {
@@ -141,7 +167,7 @@ function ProfileScreen() {
         name="Apply Verify Professional"
         component={VerifyProScreen}
       />
-      <Drawer.Screen name="Log Out" component={LogOut} />
+    
     </Drawer.Navigator>
   );
 }
