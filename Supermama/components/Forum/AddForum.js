@@ -36,13 +36,6 @@ function AddForum({navigation}){
   const [txtForumId, setForumId] = useState('');
 
   useEffect(() => {
-    // var date = new Date().getDate(); //Current Date
-    // var month = new Date().getMonth() + 1; //Current Month
-    // var year = new Date().getFullYear(); //Current Year
-    // var hours = new Date().getHours(); //Current Hours
-    // var min = new Date().getMinutes(); //Current Minutes
-    // var sec = new Date().getSeconds(); //Current Seconds
-    // var milisec = new Date().getMilliseconds();
     
     var head = Date.now().toString();
     var tail = Math.random().toString().substr(2);
@@ -53,16 +46,6 @@ function AddForum({navigation}){
     setForumId(
      'F' + head + tail
     );
-
-    // setForumDocId(
-    //  'F' + date + month + year 
-    //   +  hours +  min +  sec + milisec
-    // );
-    // setForumId(
-    //  'F' + date + month + year 
-    //   +  hours +  min +  sec + milisec
-    // );
-
   }, []);
 
 
@@ -126,17 +109,6 @@ function AddForum({navigation}){
           style={styles.submitButton}>
           Submit 
         </Button>
-        <Snackbar
-        visible={visible}
-        onDismiss={onDismissSnackBar}
-        action={{
-          label: 'See Post',   //add to navigate to forum post detail page
-          onPress: () => {
-            // Do something
-          },
-        }}>
-        Forum post created!
-      </Snackbar>
      
         <Button 
          mode="contained"

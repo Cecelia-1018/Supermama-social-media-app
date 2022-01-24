@@ -11,15 +11,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
-import {Avatar} from './Avatar';
-import {utils} from '@react-native-firebase/app';
-import storage from '@react-native-firebase/storage';
+// import {Avatar} from './Avatar';
+// import {utils} from '@react-native-firebase/app';
+// import storage from '@react-native-firebase/storage';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
+import {Button, Card, IconButton, Title, Colors, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
 //import SigninScreen from '../Home/SigninScreen';
@@ -104,46 +104,55 @@ function GuestProfile() {
   );
 }
 
-const onAvatarChange = (image: ImageOrVideo) => {
-  console.log(image);
-
-  // user id
-  let userId = 'U002';
-
-  // upload image to server here
-  let reference = storage().ref('gs://supermama-6aa87.appspot.com/' + userId); //2
-  let task = reference.putFile(image.path.toString());
-
-  task
-    .then(() => {
-      console.log('Image uploaded to the bucket!');
-    })
-    .catch(e => console.log('uploading image error =>', e));
-};
 
 function ProfileInfo() {
   const navigation = useNavigation();
 
   // this may delete ..
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      console.log('user logged');
-    }
-  });
+  // firebase.auth().onAuthStateChanged(user => {
+  //   if (user) {
+  //     console.log('user logged');
+  //   }
+  // });
   const user = firebase.auth().currentUser;
 
   const [txtUserId, setTxtUserId] = React.useState(user.uid);
-  //firebase
+  //firebase with create users 
   const ref = firestore().collection('users');
-
   ref
     .doc(txtUserId)
     .set({
       userId: txtUserId,
+      name: user.email,
+      bio: "Kindly add up your bio.",
     })
     .then(() => {
       console.log('User Info added!');
     });
+  
+  //display data
+  const [userCol, setUserCol] = useState();
+  const {uid} = auth().currentUser;
+
+  const getUser = async () => {
+    try {
+      const documentSnapshot = await firestore()
+        .collection('users')
+        .doc(uid)
+        .get();
+
+      const userData = documentSnapshot.data();
+      setUserCol(userData);
+    } catch {
+      //do whatever
+    }
+  };
+
+  // Get user on mount
+  useEffect(() => {
+    getUser();
+  }, []);
+  
 
   return (
     <View style={styles.scroll}>
@@ -156,9 +165,10 @@ function ProfileInfo() {
           icon="pen"
           onPress={() => navigation.navigate('Edit Profile')}
         />
-        <Avatar onChange={onAvatarChange} source={require('./sample.jpg')} />
-        <Text> {user.email}</Text>
-        <Text> {user.uid}</Text>
+        <Avatar.Image size={100} source={require('./sample.jpg')} />
+        <Text> {userCol && userCol?.name}</Text>
+        <Text> {userCol && userCol?.bio}</Text>
+      
         <Button
           mode="contained"
           onPress={() => alert('Button clicked')}
