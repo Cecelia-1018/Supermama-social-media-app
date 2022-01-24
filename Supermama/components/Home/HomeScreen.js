@@ -25,6 +25,9 @@ import Chat from './ChatScreen';
 import Add from './AddPost';
 import MainSign from './MainSign';
 import ForYou from './ForYou';
+import AddVideo from './AddVideo';
+import AddFeed from './AddFeed';
+import AddEntertainment from './AddEntertainment';
 
 const Tab = createMaterialTopTabNavigator();
 const RootStack = createStackNavigator();
@@ -108,6 +111,21 @@ function HomePost({navigation}) {
       <RootStack.Screen
         name="AddPost"
         component={Add}
+        options={{headerShown: false}}
+      />
+      <RootStack.Screen
+        name="AddVideo"
+        component={AddVideo}
+        options={{headerShown: false}}
+      />
+      <RootStack.Screen
+        name="AddEntertainment"
+        component={AddEntertainment}
+        options={{headerShown: false}}
+      />
+      <RootStack.Screen
+        name="AddFeed"
+        component={AddFeed}
         options={{headerShown: false}}
       />
     </RootStack.Navigator>
