@@ -8,19 +8,21 @@ import {
   StatusBar,
   Alert,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Avatar} from './Avatar';
 import {utils} from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
+//import SigninScreen from '../Home/SigninScreen';
 
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -29,9 +31,36 @@ const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
-const LogOut = () => {
-  return firebase.auth().signOut(), RNRestart.Restart();
-};
+function LogOut() {
+  const logoutClick = () => {
+    firebase.auth().signOut(), RNRestart.Restart();
+  };
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+      }}>
+      <Button onPress={logoutClick} color="#FE7E9C">
+        You will be logged out once click.
+      </Button>
+      <TouchableOpacity onPress={logoutClick}>
+        <Image
+          style={{width: 300, height: 510}}
+          source={require('./logout.jpg')}
+        />
+      </TouchableOpacity>
+      <Text
+        style={{color: 'blue', fontSize: 10}}
+        onPress={() => Linking.openURL('http://www.freepik.com')}>
+        Designed by / Freepik
+      </Text>
+    </View>
+  );
+}
 
 function GuestProfile() {
   const navigation = useNavigation();
@@ -95,8 +124,6 @@ const onAvatarChange = (image: ImageOrVideo) => {
 function ProfileInfo() {
   const navigation = useNavigation();
 
-  
-
   // this may delete ..
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
@@ -104,18 +131,19 @@ function ProfileInfo() {
     }
   });
   const user = firebase.auth().currentUser;
-  
+
   const [txtUserId, setTxtUserId] = React.useState(user.uid);
   //firebase
   const ref = firestore().collection('users');
 
-  ref.doc(txtUserId).set({
-    userId: txtUserId,
-  }).then(()=>{
+  ref
+    .doc(txtUserId)
+    .set({
+      userId: txtUserId,
+    })
+    .then(() => {
       console.log('User Info added!');
-  });
-
-  
+    });
 
   return (
     <View style={styles.scroll}>
@@ -126,7 +154,7 @@ function ProfileInfo() {
           color={Colors.grey600}
           size={20}
           icon="pen"
-          onPress={() => navigation.navigate("Edit Profile")}
+          onPress={() => navigation.navigate('Edit Profile')}
         />
         <Avatar onChange={onAvatarChange} source={require('./sample.jpg')} />
         <Text> {user.email}</Text>
@@ -140,11 +168,12 @@ function ProfileInfo() {
         </Button>
       </View>
       <View style={styles.content}>
-      <Tab.Navigator screenOptions={{
-      tabBarLabelStyle: { fontSize: 12 },
-      tabBarIndicatorStyle: { backgroundColor: "#f0ccd2"},
-      tabBarStyle: { backgroundColor: 'white'  },
-    }} >
+        <Tab.Navigator
+          screenOptions={{
+            tabBarLabelStyle: {fontSize: 12},
+            tabBarIndicatorStyle: {backgroundColor: '#f0ccd2'},
+            tabBarStyle: {backgroundColor: 'white'},
+          }}>
           <Tab.Screen name="Posts" component={Posts} />
           <Tab.Screen name="Collections" component={Collections} />
           <Tab.Screen name="Products" component={Products} />
@@ -154,15 +183,15 @@ function ProfileInfo() {
   );
 }
 
-function Posts(){
+function Posts() {
   return <Text>Post</Text>;
 }
 
-function Collections(){
+function Collections() {
   return <Text>Collections</Text>;
 }
 
-function Products(){
+function Products() {
   return <Text>Products</Text>;
 }
 
@@ -177,6 +206,17 @@ class Profile extends React.Component {
   }
 }
 
+class logOut extends React.Component {
+  render() {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      return <LogOut />;
+    } else {
+      return <GuestProfile />;
+    }
+  }
+}
+
 function ProfileScreen() {
   return (
     <Drawer.Navigator>
@@ -185,7 +225,7 @@ function ProfileScreen() {
         name="Apply Verify Professional"
         component={VerifyProScreen}
       />
-    
+      <Drawer.Screen name="Log Out" component={logOut} />
     </Drawer.Navigator>
   );
 }
