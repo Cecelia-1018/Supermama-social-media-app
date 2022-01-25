@@ -9,6 +9,7 @@ import {
   Alert,
   Image,
   TouchableOpacity,
+  FlatList
 } from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 // import {Avatar} from './Avatar';
@@ -138,31 +139,60 @@ function ProfileInfo() {
  
   
   //display data
-  const [userCol, setUserCol] = useState();
+  const [userCol, setUserCol] = useState([]);
   const {uid} = auth().currentUser;
 
-  const getUser = async () => {
-    try {
-      const documentSnapshot = await firestore()
-        .collection('users')
-        .doc(uid)
-        .get();
+  // const getUser = async () => {
+   
+  //     firestore()
+  //     .collection('users')
+  //     .onSnapshot(querySnapshot => {
+  //       const userCol = [];
 
-      const userData = documentSnapshot.data();
-      setUserCol(userData);
-    } catch {
-      //do whatever
-    }
-  };
+  //       querySnapshot.forEach(documentSnapshot => {
+  //         userCol.push({
+  //           ...documentSnapshot.data(),
+  //           key: documentSnapshot.id,
+  //         });
+  //       });
+        
+  //       setUserCol(userCol);
+  //       // setLoading(false);
+  //     // const documentSnapshot = await firestore()
+  //     //   .collection('users')
+  //     //   .doc(uid)
+  //     //   .get();
+
+  //     // const userData = documentSnapshot.data();
+  //     // setUserCol(userData);
+  //     }
+  // };
 
   // Get user on mount
   useEffect(() => {
-    getUser();
-  }, []);
-  
+    const subscriber = firestore()
+      .collection('users')
+      .where('userId', 'in', [uid])
+      .onSnapshot(querySnapshot => {
+        const userCol = [];
 
-  return (
-    <View style={styles.scroll}>
+        querySnapshot.forEach(documentSnapshot => {
+          userCol.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+        
+        setUserCol(userCol);
+  });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  const renderItem = ({item}) => {
+    return(
+       <View style={styles.scroll}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.userRow}>
         <IconButton
@@ -172,16 +202,16 @@ function ProfileInfo() {
           icon="pen"
           onPress={() => {
                     navigation.navigate('Edit Profile', {
-                      userCol: {
-                        name: userCol && userCol?.name,
-                        bio: userCol && userCol?.bio,
-                        userId: userCol && userCol?.userId,
+                      item: {
+                        name: item.name,
+                        bio: item.bio,
+                        userId: item.userId,
                       },
                     });
                   }}/>
         <Avatar.Image size={100} source={require('./sample.jpg')} />
-        <Text> {userCol && userCol?.name}</Text>
-        <Text> {userCol && userCol?.bio}</Text>
+        <Text> {item.name}</Text>
+        <Text> {item.bio}</Text>
       
         <Button
           mode="contained"
@@ -204,6 +234,18 @@ function ProfileInfo() {
         </Tab.Navigator>
       </View>
     </View>
+
+    )
+  }
+  
+
+  return (
+    <FlatList
+        // ref={flatlistRef}
+        data={userCol}
+        keyExtractor={item => item.userId}
+        renderItem={renderItem}
+      />
   );
 }
 

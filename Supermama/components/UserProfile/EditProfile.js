@@ -10,6 +10,7 @@ import {Avatar} from './Avatar';
 import storage from '@react-native-firebase/storage';
 import {utils} from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
+import ProfileScreen from './ProfileScreen';
 
 
 
@@ -34,12 +35,12 @@ const onAvatarChange = (image: ImageOrVideo) => {
 function EditProfile({navigation, route}){
 
   //navigation
-  const {userCol} = route.params;
+  const {item} = route.params;
    //input
-  const [txtName, setTxtName] = React.useState(userCol.name);
-  const [txtBio, setTxtBio] = React.useState(userCol.bio);
+  const [txtName, setTxtName] = React.useState(item.name);
+  const [txtBio, setTxtBio] = React.useState(item.bio);
 
-  const ref = firestore().collection('users').doc(userCol.userId);
+  const ref = firestore().collection('users').doc(item.userId);
   async function updateUserCol() {
     await ref.update({
       name: txtName,
