@@ -109,24 +109,30 @@ function GuestProfile() {
 function ProfileInfo() {
   const navigation = useNavigation();
 
-  
   const user = firebase.auth().currentUser;
 
   const [txtUserId, setTxtUserId] = React.useState(user.uid);
+
+  //display data
+  const [userCol, setUserCol] = useState([]);
+  const {uid} = auth().currentUser;
   
   //reference of user
-  const ref = firestore().collection('users');
+  const ref = firestore().collection('users').doc(uid);
 
   //check this user exist or not
-  ref.get().then((snap) => {
-       if(!snap.empty) {
+  ref.get().then(documentSnapshot => {
+      console.log('User exists: ', documentSnapshot.exists);
+
+       if(documentSnapshot.exists) {
           // work with documents
+          console.log('User data: ', documentSnapshot.data());
           console.log("user existed!");
        } else {
           //firebase with create users 
-          ref.doc(txtUserId).set({
-          userId: txtUserId,
-          name: user.email,
+          ref.set({
+          userId: user.uid,
+          name: "Anonymous",
           bio: "Kindly add up your bio.",
     })
     .then(() => {
@@ -136,37 +142,7 @@ function ProfileInfo() {
     })
  
   
- 
   
-  //display data
-  const [userCol, setUserCol] = useState([]);
-  const {uid} = auth().currentUser;
-
-  // const getUser = async () => {
-   
-  //     firestore()
-  //     .collection('users')
-  //     .onSnapshot(querySnapshot => {
-  //       const userCol = [];
-
-  //       querySnapshot.forEach(documentSnapshot => {
-  //         userCol.push({
-  //           ...documentSnapshot.data(),
-  //           key: documentSnapshot.id,
-  //         });
-  //       });
-        
-  //       setUserCol(userCol);
-  //       // setLoading(false);
-  //     // const documentSnapshot = await firestore()
-  //     //   .collection('users')
-  //     //   .doc(uid)
-  //     //   .get();
-
-  //     // const userData = documentSnapshot.data();
-  //     // setUserCol(userData);
-  //     }
-  // };
 
   // Get user on mount
   useEffect(() => {
