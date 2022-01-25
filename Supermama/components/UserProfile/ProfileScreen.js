@@ -108,27 +108,34 @@ function GuestProfile() {
 function ProfileInfo() {
   const navigation = useNavigation();
 
-  // this may delete ..
-  // firebase.auth().onAuthStateChanged(user => {
-  //   if (user) {
-  //     console.log('user logged');
-  //   }
-  // });
+  
   const user = firebase.auth().currentUser;
 
   const [txtUserId, setTxtUserId] = React.useState(user.uid);
-  //firebase with create users 
+  
+  //reference of user
   const ref = firestore().collection('users');
-  ref
-    .doc(txtUserId)
-    .set({
-      userId: txtUserId,
-      name: user.email,
-      bio: "Kindly add up your bio.",
+
+  //check this user exist or not
+  ref.get().then((snap) => {
+       if(!snap.empty) {
+          // work with documents
+          console.log("user existed!");
+       } else {
+         // Create some documents
+          ref.doc(txtUserId).set({
+          userId: txtUserId,
+          name: user.email,
+          bio: "Kindly add up your bio.",
     })
     .then(() => {
       console.log('User Info added!');
     });
+       }
+    })
+  //firebase with create users 
+  
+ 
   
   //display data
   const [userCol, setUserCol] = useState();

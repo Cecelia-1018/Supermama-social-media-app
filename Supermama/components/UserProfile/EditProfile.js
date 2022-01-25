@@ -12,6 +12,7 @@ import {utils} from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 
 
+
 const onAvatarChange = (image: ImageOrVideo) => {
   console.log(image);
 
@@ -37,6 +38,18 @@ function EditProfile({navigation, route}){
    //input
   const [txtName, setTxtName] = React.useState(userCol.name);
   const [txtBio, setTxtBio] = React.useState(userCol.bio);
+
+  const ref = firestore().collection('users').doc(userCol.userId);
+  async function updateUserCol() {
+    await ref.update({
+      name: txtName,
+      bio: txtBio,
+    }).then(()=>{
+      console.log('user info updated!');
+    });
+    setTxtName('');
+    setTxtBio('');
+  }
   
 
   return (
@@ -76,7 +89,7 @@ function EditProfile({navigation, route}){
        <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => navigation.goBack()}
+          onPress={() => updateUserCol()}
           color="#FE7E9C"
           style={styles.submitButton}>
           Submit 
