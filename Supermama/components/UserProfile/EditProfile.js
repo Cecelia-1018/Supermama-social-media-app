@@ -10,6 +10,8 @@ import {Avatar} from './Avatar';
 import storage from '@react-native-firebase/storage';
 import {utils} from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
+import ProfileScreen from './ProfileScreen';
+
 
 
 const onAvatarChange = (image: ImageOrVideo) => {
@@ -30,10 +32,25 @@ const onAvatarChange = (image: ImageOrVideo) => {
 };
 
 
-function EditProfile({navigation}){
+function EditProfile({navigation, route}){
+
+  //navigation
+  const {item} = route.params;
    //input
-  const [txtName, setTxtName] = React.useState('');
-  const [txtBio, setTxtBio] = React.useState('');
+  const [txtName, setTxtName] = React.useState(item.name);
+  const [txtBio, setTxtBio] = React.useState(item.bio);
+
+  const ref = firestore().collection('users').doc(item.userId);
+  async function updateUserCol() {
+    await ref.update({
+      name: txtName,
+      bio: txtBio,
+    }).then(()=>{
+      console.log('user info updated!');
+    });
+    setTxtName('');
+    setTxtBio('');
+  }
   
 
   return (
@@ -73,7 +90,7 @@ function EditProfile({navigation}){
        <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => navigation.goBack()}
+          onPress={() => updateUserCol()}
           color="#FE7E9C"
           style={styles.submitButton}>
           Submit 
