@@ -18,7 +18,7 @@ const onAvatarChange = (image: ImageOrVideo) => {
   console.log(image);
 
   // user id
-  let userId = 'U002';
+  let userId = 'U004';
 
   // upload image to server here
   let reference = storage().ref('gs://supermama-6aa87.appspot.com/' + userId); //2

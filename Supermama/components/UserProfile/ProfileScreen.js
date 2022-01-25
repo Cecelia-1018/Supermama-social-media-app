@@ -126,7 +126,6 @@ function ProfileInfo() {
 
        if(documentSnapshot.exists) {
           // work with documents
-          console.log('User data: ', documentSnapshot.data());
           console.log("user existed!");
        } else {
           //firebase with create users 
