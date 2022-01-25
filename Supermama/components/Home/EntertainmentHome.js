@@ -41,7 +41,7 @@ const EntertainmentHome = ({navigation, item}) => {
                 Platform.OS === 'ios' ? 'ios-heart-outline' : 'md-heart-outline'
               }
             />
-            <Text style={[styles.like]}>{item.like}</Text>
+            <Text style={[styles.like]}>10</Text>
           </View>
           <View style={[{flexDirection: 'row'}]}>
             <Icon
@@ -52,7 +52,7 @@ const EntertainmentHome = ({navigation, item}) => {
                   : 'md-chatbubbles-outline'
               }
             />
-            <Text style={[styles.like]}>{item.comment}</Text>
+            <Text style={[styles.like]}>111</Text>
           </View>
           <Icon
             type="ionicon"

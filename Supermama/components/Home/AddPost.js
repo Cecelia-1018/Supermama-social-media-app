@@ -1,7 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {Button} from 'react-native-paper';
-const AddPost = ({navigation}) => {
+import AddVideo from './AddVideo';
+import AddFeed from './AddFeed';
+import AddEntertainment from './AddEntertainment';
+import {createStackNavigator} from '@react-navigation/stack';
+const RootStack = createStackNavigator();
+
+function posting({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -20,7 +26,7 @@ const AddPost = ({navigation}) => {
             Only Video
           </Button>
           <Button
-            onPress={() => navigation.navigate('AddEntertainment')}
+            onPress={() => navigation.navigate('Create Post')}
             color="#FE7E9C">
             Picture and Words
           </Button>
@@ -32,6 +38,31 @@ const AddPost = ({navigation}) => {
         </ScrollView>
       </View>
     </View>
+  );
+}
+
+const AddPost = ({navigation}) => {
+  return (
+    <RootStack.Navigator>
+      <RootStack.Screen
+        name="Add Post"
+        component={posting}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name="AddVideo"
+        component={AddVideo}
+        options={{headerShown: false}}
+      />
+      <RootStack.Screen name="Create Post" component={AddEntertainment} />
+      <RootStack.Screen
+        name="AddFeed"
+        component={AddFeed}
+        options={{headerShown: false}}
+      />
+    </RootStack.Navigator>
   );
 };
 
