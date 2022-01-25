@@ -122,7 +122,7 @@ function ProfileInfo() {
           // work with documents
           console.log("user existed!");
        } else {
-         // Create some documents
+          //firebase with create users 
           ref.doc(txtUserId).set({
           userId: txtUserId,
           name: user.email,
@@ -133,7 +133,7 @@ function ProfileInfo() {
     });
        }
     })
-  //firebase with create users 
+ 
   
  
   
