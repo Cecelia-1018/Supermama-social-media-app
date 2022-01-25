@@ -30,10 +30,13 @@ const onAvatarChange = (image: ImageOrVideo) => {
 };
 
 
-function EditProfile({navigation}){
+function EditProfile({navigation, route}){
+
+  //navigation
+  const {userCol} = route.params;
    //input
-  const [txtName, setTxtName] = React.useState('');
-  const [txtBio, setTxtBio] = React.useState('');
+  const [txtName, setTxtName] = React.useState(userCol.name);
+  const [txtBio, setTxtBio] = React.useState(userCol.bio);
   
 
   return (

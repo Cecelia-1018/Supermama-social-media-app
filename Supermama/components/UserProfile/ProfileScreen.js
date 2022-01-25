@@ -163,8 +163,15 @@ function ProfileInfo() {
           color={Colors.grey600}
           size={20}
           icon="pen"
-          onPress={() => navigation.navigate('Edit Profile')}
-        />
+          onPress={() => {
+                    navigation.navigate('Edit Profile', {
+                      userCol: {
+                        name: userCol && userCol?.name,
+                        bio: userCol && userCol?.bio,
+                        userId: userCol && userCol?.userId,
+                      },
+                    });
+                  }}/>
         <Avatar.Image size={100} source={require('./sample.jpg')} />
         <Text> {userCol && userCol?.name}</Text>
         <Text> {userCol && userCol?.bio}</Text>
