@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import { 
   TextInput, 
@@ -17,8 +17,7 @@ import ProfileScreen from './ProfileScreen';
 const onAvatarChange = (image: ImageOrVideo) => {
   console.log(image);
 
-  // user id
-  let userId = 'U004';
+  let userId = "U001";
 
   // upload image to server here
   let reference = storage().ref('gs://supermama-6aa87.appspot.com/UserProfile/' + userId); //2
