@@ -18,6 +18,8 @@ const AddFeed = ({navigation}) => {
   const [txtHashtag, setTxtHashtag] = useState('');
   const [txtDes, setTxtDes] = useState('');
   const [txtTitles, setTxtTitles] = useState('');
+  const [txtDetails, setTxtDetails] = useState('');
+  const [txtLink, setTxtLink] = useState('');
   //image
 
   const ref = firestore().collection('feed');
@@ -44,6 +46,8 @@ const AddFeed = ({navigation}) => {
         title: txtTitles,
         description: txtDes,
         hashtag: txtHashtag,
+        details: txtDetails,
+        hyperlink: txtLink,
       })
       .then(() => {
         Alert.alert('Success ✅', 'Feed Added Success');
@@ -63,7 +67,7 @@ const AddFeed = ({navigation}) => {
       <View style={styles.footer}>
         <ScrollView>
           <Text style={styles.text_footer}>Username</Text>
-          <Text style={[styles.text_footer, {marginTop: 20}]}>Title</Text>
+          <Text style={[styles.text_footer, {marginTop: 10}]}>Title</Text>
           <View style={styles.action}>
             <TextInput
               label="Title"
@@ -84,7 +88,7 @@ const AddFeed = ({navigation}) => {
               placeholder="not more than 70 characters"
             />
           </View>
-          <Text style={[styles.text_footer, {marginTop: 20}]}>Hashtag</Text>
+          <Text style={[styles.text_footer, {marginTop: 10}]}>Hashtag</Text>
           <View style={styles.action}>
             <Feather
               name="hash"
@@ -97,6 +101,27 @@ const AddFeed = ({navigation}) => {
               value={txtHashtag}
               onChangeText={setTxtHashtag}
               color="black"
+            />
+          </View>
+          <Text style={[styles.text_footer, {marginTop: 10}]}>Details</Text>
+          <View style={styles.action}>
+            <TextInput
+              label="Details"
+              value={txtDetails}
+              onChangeText={setTxtDetails}
+              multiline={true}
+              numberOfLines={10}
+              color="black"
+            />
+          </View>
+          <Text style={[styles.text_footer, {marginTop: 10}]}>Hyperlink</Text>
+          <View style={styles.action}>
+            <TextInput
+              label="Hyperlink"
+              value={txtLink}
+              onChangeText={setTxtLink}
+              color="black"
+              placeholder="hyperlink if have"
             />
           </View>
           <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>

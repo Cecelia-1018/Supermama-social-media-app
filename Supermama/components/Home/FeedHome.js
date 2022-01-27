@@ -1,11 +1,18 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {Button, IconButton} from 'react-native-paper';
 import {Icon} from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
 
-const FeedHome = () => {
+const FeedHome = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const feedRef = useRef();
   const [feed, setFeed] = useState([]);
@@ -13,34 +20,53 @@ const FeedHome = () => {
   const renderFeedItem = ({item}) => {
     return (
       <View style={styles.item}>
-        <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
-          <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-            {/* <Avatar.Image size={50} source={item.avatar_url} /> */}
-            <Image source={require('./AddPost_img.jpg')} style={styles.image} />
-          </View>
-          <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-            <Text style={[styles.user]}> {item.title}</Text>
-            <Text style={[styles.description]}> {item.description}</Text>
-            <View
-              style={[
-                {
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                },
-              ]}>
-              <Text style={[styles.hash]}> #{item.hashtag}</Text>
-              <Text style={[styles.user]}> Name</Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Feed Detail', {
+              item: {
+                title: item.title,
+                description: item.description,
+                feedId: item.feedId,
+                details: item.details,
+                hashtag: item.hashtag,
+                userid: user.uid,
+              },
+            });
+          }}>
+          <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
+            <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
+              {/* <Avatar.Image size={50} source={item.avatar_url} /> */}
+              <Image
+                source={require('./AddPost_img.jpg')}
+                style={styles.image}
+              />
+            </View>
+            <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
+              <Text style={[styles.user]}> {item.title}</Text>
+              <Text style={[styles.description]}> {item.description}</Text>
+              <View
+                style={[
+                  {
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  },
+                ]}>
+                <Text style={[styles.hash]}> #{item.hashtag}</Text>
+                <Text style={[styles.user]}> Name</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <IconButton
-          style={[styles.bookmark]}
-          icon={'book'}
-          color="black"
-          size={25}
-          // onPress={() => navigation.navigate('Bookmark')}
-        />
+          <IconButton
+            style={[styles.bookmark]}
+            icon={'book'}
+            color="black"
+            size={25}
+            // onPress={() => navigation.navigate('Bookmark')}
+          />
+          <Text style={[{fontSize: 0}]}> {item.details}</Text>
+          <Text style={[{fontSize: 0}]}> {item.hyperlink}</Text>
+        </TouchableOpacity>
       </View>
     );
   };

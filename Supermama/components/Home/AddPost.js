@@ -44,24 +44,14 @@ function posting({navigation}) {
 const AddPost = ({navigation}) => {
   return (
     <RootStack.Navigator>
-      <RootStack.Screen
-        name="Add Post"
-        component={posting}
-        options={{
-          headerShown: false,
-        }}
-      />
+      <RootStack.Screen name="Add Post" component={posting} />
       <RootStack.Screen
         name="AddVideo"
         component={AddVideo}
         options={{headerShown: false}}
       />
       <RootStack.Screen name="Create Post" component={AddEntertainment} />
-      <RootStack.Screen
-        name="AddFeed"
-        component={AddFeed}
-        options={{headerShown: false}}
-      />
+      <RootStack.Screen name="AddFeed" component={AddFeed} />
     </RootStack.Navigator>
   );
 };
@@ -74,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD1DC',
   },
   header: {
-    flex: 3,
+    flex: 2.5,
     alignItems: 'center',
     justifyContent: 'center',
   },

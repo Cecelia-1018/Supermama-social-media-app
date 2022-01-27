@@ -39,6 +39,7 @@ import FeedHome from './components/Home/FeedHome';
 import ForYou from './components/Home/ForYou';
 import MainSign from './components/Home/MainSign';
 import AddFeed from './components/Home/AddFeed';
+import FeedDetails from './components/Home/FeedDetails';
 import {LogBox} from 'react-native';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
@@ -167,7 +168,7 @@ const App: () => Node = () => {
         <Stack.Screen name="Entertainment Home" component={EntertainmentHome} />
         <Stack.Screen name="Feed Screen" component={FeedHome} />
         <Stack.Screen name="Add Feed" component={AddFeed} />
-        {/* <Stack.Screen name="Feed Detail" component={FeedDetail} /> */}
+        <Stack.Screen name="Feed Detail" component={FeedDetails} />
         <Stack.Screen name="Main Sign" component={MainSign} />
         <Stack.Screen name="For You" component={ForYou} />
 
