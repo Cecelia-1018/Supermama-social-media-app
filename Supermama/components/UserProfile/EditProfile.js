@@ -21,7 +21,7 @@ const onAvatarChange = (image: ImageOrVideo) => {
   let userId = 'U004';
 
   // upload image to server here
-  let reference = storage().ref('gs://supermama-6aa87.appspot.com/' + userId); //2
+  let reference = storage().ref('gs://supermama-6aa87.appspot.com/UserProfile/' + userId); //2
   let task = reference.putFile(image.path.toString());
 
   task
