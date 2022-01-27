@@ -4,9 +4,18 @@ import {Card, Button} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import {Icon} from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
-
+import auth, {firebase} from '@react-native-firebase/auth';
 import EntertainmentHome from './EntertainmentHome';
-function AddEntertainment({navigation}) {
+import PostImagePicker from './PostImagePicker';
+import storage from '@react-native-firebase/storage';
+
+function AddEntertainment({navigation, props}) {
+  const user = firebase.auth().currentUser;
+  let upImage = {uri: '../UserProfile/sample.jpg'};
+  setEntImage = image => {
+    upImage.setFieldValue('imageUri', image.uri);
+  };
+
   const [txtHashtag, setTxtHashtag] = useState('');
   const [txtDes, setTxtDes] = useState('');
   //image
@@ -30,10 +39,11 @@ function AddEntertainment({navigation}) {
     await ref
       .doc(entDocId)
       .set({
-        //add id here
+        userId: user.uid,
         entertainmentId: entId,
         description: txtDes,
         hashtag: txtHashtag,
+        imageUri: upImage,
       })
       .then(() => {
         Alert.alert('Success ✅', 'Post Added Success');
@@ -60,6 +70,7 @@ function AddEntertainment({navigation}) {
             label="Hashtag"
             value={txtHashtag}
             onChangeText={setTxtHashtag}
+            color="black"
           />
         </View>
         <Text style={[styles.text_footer, {marginTop: 10}]}>Description</Text>
@@ -70,9 +81,11 @@ function AddEntertainment({navigation}) {
             onChangeText={setTxtDes}
             multiline={true}
             numberOfLines={3}
+            color="black"
           />
         </View>
         <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
+        <PostImagePicker image={upImage} onImagePicked={setEntImage} />
         <View style={styles.button}>
           <Button
             mode="outlined"

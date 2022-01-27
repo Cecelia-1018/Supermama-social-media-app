@@ -38,10 +38,10 @@ import EntertainmentHome from './components/Home/EntertainmentHome';
 import FeedHome from './components/Home/FeedHome';
 import ForYou from './components/Home/ForYou';
 import MainSign from './components/Home/MainSign';
+import AddFeed from './components/Home/AddFeed';
+import {LogBox} from 'react-native';
 
-import { LogBox } from "react-native";
-
-LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -76,9 +76,6 @@ function StoreScreen() {
     </View>
   );
 }
-
-
-
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -169,12 +166,12 @@ const App: () => Node = () => {
         <Stack.Screen name="Video Home" component={VideoHome} />
         <Stack.Screen name="Entertainment Home" component={EntertainmentHome} />
         <Stack.Screen name="Feed Screen" component={FeedHome} />
-
+        <Stack.Screen name="Add Feed" component={AddFeed} />
+        {/* <Stack.Screen name="Feed Detail" component={FeedDetail} /> */}
         <Stack.Screen name="Main Sign" component={MainSign} />
         <Stack.Screen name="For You" component={ForYou} />
-        
-        <Stack.Screen name="Edit Profile" component={EditProfile} />
 
+        <Stack.Screen name="Edit Profile" component={EditProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
