@@ -55,11 +55,7 @@ function EditProfile({navigation, route}){
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.userRow}>
-      <Avatar onChange={onAvatarChange} source={{uri: imageUrl}} />
-      <Text>Press image to upload photo.</Text>
-      </View> */}
-      
+    
       <Card>
         <Card.Content>
           <Title>Name</Title>

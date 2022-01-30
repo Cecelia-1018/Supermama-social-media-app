@@ -217,7 +217,8 @@ function ProfileInfo() {
                       },
                     });
                   }}/>
-        <Avatar onChange={onAvatarChange} source={{uri: imageUrl}} />
+        <Avatar onChange={onAvatarChange} source={imageUrl? {uri: imageUrl} : require('./addimg.png')} />
+        {!imageUrl ? <Text>Press image to upload photo.</Text> : null }
         <Text> {item.name}</Text>
         <Text> {item.bio}</Text>
       
