@@ -101,7 +101,7 @@ function FeedDetails({navigation, route}) {
       </View>
       <IconButton
         style={[styles.question]}
-        icon={'question'}
+        icon={'account-question'}
         color="black"
         size={25}
         // onPress={() => navigation.navigate('Bookmark')}

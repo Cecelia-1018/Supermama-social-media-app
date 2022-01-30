@@ -29,7 +29,7 @@ const FeedHome = ({navigation}) => {
                 feedId: item.feedId,
                 details: item.details,
                 hashtag: item.hashtag,
-                userid: user.uid,
+                userid: item.userId,
               },
             });
           }}>
@@ -53,7 +53,7 @@ const FeedHome = ({navigation}) => {
                   },
                 ]}>
                 <Text style={[styles.hash]}> #{item.hashtag}</Text>
-                <Text style={[styles.user]}> Name</Text>
+                <Text style={[styles.user]}> {item.userId}</Text>
               </View>
             </View>
           </View>
