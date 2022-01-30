@@ -11,30 +11,31 @@ import storage from '@react-native-firebase/storage';
 import {utils} from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import ProfileScreen from './ProfileScreen';
+import auth, {firebase} from '@react-native-firebase/auth';
 
 
-
-const onAvatarChange = (image: ImageOrVideo) => {
-  console.log(image);
-
-  let userId = "U001";
-
-  // upload image to server here
-  let reference = storage().ref('gs://supermama-6aa87.appspot.com/UserProfile/' + userId); //2
-  let task = reference.putFile(image.path.toString());
-
-  task
-    .then(() => {
-      console.log('Image uploaded to the bucket!');
-    })
-    .catch(e => console.log('uploading image error =>', e));
-};
 
 
 function EditProfile({navigation, route}){
 
   //navigation
   const {item} = route.params;
+
+  // //display user profile picture
+  // const [imageUrl, setImageUrl] = useState(undefined);
+  
+  // useEffect(() => {
+  //   storage()
+  //     .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + item.userId) //name in storage in firebase console
+  //     .getDownloadURL()
+  //     .then((url) => {
+  //       setImageUrl(url);
+  //     })
+  //     .catch((e) => console.log('Errors while downloading => ', e));
+  // }, []);
+
+
+
    //input
   const [txtName, setTxtName] = React.useState(item.name);
   const [txtBio, setTxtBio] = React.useState(item.bio);
@@ -54,10 +55,10 @@ function EditProfile({navigation, route}){
 
   return (
     <View style={styles.container}>
-      <View style={styles.userRow}>
-      <Avatar onChange={onAvatarChange} source={require('./sample.jpg')} />
+      {/* <View style={styles.userRow}>
+      <Avatar onChange={onAvatarChange} source={{uri: imageUrl}} />
       <Text>Press image to upload photo.</Text>
-      </View>
+      </View> */}
       
       <Card>
         <Card.Content>

@@ -12,15 +12,15 @@ import {
   FlatList
 } from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
-// import {Avatar} from './Avatar';
-// import {utils} from '@react-native-firebase/app';
-// import storage from '@react-native-firebase/storage';
+import {Avatar} from './Avatar';
+import {utils} from '@react-native-firebase/app';
+import storage from '@react-native-firebase/storage';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {Button, Card, IconButton, Title, Colors, Avatar} from 'react-native-paper';
+import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
 //import SigninScreen from '../Home/SigninScreen';
@@ -105,8 +105,26 @@ function GuestProfile() {
   );
 }
 
+const onAvatarChange = (image: ImageOrVideo) => {
+  console.log(image);
+
+  const user = firebase.auth().currentUser;
+
+  let userId = user.uid;
+
+  // upload image to server here
+  let reference = storage().ref('gs://supermama-6aa87.appspot.com/UserProfile/' + userId); //2
+  let task = reference.putFile(image.path.toString());
+
+  task
+    .then(() => {
+      console.log('Image uploaded to the bucket!');
+    })
+    .catch(e => console.log('uploading image error =>', e));
+};
 
 function ProfileInfo() {
+
   const navigation = useNavigation();
 
   const user = firebase.auth().currentUser;
@@ -119,6 +137,9 @@ function ProfileInfo() {
   
   //reference of user
   const ref = firestore().collection('users').doc(uid);
+
+ 
+
 
   //check this user exist or not
   ref.get().then(documentSnapshot => {
@@ -140,6 +161,18 @@ function ProfileInfo() {
        }
     })
  
+  //display user profile picture
+  const [imageUrl, setImageUrl] = useState(undefined);
+  
+  useEffect(() => {
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + user.uid) //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        setImageUrl(url);
+      })
+      .catch((e) => console.log('Errors while downloading => ', e));
+  }, []);
   
   
 
@@ -184,7 +217,7 @@ function ProfileInfo() {
                       },
                     });
                   }}/>
-        <Avatar.Image size={100} source={require('./sample.jpg')} />
+        <Avatar onChange={onAvatarChange} source={{uri: imageUrl}} />
         <Text> {item.name}</Text>
         <Text> {item.bio}</Text>
       
