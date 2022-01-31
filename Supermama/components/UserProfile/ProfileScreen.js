@@ -23,7 +23,6 @@ import firestore from '@react-native-firebase/firestore';
 import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
-//import SigninScreen from '../Home/SigninScreen';
 
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialTopTabNavigator();

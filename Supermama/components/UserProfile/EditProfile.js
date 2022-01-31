@@ -4,7 +4,8 @@ import {
   TextInput, 
   Button,
   Title,
-  Card
+  Card,
+  Snackbar,
 } from 'react-native-paper';
 import {Avatar} from './Avatar';
 import storage from '@react-native-firebase/storage';
@@ -21,19 +22,10 @@ function EditProfile({navigation, route}){
   //navigation
   const {item} = route.params;
 
-  // //display user profile picture
-  // const [imageUrl, setImageUrl] = useState(undefined);
-  
-  // useEffect(() => {
-  //   storage()
-  //     .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + item.userId) //name in storage in firebase console
-  //     .getDownloadURL()
-  //     .then((url) => {
-  //       setImageUrl(url);
-  //     })
-  //     .catch((e) => console.log('Errors while downloading => ', e));
-  // }, []);
-
+  //snackbar
+  const [visible, setVisible] = React.useState(false);
+  const onToggleSnackBar = () => setVisible(!visible);
+  const onDismissSnackBar = () => setVisible(false);
 
 
    //input
@@ -50,6 +42,11 @@ function EditProfile({navigation, route}){
     });
     setTxtName('');
     setTxtBio('');
+  }
+
+  async function updateUserInfo(){
+    updateUserCol();
+    onToggleSnackBar();
   }
   
 
@@ -86,11 +83,20 @@ function EditProfile({navigation, route}){
        <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => updateUserCol()}
+          onPress={() => updateUserInfo()}
           color="#FE7E9C"
           style={styles.submitButton}>
           Submit 
         </Button>
+        <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'View Change',
+          onPress: () => navigation.goBack(),
+        }}>
+        Update Successfully
+      </Snackbar>
 
         <Button 
          mode="contained"
