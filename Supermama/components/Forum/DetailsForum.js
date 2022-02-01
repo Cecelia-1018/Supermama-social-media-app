@@ -24,8 +24,12 @@ import {
 import {BottomSheet} from 'react-native-btr';
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import auth, {firebase} from '@react-native-firebase/auth';
 
 function DetailsForum({navigation, route}) {
+  //check user
+  const user = firebase.auth().currentUser;
+
   //navigation
   const {item} = route.params;
 
@@ -43,13 +47,6 @@ function DetailsForum({navigation, route}) {
   const [forumId, setForumId] = useState(item.forumId);
 
   useEffect(() => {
-    // var date = new Date().getDate(); //Current Date
-    // var month = new Date().getMonth() + 1; //Current Month
-    // var year = new Date().getFullYear(); //Current Year
-    // var hours = new Date().getHours(); //Current Hours
-    // var min = new Date().getMinutes(); //Current Minutes
-    // var sec = new Date().getSeconds(); //Current Seconds
-    // var milisec = new Date().getMilliseconds();
 
     var head = Date.now().toString();
     var tail = Math.random().toString().substr(2);
@@ -59,6 +56,9 @@ function DetailsForum({navigation, route}) {
   }, []);
 
   async function addAnswerCol() {
+   if (!txtAns.trim()) {
+     alert('Please enter your answer for submit.');
+   }else{
     await ref
       .doc(AnsDocId)
       .set({
@@ -66,11 +66,13 @@ function DetailsForum({navigation, route}) {
         answerId: txtansId,
         answer: txtAns,
         forumId: forumId,
+        userId: user.uid,
       })
       .then(() => {
         console.log('Answer Forum added!');
       });
     setTxtAnswer('');
+   }
   }
 
   //bottom sheet
@@ -172,6 +174,7 @@ function DetailsForum({navigation, route}) {
           <Text>0 Replies</Text>
         </Card.Content>
         <Card.Actions>
+         {user ? (
         <IconButton
                 icon={require('./reply.png')}
                 color="#FE7E9C"
@@ -179,6 +182,7 @@ function DetailsForum({navigation, route}) {
                onPress={toggleBottomNavigationView}
         //on Press of the button bottom sheet will be visible
               />
+               ) : null}
         </Card.Actions>
       </Card>
 

@@ -19,9 +19,12 @@ import AddForum from './AddForum';
 import ExploreForum from './ExploreForum';
 import YoursForum from './YoursForum';
 
+import auth, {firebase} from '@react-native-firebase/auth';
+
 const Tab = createMaterialTopTabNavigator();
 const RootStack = createStackNavigator();
-
+//check user
+const user = firebase.auth().currentUser;
 
 
 function ForumHome() {
@@ -36,7 +39,9 @@ function ForumHome() {
       }}
     >
       <Tab.Screen name="Explore" component={ExploreForum} />
+        {user ? (
       <Tab.Screen name="Yours" component={YoursForum} />
+         ) : null}
     </Tab.Navigator>
    
   );
@@ -45,6 +50,7 @@ function ForumHome() {
 
 
 function ForumScreen({ navigation }) {
+ 
   return (
     <RootStack.Navigator>
       <RootStack.Screen
@@ -52,13 +58,15 @@ function ForumScreen({ navigation }) {
         component={ForumHome}
         options={{
           headerRight: () => (
-            <View style={{ flexDirection: "row" }}>
-              <IconButton
-                icon="plus"
-                color={Colors.black}
-                size={25}
-                onPress={() => navigation.navigate("Create Forum")}
-              />
+            <View style={{flexDirection: 'row'}}>
+              {user ? (
+                <IconButton
+                  icon="plus"
+                  color={Colors.black}
+                  size={25}
+                  onPress={() => navigation.navigate('Create Forum')}
+                />
+              ) : null}
             </View>
           ),
         }}
