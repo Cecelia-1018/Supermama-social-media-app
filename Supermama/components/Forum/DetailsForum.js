@@ -93,8 +93,22 @@ function DetailsForum({navigation, route}) {
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [answers, setAnswer] = useState([]); // Initial empty array of forums
   
-  //reply 
+  //set value for whether the user ans so it can be delete
+  const [showDelete, setShowDelete] = useState(true);
+  if(user){
+    firestore()
+    .collection('answers')
+      .where('forumId', 'in', [item.forumId])
+      .where('userId','==',user.uid)
+      .get()
+      .then(documentSnapshot => {
+         if (documentSnapshot.exists) {
+           console.log(documentSnapshot.exists);
+           setShowDelete(showDelete);
+        }
+        });
 
+    }
 
 
   const renderItem3 = ({item}) => {
@@ -107,7 +121,7 @@ function DetailsForum({navigation, route}) {
             </Card.Content>
 
             <Card.Actions>
-             {user ? (
+             {user && showDelete ? (
               <IconButton
                 color="#FE7E9C"
                 size={20}
@@ -139,6 +153,8 @@ function DetailsForum({navigation, route}) {
     );
   };
 
+  
+
   useEffect(() => {
     const subscriber = firestore()
       .collection('answers')
@@ -156,6 +172,8 @@ function DetailsForum({navigation, route}) {
         setAnswer(answers);
         setLoading(false);
       });
+
+   
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
