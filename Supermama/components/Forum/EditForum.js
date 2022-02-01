@@ -100,7 +100,7 @@ function EditForum({navigation, route}) {
         </Snackbar>
         
         <Button  mode="contained"
-          color="#f0ccd2"
+          color="#F4A1BE"
           style={styles.updateButton} onPress={resetData}>Reset</Button>
         <Button
           mode="contained"
