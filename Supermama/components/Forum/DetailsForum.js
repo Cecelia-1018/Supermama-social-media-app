@@ -93,23 +93,35 @@ function DetailsForum({navigation, route}) {
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [answers, setAnswer] = useState([]); // Initial empty array of forums
   
-  //set value for whether the user ans so it can be delete
-  const [showDelete, setShowDelete] = useState(true);
-  if(user){
-    firestore()
-    .collection('answers')
-      .where('forumId', 'in', [item.forumId])
-      .where('userId','==',user.uid)
-      .get()
-      .then(documentSnapshot => {
-         if (documentSnapshot.exists) {
-           console.log(documentSnapshot.exists);
-           setShowDelete(showDelete);
-        }
-        });
+  // //set value for whether the user ans so it can be delete
+  // const [showDelete, setShowDelete] = useState(true);
+  // if(user){
+  //   firestore()
+  //   .collection('answers')
+  //     .where('forumId', 'in', [item.forumId])
+  //     .where('userId','==',user.uid)
+  //     .get()
+  //     .then(documentSnapshot => {
+  //        if (documentSnapshot.exists) {
+  //          console.log(documentSnapshot.exists);
+  //          setShowDelete(showDelete);
+  //       }
+  //       });
 
-    }
+  //   }
 
+  // let check = 0;
+  // ref.where('userId', '==', user.uid)
+  //  .where('forumId', 'in', [item.forumId])
+  // .get()
+  // .then(querySnapshot => {
+  //   console.log('Total ans: ', querySnapshot.size);
+
+  //   if(querySnapshot.size){
+      
+  //      check = 1;
+  //   }
+  // });
 
   const renderItem3 = ({item}) => {
     return (
@@ -121,7 +133,7 @@ function DetailsForum({navigation, route}) {
             </Card.Content>
 
             <Card.Actions>
-             {user && showDelete ? (
+             {/* {!check > 0 ?( */}
               <IconButton
                 color="#FE7E9C"
                 size={20}
@@ -145,7 +157,7 @@ function DetailsForum({navigation, route}) {
                     },
                   ])
                 }/>
-                   ) : null}
+                   {/* ) : null} */}
             </Card.Actions>
           </Card>
         </View>
