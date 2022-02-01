@@ -14,14 +14,18 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import firestore from '@react-native-firebase/firestore';
 import EditForum from './EditForum';
+import auth, {firebase} from '@react-native-firebase/auth';
 
 function YoursForum({navigation}) {
+  //add user
+  const user = firebase.auth().currentUser;
+
   const flatlistRef = useRef();
 
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };
-
+  
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
 
@@ -99,6 +103,7 @@ function YoursForum({navigation}) {
   useEffect(() => {
     const subscriber = firestore()
       .collection('forums')
+      .where('userId','in',[user.uid])
       .onSnapshot(querySnapshot => {
         const forums = [];
 

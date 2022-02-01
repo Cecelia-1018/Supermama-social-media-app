@@ -107,7 +107,7 @@ function DetailsForum({navigation, route}) {
             </Card.Content>
 
             <Card.Actions>
-            
+             {user ? (
               <IconButton
                 color="#FE7E9C"
                 size={20}
@@ -131,6 +131,7 @@ function DetailsForum({navigation, route}) {
                     },
                   ])
                 }/>
+                   ) : null}
             </Card.Actions>
           </Card>
         </View>
