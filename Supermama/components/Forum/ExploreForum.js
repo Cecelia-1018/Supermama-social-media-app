@@ -45,6 +45,7 @@ function ExploreForum({navigation}){
           <View>
             <Card>
               <Card.Content>
+                <Text> {item.date}  {item.time} </Text>
                 <Title>{item.title}</Title>
                 <Paragraph>{item.description}</Paragraph>
               </Card.Content>
