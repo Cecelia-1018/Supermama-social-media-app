@@ -9,7 +9,14 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import {Button, Card, Title, Paragraph} from 'react-native-paper';
+import {
+  Button, 
+  Card, 
+  Title, 
+  Paragraph,
+  IconButton,
+  Colors,
+} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import firestore from '@react-native-firebase/firestore';
@@ -55,8 +62,10 @@ function YoursForum({navigation}) {
                 <Paragraph>{item.description}</Paragraph>
               </Card.Content>
               <Card.Actions>
-                <Button
+                <IconButton
+                  icon="pen"
                   color="#FE7E9C"
+                  size={20}
                   onPress={() => {
                     navigation.navigate('Edit Forum', {
                       item: {
@@ -65,12 +74,11 @@ function YoursForum({navigation}) {
                         forumId: item.forumId,
                       },
                     });
-                  }}>
-                  {' '}
-                  Edit{' '}
-                </Button>
-                <Button
+                  }}/>
+                <IconButton
                   color="#FE7E9C"
+                  size={20}
+                  icon={require('./delete-bin.png')}
                   onPress={() =>
                     Alert.alert('Confirmation', 'Confirm to delete?', [
                       {
@@ -89,9 +97,7 @@ function YoursForum({navigation}) {
                             }),
                       },
                     ])
-                  }>
-                  Delete
-                </Button>
+                  }/>
               </Card.Actions>
             </Card>
           </View>

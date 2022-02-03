@@ -23,12 +23,22 @@ function AddForum({navigation}) {
   const [forumDocId, setForumDocId] = useState('');
   const [txtForumId, setForumId] = useState('');
 
+  //set date time for each forum post
+  const [forumDate, setForumDate] = useState('');
+  const [forumTime, setForumTime] = useState('');
+
   useEffect(() => {
     var head = Date.now().toString();
     var tail = Math.random().toString().substr(2);
+    
+    const d = new Date()
+    var date = d.toLocaleDateString();
+    var time = d.toLocaleTimeString();
 
     setForumDocId('F' + head + tail);
     setForumId('F' + head + tail);
+    setForumDate(date);
+    setForumTime(time);
   }, []);
 
   async function addForumCol() {
@@ -49,6 +59,8 @@ function AddForum({navigation}) {
             forumId: txtForumId,
             title: txtTil,
             description: txtDes,
+            date: forumDate,
+            time: forumTime,
             userId: user.uid,
           })
           .then(() => {
@@ -105,9 +117,9 @@ function AddForum({navigation}) {
           visible={visible}
           onDismiss={onDismissSnackBar}
           action={{
-            label: 'See Post', //add to navigate to forum post detail page
+            label: 'See Post', 
             onPress: () => {
-              // Do something
+              navigation.goBack();
             },
           }}>
           Forum post added!

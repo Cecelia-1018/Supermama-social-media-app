@@ -93,7 +93,7 @@ function EditForum({navigation, route}) {
           action={{
             label: 'See Post', //add to navigate to forum post detail page
             onPress: () => {
-              // Do something
+              navigation.goBack();
             },
           }}>
           Forum post updated!
