@@ -46,13 +46,24 @@ function DetailsForum({navigation, route}) {
   //reference id
   const [forumId, setForumId] = useState(item.forumId);
 
+  //set date time for each forum post
+  const [ansDate, setAnsDate] = useState('');
+  const [ansTime, setAnsTime] = useState('');
+
   useEffect(() => {
 
     var head = Date.now().toString();
     var tail = Math.random().toString().substr(2);
 
+    const d = new Date()
+    var date = d.toLocaleDateString();
+    var time = d.toLocaleTimeString();
+
     setAnsDocId('FA' + head + tail);
     setAnsId('FA' + head + tail);
+    setAnsDate(date);
+    setAnsTime(time);
+
   }, []);
 
   async function addAnswerCol() {
@@ -65,6 +76,8 @@ function DetailsForum({navigation, route}) {
         //add id here
         answerId: txtansId,
         answer: txtAns,
+        date: ansDate,
+        time: ansTime,
         forumId: forumId,
         userId: user.uid,
       })

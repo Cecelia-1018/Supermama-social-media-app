@@ -39,6 +39,8 @@ function AddForum({navigation}) {
     setForumId('F' + head + tail);
     setForumDate(date);
     setForumTime(time);
+
+    
   }, []);
 
   async function addForumCol() {
