@@ -5,6 +5,7 @@ import {TextInput, Card, Title, Button, Snackbar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import YoursForum from './YoursForum';
 import auth, {firebase} from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 
 function AddForum({navigation}) {
   //input
@@ -43,9 +44,51 @@ function AddForum({navigation}) {
     
   }, []);
 
+  //add userId
+  const user = firebase.auth().currentUser;
+
+  //add photo url
+  //display user profile picture
+  const [imageUrl, setImageUrl] = useState(undefined);
+  
+  useEffect(() => {
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + user.uid) //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        setImageUrl(url);
+      })
+      .catch((e) => console.log('Errors while downloading => ', e));
+  }, []);
+
+  //get username
+  //display data
+  const [userCol, setUserCol] = useState([]);
+  const [username, setUserName] = useState('');
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .where('userId', 'in', [user.uid])
+      .onSnapshot(querySnapshot => {
+        const userCol = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          userCol.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+        
+        setUserCol(userCol);
+        setUsername(userCol.name);
+  });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+
   async function addForumCol() {
-    //add userId
-    const user = firebase.auth().currentUser;
     if (user) {
       if (!txtTil.trim()) {
         alert('Please enter your question title.');
@@ -63,6 +106,8 @@ function AddForum({navigation}) {
             description: txtDes,
             date: forumDate,
             time: forumTime,
+            photoUrl: imageUrl,
+            username: username,
             userId: user.uid,
           })
           .then(() => {

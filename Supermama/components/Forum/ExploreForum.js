@@ -7,16 +7,16 @@ import {
   FlatList,
   Pressable,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import {  
   Card, 
   Title, 
-  Paragraph 
+  Paragraph,
+  Avatar
 } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-
-
 
 function ExploreForum({navigation}){
   const flatlistRef = useRef();
@@ -27,7 +27,8 @@ function ExploreForum({navigation}){
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
-  
+ 
+
   const renderItem2 = ({item}) => {
     return(
        <SafeAreaProvider>
@@ -43,11 +44,21 @@ function ExploreForum({navigation}){
             });
           }}>
           <View>
+         
             <Card>
               <Card.Content>
-                <Text> {item.date}  {item.time} </Text>
-                <Title>{item.title}</Title>
-                <Paragraph>{item.description}</Paragraph>
+              <View style={{ flexDirection: "row",padding:5, margin: 3 }}>
+                <Avatar.Image size={40} source={{uri: item.photoUrl}} />
+                <View style={{ flexDirection: "column",paddingLeft:10}}>
+                <Text> name </Text>
+                <Text> Posted by {item.date}  {item.time} </Text>
+                </View>
+              </View>
+              <View style={{backgroundColor: "#fddde6",borderRadius: 5,padding:5, margin: 5}}>
+                <Title>Q: {item.title}</Title>
+                <Paragraph>Detail description: </Paragraph>
+                <Paragraph> {item.description}</Paragraph>
+              </View>
               </Card.Content>
             </Card>
             </View>
@@ -71,11 +82,13 @@ function ExploreForum({navigation}){
               key:documentSnapshot.id
             });
           });
+    
           
           setForums(forums);
           setLoading(false);
 
         });
+    
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
