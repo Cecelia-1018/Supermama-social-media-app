@@ -62,30 +62,30 @@ function AddForum({navigation}) {
   }, []);
 
   //get username
-  //display data
-  const [userCol, setUserCol] = useState([]);
-  const [username, setUserName] = useState('');
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('users')
-      .where('userId', 'in', [user.uid])
-      .onSnapshot(querySnapshot => {
-        const userCol = [];
+  // //display data
+  // const [userCol, setUserCol] = useState([]);
+  // const [username, setUserName] = useState('');
+  // useEffect(() => {
+  //   const subscriber = firestore()
+  //     .collection('users')
+  //     .where('userId', 'in', [user.uid])
+  //     .onSnapshot(querySnapshot => {
+  //       const userCol = [];
 
-        querySnapshot.forEach(documentSnapshot => {
-          userCol.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
+  //       querySnapshot.forEach(documentSnapshot => {
+  //         userCol.push({
+  //           ...documentSnapshot.data(),
+  //           key: documentSnapshot.id,
+  //         });
+  //       });
         
-        setUserCol(userCol);
-        setUsername(userCol.name);
-  });
+  //       setUserCol(userCol);
+  //       setUsername(userCol.name);
+  // });
 
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, []);
+  //   // Unsubscribe from events when no longer in use
+  //   return () => subscriber();
+  // }, []);
 
 
   async function addForumCol() {
@@ -107,7 +107,7 @@ function AddForum({navigation}) {
             date: forumDate,
             time: forumTime,
             photoUrl: imageUrl,
-            username: username,
+            // username: username,
             userId: user.uid,
           })
           .then(() => {
