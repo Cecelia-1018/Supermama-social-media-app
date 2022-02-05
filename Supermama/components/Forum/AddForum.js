@@ -62,31 +62,39 @@ function AddForum({navigation}) {
   }, []);
 
   //get username
-  // //display data
-  // const [userCol, setUserCol] = useState([]);
-  // const [username, setUserName] = useState('');
-  // useEffect(() => {
-  //   const subscriber = firestore()
-  //     .collection('users')
-  //     .where('userId', 'in', [user.uid])
-  //     .onSnapshot(querySnapshot => {
-  //       const userCol = [];
+   const [users, setUsers] = useState([]);
+   const [username, setUserName] = useState([]);
+  
+   useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .where('userId', 'in', [user.uid])
+      .onSnapshot(querySnapshot => {
+        const users = [];
 
-  //       querySnapshot.forEach(documentSnapshot => {
-  //         userCol.push({
-  //           ...documentSnapshot.data(),
-  //           key: documentSnapshot.id,
-  //         });
-  //       });
+        querySnapshot.forEach(documentSnapshot => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setUsers(users);
+         const username = users.map(u => u.name);
+         console.log(username);
+        setUserName(username);
         
-  //       setUserCol(userCol);
-  //       setUsername(userCol.name);
-  // });
+        
+       
+      });
 
-  //   // Unsubscribe from events when no longer in use
-  //   return () => subscriber();
-  // }, []);
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
 
+   
+    // const [username, setUserName] = React.useState([map]);
+  
 
   async function addForumCol() {
     if (user) {
@@ -107,7 +115,7 @@ function AddForum({navigation}) {
             date: forumDate,
             time: forumTime,
             photoUrl: imageUrl,
-            // username: username,
+            username: username,
             userId: user.uid,
           })
           .then(() => {
@@ -115,6 +123,7 @@ function AddForum({navigation}) {
           });
         setTxtTitle('');
         setTxtDes('');
+        setUserName('');
         onToggleSnackBar();
         navigation.navigate('Yours');
       }
@@ -126,6 +135,21 @@ function AddForum({navigation}) {
   return (
     <View style={styles.container}>
       <Card>
+       {/* <Card.Content>
+          <Title>Author name </Title>
+         
+          
+            <TextInput
+            // key="{u}"
+            // placeholder={u.name} 
+            value={username}
+            onChangeText={setUserName}
+            mode="outlined"
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+          />
+        
+        </Card.Content> */}
         <Card.Content>
           <Title>Title </Title>
           <TextInput

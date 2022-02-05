@@ -219,7 +219,7 @@ function ProfileInfo() {
         <Avatar onChange={onAvatarChange} source={imageUrl? {uri: imageUrl} : require('./addimg.png')} />
         {imageUrl ?  null : <Text>Press image to upload photo.</Text>}
         <Text> {item.name}</Text>
-        <Text> {item.bio}</Text>
+        <Text style={{alignItems: 'center'}}> {item.bio}</Text>
       
         <Button
           mode="contained"

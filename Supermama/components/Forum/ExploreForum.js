@@ -27,7 +27,6 @@ function ExploreForum({navigation}){
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
- 
 
   const renderItem2 = ({item}) => {
     return(
@@ -50,7 +49,7 @@ function ExploreForum({navigation}){
               <View style={{ flexDirection: "row",padding:5, margin: 3 }}>
                 <Avatar.Image size={40} source={{uri: item.photoUrl}} />
                 <View style={{ flexDirection: "column",paddingLeft:10}}>
-                <Text> name </Text>
+                <Text> {item.username} </Text>  
                 <Text> Posted by {item.date}  {item.time} </Text>
                 </View>
               </View>
@@ -97,6 +96,8 @@ function ExploreForum({navigation}){
   if (loading) {
     return <ActivityIndicator size="large" color="#FFC0CB" />;
   }
+
+ 
 
   return (
     <View style={styles.container}>
