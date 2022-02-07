@@ -55,8 +55,8 @@ function ExploreForum({navigation}){
               </View>
               <View style={{backgroundColor: "#fddde6",borderRadius: 5,padding:5, margin: 5}}>
                 <Title>Q: {item.title}</Title>
-                <Paragraph>Detail description: </Paragraph>
-                <Paragraph> {item.description}</Paragraph>
+                <Paragraph>Detail description:</Paragraph>
+                <Paragraph>{item.description}</Paragraph>
               </View>
               </Card.Content>
             </Card>
