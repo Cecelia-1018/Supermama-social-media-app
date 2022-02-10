@@ -128,14 +128,14 @@ function DetailsForum({navigation, route}) {
           <Card>
             <Card.Content>
               
-              <View style={{ flexDirection: "row",padding:5, margin: 3 }}>
+              <View style={styles.top}>
                 <Avatar.Image size={30} source={{uri: item.photoUrl}} />
                 <View style={{ flexDirection: "column",paddingLeft:10,fontSize: 12}}>
-                <Text style={{fontSize: 10, }}> {item.username} </Text>  
-                <Text style={{fontSize: 10, }}> Answered by {item.date}  {item.time} </Text>
+                <Text style={styles.text}> {item.username} </Text>  
+                <Text style={styles.text}> Answered by {item.date}  {item.time} </Text>
                 </View>
               </View>
-              <Text style={{backgroundColor: "#fddde6",borderRadius: 5,padding:5, margin: 3,fontSize: 15, color: "black"}}>{item.answer}</Text>
+              <Text style={styles.answer}>{item.answer}</Text>
               
             </Card.Content>
 
@@ -233,7 +233,7 @@ function DetailsForum({navigation, route}) {
       </Card>
 
       <View style={styles.spaceOne}>
-      <Title> Answers 0</Title>
+      <Title> Answers </Title>
       </View>
 
       <BottomSheet
@@ -303,9 +303,21 @@ const styles = StyleSheet.create({
     margin: 2
   },
   spaceOne:{
-    padding:2, 
+    padding: 5, 
     margin: 2
+  },
+  top: { 
+    flexDirection: "row",
+    padding:5, 
+    margin: 3 
+  },
+  answer:{
+    backgroundColor: "#fddde6",borderRadius: 5,padding:5, margin: 3,fontSize: 15, color: "black"
+  },
+  text:{
+   fontSize: 10,
   }
+  
 });
 
 export default DetailsForum;
