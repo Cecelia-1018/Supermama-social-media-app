@@ -127,7 +127,6 @@ function DetailsForum({navigation, route}) {
         <View>
           <Card>
             <Card.Content>
-              
               <View style={styles.top}>
                 <Avatar.Image size={30} source={{uri: item.photoUrl}} />
                 <View style={{ flexDirection: "column",paddingLeft:10,fontSize: 12}}>
@@ -172,6 +171,9 @@ function DetailsForum({navigation, route}) {
       </SafeAreaProvider>
     );
   };
+  
+  //replies
+  const [replyNum, setReplyNum] = useState('');
 
   useEffect(() => {
     const subscriber = firestore()
@@ -179,6 +181,7 @@ function DetailsForum({navigation, route}) {
       .where('forumId', 'in', [item.forumId])
       .onSnapshot(querySnapshot => {
         const answers = [];
+        
 
         querySnapshot.forEach(documentSnapshot => {
           answers.push({
@@ -188,6 +191,7 @@ function DetailsForum({navigation, route}) {
         });
 
         setAnswer(answers);
+        setReplyNum(querySnapshot.size);
         setLoading(false);
       });
 
@@ -216,7 +220,7 @@ function DetailsForum({navigation, route}) {
         <View style={styles.space}>
           <Title>{item.title}</Title>
           <Paragraph>{item.description}</Paragraph>
-          <Text>0 Replies</Text>
+          <Text> {replyNum} replies</Text>
         </View>
         </Card.Content>
         <Card.Actions>
