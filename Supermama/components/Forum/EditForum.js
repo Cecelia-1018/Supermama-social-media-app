@@ -54,7 +54,7 @@ function EditForum({navigation, route}) {
     <View style={styles.container}>
       <Card>
         <Card.Content>
-          <Title>Title </Title>
+          <Title>Your Question</Title>
           <TextInput
             value={txtTil}
             onChangeText={setTxtTitle}
@@ -64,7 +64,7 @@ function EditForum({navigation, route}) {
           />
         </Card.Content>
         <Card.Content>
-          <Title>Description</Title>
+          <Title>Your Description</Title>
           <TextInput
             value={txtDes}
             onChangeText={setTxtDes}

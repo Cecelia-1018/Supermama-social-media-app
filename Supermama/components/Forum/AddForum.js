@@ -101,7 +101,7 @@ function AddForum({navigation}) {
     <View style={styles.container}>
       <Card>
         <Card.Content>
-          <Title>Title </Title>
+          <Title>Enter Your Question </Title>
           <TextInput
             value={txtTil}
             onChangeText={setTxtTitle}
@@ -111,7 +111,7 @@ function AddForum({navigation}) {
           />
         </Card.Content>
         <Card.Content>
-          <Title>Description</Title>
+          <Title>Give more describe your question</Title>
           <TextInput
             value={txtDes}
             onChangeText={setTxtDes}

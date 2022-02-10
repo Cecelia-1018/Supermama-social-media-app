@@ -16,6 +16,7 @@ import {
   Paragraph,
   IconButton,
   Colors,
+  Avatar
 } from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
@@ -52,14 +53,29 @@ function YoursForum({navigation}) {
                 title: item.title,
                 description: item.description,
                 forumId: item.forumId,
+                username: item.username,
+                photoUrl: item.photoUrl,
+                date: item.date,
+                time: item.time,
               },
             });
           }}>
           <View>
             <Card>
               <Card.Content>
+               <View style={{ flexDirection: "row",padding:5, margin: 3 }}>
+                <Avatar.Image size={40} source={{uri: item.photoUrl}} />
+                <View style={{ flexDirection: "column",paddingLeft:10}}>
+                <Text> {item.username} </Text>  
+                <Text> Posted by {item.date}  {item.time} </Text>
+                </View>
+              </View>
+             
+              <View style={{padding:2, margin: 2}}>
                 <Title>{item.title}</Title>
                 <Paragraph>{item.description}</Paragraph>
+              </View>
+             
               </Card.Content>
               <Card.Actions>
                 <IconButton

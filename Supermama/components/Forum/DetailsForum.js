@@ -19,12 +19,13 @@ import {
   IconButton,
   Colors,
   Dialog,
-  Portal
+  Portal,
 } from 'react-native-paper';
 import {BottomSheet} from 'react-native-btr';
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import auth, {firebase} from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 
 function DetailsForum({navigation, route}) {
   //check user
@@ -51,11 +52,10 @@ function DetailsForum({navigation, route}) {
   const [ansTime, setAnsTime] = useState('');
 
   useEffect(() => {
-
     var head = Date.now().toString();
     var tail = Math.random().toString().substr(2);
 
-    const d = new Date()
+    const d = new Date();
     var date = d.toLocaleDateString();
     var time = d.toLocaleTimeString();
 
@@ -63,29 +63,44 @@ function DetailsForum({navigation, route}) {
     setAnsId('FA' + head + tail);
     setAnsDate(date);
     setAnsTime(time);
+  }, []);
 
+  //add photo url
+  //display user profile picture
+  const [imageUrl, setImageUrl] = useState(undefined);
+  
+  useEffect(() => {
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + user.uid) //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        setImageUrl(url);
+      })
+      .catch((e) => console.log('Errors while downloading => ', e));
   }, []);
 
   async function addAnswerCol() {
-   if (!txtAns.trim()) {
-     alert('Please enter your answer for submit.');
-   }else{
-    await ref
-      .doc(AnsDocId)
-      .set({
-        //add id here
-        answerId: txtansId,
-        answer: txtAns,
-        date: ansDate,
-        time: ansTime,
-        forumId: forumId,
-        userId: user.uid,
-      })
-      .then(() => {
-        console.log('Answer Forum added!');
-      });
-    setTxtAnswer('');
-   }
+    if (!txtAns.trim()) {
+      alert('Please enter your answer for submit.');
+    } else {
+      await ref
+        .doc(AnsDocId)
+        .set({
+          //add id here
+          answerId: txtansId,
+          answer: txtAns,
+          date: ansDate,
+          time: ansTime,
+          forumId: forumId,
+          userId: user.uid,
+          username: user.displayName,
+          photoUrl: imageUrl,
+        })
+        .then(() => {
+          console.log('Answer Forum added!');
+        });
+      setTxtAnswer('');
+    }
   }
 
   //bottom sheet
@@ -105,7 +120,6 @@ function DetailsForum({navigation, route}) {
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [answers, setAnswer] = useState([]); // Initial empty array of forums
-  
 
   const renderItem3 = ({item}) => {
     return (
@@ -113,43 +127,51 @@ function DetailsForum({navigation, route}) {
         <View>
           <Card>
             <Card.Content>
-              <Text>{item.answer}</Text>
+              
+              <View style={{ flexDirection: "row",padding:5, margin: 3 }}>
+                <Avatar.Image size={30} source={{uri: item.photoUrl}} />
+                <View style={{ flexDirection: "column",paddingLeft:10,fontSize: 12}}>
+                <Text style={{fontSize: 10, }}> {item.username} </Text>  
+                <Text style={{fontSize: 10, }}> Answered by {item.date}  {item.time} </Text>
+                </View>
+              </View>
+              <Text style={{backgroundColor: "#fddde6",borderRadius: 5,padding:5, margin: 3,fontSize: 15, color: "black"}}>{item.answer}</Text>
+              
             </Card.Content>
 
-            <Card.Actions>
-             {user ?(
-              <IconButton
-                color="#FE7E9C"
-                size={20}
-                icon={require('./delete-bin.png')}
-                onPress={() =>
-                  Alert.alert('Confirmation', 'Confirm to delete?', [
-                    {
-                      text: 'Cancel',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel',
-                    },
-                    {
-                      text: 'Confirm',
-                      onPress: () =>
-                        ref
-                          .doc(item.answerId)
-                          .delete()
-                          .then(() => {
-                            console.log('Forum deleted!');
-                          }),
-                    },
-                  ])
-                }/>
-                    ) : null} 
-            </Card.Actions>
+            {/* <Card.Actions>
+              {user ? (
+                <IconButton
+                  color="#FE7E9C"
+                  size={20}
+                  icon={require('./delete-bin.png')}
+                  onPress={() =>
+                    Alert.alert('Confirmation', 'Confirm to delete?', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: () =>
+                          ref
+                            .doc(item.answerId)
+                            .delete()
+                            .then(() => {
+                              console.log('Forum deleted!');
+                            }),
+                      },
+                    ])
+                  }
+                />
+              ) : null}
+            </Card.Actions> */}
           </Card>
         </View>
       </SafeAreaProvider>
     );
   };
-
-  
 
   useEffect(() => {
     const subscriber = firestore()
@@ -169,8 +191,6 @@ function DetailsForum({navigation, route}) {
         setLoading(false);
       });
 
-   
-
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
@@ -179,32 +199,43 @@ function DetailsForum({navigation, route}) {
     return <ActivityIndicator size="large" color="#FFC0CB" />;
   }
 
-
   return (
     <View style={styles.container}>
       <Card>
         <Card.Content>
+          <View style={{flexDirection: 'row', padding: 5, margin: 3}}>
+            <Avatar.Image size={40} source={{uri: item.photoUrl}} />
+            <View style={{flexDirection: 'column', paddingLeft: 10}}>
+              <Text> {item.username} </Text>
+              <Text>
+                {' '}
+                Posted by {item.date} {item.time}{' '}
+              </Text>
+            </View>
+          </View>
+        <View style={styles.space}>
           <Title>{item.title}</Title>
           <Paragraph>{item.description}</Paragraph>
           <Text>0 Replies</Text>
+        </View>
         </Card.Content>
         <Card.Actions>
-         {user ? (
-        <IconButton
-                icon={require('./reply.png')}
-                color="#FE7E9C"
-                size={20}
-               onPress={toggleBottomNavigationView}
-        //on Press of the button bottom sheet will be visible
-              />
-               ) : null}
+          {user ? (
+            <IconButton
+              icon={require('./reply.png')}
+              color="#FE7E9C"
+              size={20}
+              onPress={toggleBottomNavigationView}
+              //on Press of the button bottom sheet will be visible
+            />
+          ) : null}
         </Card.Actions>
       </Card>
 
+      <View style={styles.spaceOne}>
       <Title> Answers 0</Title>
+      </View>
 
-      
-      
       <BottomSheet
         visible={visible}
         //setting the visibility state of the bottom shee
@@ -267,6 +298,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 245,
   },
+  space:{
+    padding:2, 
+    margin: 2
+  },
+  spaceOne:{
+    padding:2, 
+    margin: 2
+  }
 });
 
 export default DetailsForum;

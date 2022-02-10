@@ -39,6 +39,10 @@ function ExploreForum({navigation}){
                 title: item.title,
                 description: item.description,
                 forumId: item.forumId,
+                username: item.username,
+                photoUrl: item.photoUrl,
+                date: item.date,
+                time: item.time,
               },
             });
           }}>
