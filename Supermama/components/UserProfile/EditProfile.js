@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import { 
   TextInput, 
   Button,
@@ -18,7 +18,7 @@ import auth, {firebase} from '@react-native-firebase/auth';
 
 
 function EditProfile({navigation, route}){
-
+ 
   //navigation
   const {item} = route.params;
 
@@ -26,45 +26,39 @@ function EditProfile({navigation, route}){
   const [visible, setVisible] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
-
-
-   //input
-  const [txtName, setTxtName] = React.useState(item.name);
+  
+  //declare input bio
   const [txtBio, setTxtBio] = React.useState(item.bio);
+
+  //reset input bio
+  const resetData = (e) => {
+    e.preventDefault();
+    setTxtBio(item.bio);
+  }
 
   const ref = firestore().collection('users').doc(item.userId);
   async function updateUserCol() {
+    if(!txtBio.trim()) {
+      alert('Please enter your bio.');
+      return;
+    }else{
     await ref.update({
-      name: txtName,
       bio: txtBio,
     }).then(()=>{
       console.log('user info updated!');
     });
-    setTxtName('');
     setTxtBio('');
+    onToggleSnackBar();
+    }
   }
 
-  async function updateUserInfo(){
-    updateUserCol();
-    onToggleSnackBar();
-  }
+  
   
 
   return (
     <View style={styles.container}>
     
       <Card>
-        <Card.Content>
-          <Title>Name</Title>
-          <TextInput
-            label="username"
-            value={txtName}
-            onChangeText={setTxtName}
-            mode="outlined"
-            outlineColor="#FFC0CB"
-            activeOutlineColor="#FE7E9C"
-          />
-        </Card.Content>
         <Card.Content>
           <Title>Bio</Title>
           <TextInput
@@ -83,7 +77,7 @@ function EditProfile({navigation, route}){
        <View style={styles.btnContainer}>
         <Button
           mode="contained"
-          onPress={() => updateUserInfo()}
+          onPress={() => updateUserCol()}
           color="#FE7E9C"
           style={styles.submitButton}>
           Submit 
@@ -98,6 +92,9 @@ function EditProfile({navigation, route}){
         Update Successfully
       </Snackbar>
 
+       <Button  mode="contained"
+          color="#F4A1BE"
+          style={styles.submitButton} onPress={resetData}>Reset</Button>
         <Button 
          mode="contained"
          color="#f0ccd2"

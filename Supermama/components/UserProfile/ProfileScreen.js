@@ -151,7 +151,7 @@ function ProfileInfo() {
           //firebase with create users 
           ref.set({
           userId: user.uid,
-          name: "Anonymous",
+          name: user.displayName,
           bio: "Kindly add up your bio.",
     })
     .then(() => {
