@@ -17,6 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Icon} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth, {firebase} from '@react-native-firebase/auth';
+import RNRestart from 'react-native-restart';
 // import * as Animatable from 'react-native-animatable';
 
 const SigninScreen = ({navigation}) => {
@@ -25,6 +26,7 @@ const SigninScreen = ({navigation}) => {
     email: '',
     password: '',
     confirm_password: '',
+    displayName: '',
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
@@ -52,7 +54,12 @@ const SigninScreen = ({navigation}) => {
       });
     }
   };
-
+  const textNameChange = val => {
+    setData({
+      ...data,
+      displayName: val,
+    });
+  };
   const handlePasswordChange = val => {
     setData({
       ...data,
@@ -103,19 +110,37 @@ const SigninScreen = ({navigation}) => {
     __doCreateUser(data.email, data.password);
   };
 
-  const __doCreateUser = async (email, password) => {
-    try {
-      let response = await auth().createUserWithEmailAndPassword(
-        email,
-        password,
-      );
-      if (response && response.user) {
-        Alert.alert('Success ✅', 'Account created successfully');
-      }
-    } catch (e) {
-      console.error(e.message);
+  const __doCreateUser = (email, password) => {
+    if (email === '' && password === '') {
+      Alert.alert('Enter details here');
+    } else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(res => {
+          res.user.updateProfile({
+            displayName: data.displayName,
+          });
+          Alert.alert('Success ✅', 'Account created successfully'),
+            RNRestart.Restart();
+        })
+        .catch(error => this.setState({errorMessage: error.message}));
     }
   };
+
+  // const __doCreateUser = async (email, password) => {
+  //   try {
+  //     let response = await auth().createUserWithEmailAndPassword(
+  //       email,
+  //       password,
+  //     );
+  //     if (response && response.user) {
+  //       Alert.alert('Success ✅', 'Account created successfully');
+  //     }
+  //   } catch (e) {
+  //     console.error(e.message);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -128,7 +153,31 @@ const SigninScreen = ({navigation}) => {
       <View style={styles.footer}>
         {/* <Animatable.View style={styles.footer} animation="fadeInUpBig"> */}
         <ScrollView>
-          <Text style={styles.text_footer}>Username/Email</Text>
+          <Text style={styles.text_footer}>Username</Text>
+          <View style={styles.action}>
+            <Icon
+              size={20}
+              type="ionicon"
+              name={
+                Platform.OS === 'ios'
+                  ? 'ios-person-outline'
+                  : 'md-person-outline'
+              }
+            />
+            <TextInput
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={val => {
+                textNameChange(val);
+              }}
+            />
+            {data.check_textInputChange ? (
+              // <Animatable.View animation="bounceIn">
+
+              <Feather name="check-circle" color="green" size={20} />
+            ) : null}
+          </View>
+          <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
             <Icon
               size={20}

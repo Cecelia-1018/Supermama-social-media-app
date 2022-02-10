@@ -6,15 +6,40 @@ import {Icon} from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import auth, {firebase} from '@react-native-firebase/auth';
 import EntertainmentHome from './EntertainmentHome';
-import PostImagePicker from './PostImagePicker';
+import Avatar from '../UserProfile/Avatar';
 import storage from '@react-native-firebase/storage';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
+const onImageChange = (image: ImageOrVideo) => {
+  console.log(image);
+  // const [enterId, setEnterId] = useState('');
 
-function AddEntertainment({navigation, props}) {
+  // useEffect(() => {
+  //   var date = Date.now().toString();
+  //   var hours = new Date().getHours(); //To get the Current Hours
+  //   var min = new Date().getMinutes(); //To get the Current
+  //   var sec = new Date().getSeconds(); //To get the Current Seconds
+
+  //   setEnterId('E' + date + hours + min + sec);
+  // }, []);
+  // upload image to server here
+  let reference = storage().ref(
+    'gs://supermama-6aa87.appspot.com/Entertainment/' + 'u',
+  );
+  let task = reference.putFile(image.path.toString());
+
+  task
+    .then(() => {
+      console.log('Image uploaded to the bucket!');
+    })
+    .catch(e => console.log('uploading image error =>', e));
+};
+
+function AddEntertainment({navigation}) {
   const user = firebase.auth().currentUser;
-  let upImage = {uri: '../UserProfile/sample.jpg'};
-  setEntImage = image => {
-    upImage.setFieldValue('imageUri', image.uri);
-  };
+  // let upImage = {uri: '../UserProfile/sample.jpg'};
+  // setEntImage = image => {
+  //   upImage.setFieldValue('imageUri', image.uri);
+  // };
 
   const [txtHashtag, setTxtHashtag] = useState('');
   const [txtDes, setTxtDes] = useState('');
@@ -43,7 +68,6 @@ function AddEntertainment({navigation, props}) {
         entertainmentId: entId,
         description: txtDes,
         hashtag: txtHashtag,
-        imageUri: upImage,
       })
       .then(() => {
         Alert.alert('Success ✅', 'Post Added Success');
@@ -85,7 +109,9 @@ function AddEntertainment({navigation, props}) {
           />
         </View>
         <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
-        <PostImagePicker image={upImage} onImagePicked={setEntImage} />
+        <View>
+          <Avatar onChange={onImageChange} source={require('./plus.png')} />
+        </View>
         <View style={styles.button}>
           <Button
             mode="outlined"

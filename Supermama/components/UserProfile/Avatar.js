@@ -14,27 +14,26 @@ export const Avatar = (props: AvatarProps) => {
       width: 300,
       height: 400,
       cropping: true,
-    }).then(image => { 
-     
-      setUri(image.path);
-      props.onChange?.(image);
-      
-    }).catch(
-      error => {
-    if (error.code === 'E_PICKER_CANCELLED') { // here the solution
-      return false;
-    }
-}
-    );
+    })
+      .then(image => {
+        setUri(image.path);
+        props.onChange?.(image);
+      })
+      .catch(error => {
+        if (error.code === 'E_PICKER_CANCELLED') {
+          // here the solution
+          return false;
+        }
+      });
   };
 
   return (
     <TouchableOpacity onPress={pickPicture}>
       <Image
-          style={styles.avatar}
-          {...props}
-          source={uri ? {uri} : props.source}
-        />
+        style={styles.avatar}
+        {...props}
+        source={uri ? {uri} : props.source}
+      />
     </TouchableOpacity>
   );
 };

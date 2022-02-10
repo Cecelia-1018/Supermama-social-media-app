@@ -42,6 +42,7 @@ const AddFeed = ({navigation}) => {
       .doc(feedDocId)
       .set({
         userId: user.uid,
+        username: user.displayName,
         feedId: feedId,
         title: txtTitles,
         description: txtDes,

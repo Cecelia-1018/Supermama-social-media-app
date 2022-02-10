@@ -18,7 +18,7 @@ const EntertainmentHome = ({navigation, item}) => {
             {/* <Avatar.Image size={50} source={item.avatar_url} /> */}
           </View>
           <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-            <Text style={[styles.user]}> Name</Text>
+            <Text style={[styles.user]}> name</Text>
             <Text style={[styles.user]}> #{item.hashtag}</Text>
           </View>
         </View>

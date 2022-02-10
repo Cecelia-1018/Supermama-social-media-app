@@ -1,55 +1,49 @@
-import React, {useState, useEffect} from 'react';
-import {View, Button, Image, StyleSheet} from 'react-native';
-import * as ImagePicker from 'react-native-image-picker';
+import React from 'react';
+import {Image, ImageProps, StyleSheet, TouchableOpacity} from 'react-native';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 
-export const PostImagePicker = ({image, onImagePicked}) => {
-  const [selectedImage, setSelectedImage] = useState();
+interface AvatarProps extends ImageProps {
+  onChange?: (image: ImageOrVideo) => void;
+}
 
-  useEffect(() => {
-    if (image) {
-      console.log('useEffect: ' + image);
-      setSelectedImage({uri: image});
-    }
-  }, [image]);
+export const PostImagePicker = (props: AvatarProps) => {
+  const [uri, setUri] = React.useState(props.source?.uri || undefined);
 
-  const pickImageHandler = () => {
-    ImagePicker.showImagePicker(
-      {title: 'Pick an Image', maxWidth: 800, maxHeight: 600},
-      response => {
-        if (response.error) {
-          console.log('image error');
-        } else {
-          console.log('Image: ' + response.uri);
-          setSelectedImage({uri: response.uri});
-          onImagePicked({uri: response.uri});
+  const pickPicture = () => {
+    ImagePicker.openPicker({
+      width: 500,
+      height: 600,
+      cropping: true,
+    })
+      .then(image => {
+        setUri(image.path);
+        props.onChange?.(image);
+      })
+      .catch(error => {
+        if (error.code === 'E_PICKER_CANCELLED') {
+          // here the solution
+          return false;
         }
-      },
-    );
+      });
   };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={selectedImage} />
-      </View>
-      <View style={styles.button}>
-        <Button title="Pick Image" onPress={pickImageHandler} />
-      </View>
-    </View>
+    <TouchableOpacity onPress={pickPicture}>
+      <Image
+        style={styles.avatar}
+        {...props}
+        source={uri ? {uri} : props.source}
+      />
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    alignItems: 'center',
-  },
-  imageContainer: {
-    borderWidth: 1,
-    borderColor: 'black',
-    width: '80%',
-    height: 150,
-  },
-  button: {
-    margin: 8,
+  avatar: {
+    paddingTop: 20,
+    height: 100,
+    width: 100,
+    borderRadius: 100,
+    padding: 20,
   },
 });
