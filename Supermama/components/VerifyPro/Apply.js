@@ -1,6 +1,9 @@
 import React,{useState, useEffect} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
-
+import {View, Text, StyleSheet,SafeAreaView,ScrollView, StatusBar,Alert,} from 'react-native';
+import { 
+  Button,
+  RadioButton,
+ } from "react-native-paper";
 // * Step 1 : Import   step 5 at Certificate.js
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Certificate} from './Certificate';  // rmb to create a Certificate js and copy the code from avatar.js so that you may resize you image
@@ -12,7 +15,7 @@ const onImageChange = (image: ImageOrVideo) => {
   console.log(image);
 
   const user = firebase.auth().currentUser;
-
+  if(user){
   let Id = "Verify" + user.uid;
 
   //* step 2 a : upload image to storage
@@ -24,6 +27,7 @@ const onImageChange = (image: ImageOrVideo) => {
       console.log('Image uploaded to the bucket!');
     })
     .catch(e => console.log('uploading image error =>', e));
+  }
 };
 
 const Apply = () => {
@@ -35,6 +39,7 @@ const Apply = () => {
   
   // * step 3a call image from storage (rmb import useEffect at top)
   useEffect(() => {
+    if(user){
     storage()
       .ref('gs://supermama-6aa87.appspot.com/VerifyPro/' + "Verify" +user.uid) //name in storage in firebase console
       .getDownloadURL()
@@ -42,17 +47,60 @@ const Apply = () => {
         setImageUrl(url);
       })
       .catch((e) => console.log('Errors while downloading => ', e));
+    }
   }, []);
 
+  //radio button
+  const [value, setValue] = React.useState('');
+
+   //alert confimation
+  const createTwoButtonAlert = () =>
+  Alert.alert('Confirmation', 'Confirm to submit?', [
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
+    },
+    { text: 'Confirm', onPress: () => console.log('Confirm Pressed') },
+  ]);
 
   return (
-    <View style={styles.container}>
-      <Text>ChatScreen</Text>
+ 
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.instruction}>Step 1: Click the picture to upload certificate. {'\n'} </Text>
         {/* * step 4 place image change at screen */}
+       <View style={styles.imageContainer}> 
        <Certificate onChange={onImageChange} source={imageUrl? {uri: imageUrl} : require('../UserProfile/addimg.png')} />
         {imageUrl ?  null : <Text>Press image to upload photo.</Text>}
-      <Button title="Click Here" onPress={() => alert('Button clicked')} />
-    </View>
+        </View>
+
+        <Text style={styles.instruction}>Step 2: Select your professional field. {'\n'} </Text>
+        
+        <RadioButton.Group onValueChange={value => setValue(value)} value={value}  >
+            <RadioButton.Item color='pink' label="Art / Design" value="Art / Design" />
+            <RadioButton.Item color='pink' label="Career Counselling" value="Career Counselling" />
+            <RadioButton.Item color='pink' label="Early Child Education" value="Early Child Education" />
+            <RadioButton.Item color='pink' label="Entrepreneurship" value="Entrepreneurship" />
+            <RadioButton.Item color='pink' label="Fashion Design & Merchandising" value="Fashion Design & Merchandising" />
+            <RadioButton.Item color='pink' label="Finance and Banking" value="Finance and Banking" />
+            <RadioButton.Item color='pink' label="Healthcare/Medicine" value="Healthcare/Medicine" />
+            <RadioButton.Item color='pink' label="Human Resources" value="Human Resources" />
+            <RadioButton.Item color='pink' label="Information Technology" value="Information Technology" />
+            <RadioButton.Item color='pink' label="Law" value="Law" />
+            <RadioButton.Item color='pink' label="Nutrition / Fitness" value="Nutrition / Fitness" />
+            <RadioButton.Item color='pink' label="Primary / Secondary Education" value="Primary / Secondary Education" />
+            <RadioButton.Item color='pink' label="Social Work" value="Social Work" />
+            <RadioButton.Item color='pink' label="Others" value="Others" />
+        </RadioButton.Group>
+
+         <Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
+            Submit
+          </Button>
+   
+     </ScrollView>
+    </SafeAreaView>
+
   );
 };
 
@@ -61,7 +109,19 @@ export default Apply;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  scrollView: {
+    backgroundColor: 'white',
+  },
+  instruction:{
+    marginTop: 15,
+    marginLeft:15,
+    marginRight: 15,
+    fontWeight: "bold",
+    color: "black",
+  },
+  imageContainer: {
+    margin: 12,
+  },
+  
 });
