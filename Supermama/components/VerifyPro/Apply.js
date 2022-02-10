@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 
-// * Step 1 : Import 
+// * Step 1 : Import   step 5 at Certificate.js
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Certificate} from './Certificate';  // rmb to create a Certificate js and copy the code from avatar.js so that you may resize you image
 import storage from '@react-native-firebase/storage';

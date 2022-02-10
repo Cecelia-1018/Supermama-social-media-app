@@ -38,7 +38,11 @@ export const Certificate = (props: CertificateProps) => {
   );
 };
 
+
+
 const styles = StyleSheet.create({
+
+  // * Step 5 : You may shape you image bigger here or above play with image picker width and height
   avatar: {
     paddingTop: 20,
     height: 100,
