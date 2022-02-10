@@ -61,41 +61,6 @@ function AddForum({navigation}) {
       .catch((e) => console.log('Errors while downloading => ', e));
   }, []);
 
-  //get username
-   const [users, setUsers] = useState([]);
-   const [username, setUserName] = useState([]);
-  
-   useEffect(() => {
-    const subscriber = firestore()
-      .collection('users')
-      .where('userId', 'in', [user.uid])
-      .onSnapshot(querySnapshot => {
-        const users = [];
-
-        querySnapshot.forEach(documentSnapshot => {
-          users.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
-
-        setUsers(users);
-         const username = users.map(u => u.name);
-         console.log(username);
-        setUserName(username);
-        
-        
-       
-      });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, []);
-
-   
-    // const [username, setUserName] = React.useState([map]);
-  
-
   async function addForumCol() {
     if (user) {
       if (!txtTil.trim()) {
@@ -115,7 +80,7 @@ function AddForum({navigation}) {
             date: forumDate,
             time: forumTime,
             photoUrl: imageUrl,
-            username: username,
+            username: user.displayName,
             userId: user.uid,
           })
           .then(() => {
@@ -123,7 +88,7 @@ function AddForum({navigation}) {
           });
         setTxtTitle('');
         setTxtDes('');
-        setUserName('');
+        // setUserName('');
         onToggleSnackBar();
         navigation.navigate('Yours');
       }
@@ -135,21 +100,6 @@ function AddForum({navigation}) {
   return (
     <View style={styles.container}>
       <Card>
-       {/* <Card.Content>
-          <Title>Author name </Title>
-         
-          
-            <TextInput
-            // key="{u}"
-            // placeholder={u.name} 
-            value={username}
-            onChangeText={setUserName}
-            mode="outlined"
-            outlineColor="#FFC0CB"
-            activeOutlineColor="#FE7E9C"
-          />
-        
-        </Card.Content> */}
         <Card.Content>
           <Title>Title </Title>
           <TextInput
