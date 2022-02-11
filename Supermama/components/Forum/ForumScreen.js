@@ -59,14 +59,22 @@ function ForumScreen({ navigation }) {
         options={{
           headerRight: () => (
             <View style={{flexDirection: 'row'}}>
-              {user ? (
+             
+                
                 <IconButton
                   icon="plus"
                   color={Colors.black}
                   size={25}
                   onPress={() => navigation.navigate('Create Forum')}
                 />
-              ) : null}
+                <IconButton
+                  icon={require('./search.png')}
+                  color={Colors.black}
+                  size={25}
+                  onPress={() => navigation.navigate('Search ')}
+                />
+                 
+             
             </View>
           ),
         }}

@@ -43,6 +43,7 @@ import AddFeed from './components/Home/AddFeed';
 import FeedDetails from './components/Home/FeedDetails';
 import EntertainmentDetails from './components/Home/EntertainmentDetails';
 import {LogBox} from 'react-native';
+import { Searchbar } from 'react-native-paper';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
@@ -77,6 +78,20 @@ function StoreScreen() {
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Settings!</Text>
     </View>
+  );
+}
+
+function SearchScreen() {
+  const [searchQuery, setSearchQuery] = React.useState('');
+
+  const onChangeSearch = query => setSearchQuery(query);
+
+  return (
+    <Searchbar
+      placeholder="Search"
+      onChangeText={onChangeSearch}
+      value={searchQuery}
+    />
   );
 }
 
@@ -192,6 +207,7 @@ const App: () => Node = () => {
         />
 
         <Stack.Screen name="Edit Profile" component={EditProfile} />
+        <Stack.Screen name="Search " component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
