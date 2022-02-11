@@ -91,9 +91,9 @@ function GuestProfile() {
         color="#FE7E9C">
         Go Sign In{' '}
       </Button>
-      <Button onPress={onButtonClick} color="#FE7E9C">
+      {/* <Button onPress={onButtonClick} color="#FE7E9C">
         Press refresh if you signed in.{' '}
-      </Button>
+      </Button> */}
       <Image style={styles.tinyLogo} source={require('./Mobile-login.jpg')} />
       <Text
         style={{color: 'blue'}}

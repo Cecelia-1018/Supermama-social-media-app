@@ -11,8 +11,8 @@ export const Certificate = (props: CertificateProps) => {
 
   const pickPicture = () => {
     ImagePicker.openPicker({
-      width: 300,
-      height: 400,
+      width: 600,
+      height: 800,
       cropping: true,
     })
       .then(image => {
@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
 
   // * Step 5 : You may shape you image bigger here or above play with image picker width and height
   avatar: {
-    paddingTop: 20,
-    height: 100,
-    width: 100,
-    // borderRadius: 100,
+    paddingTop: 10,
+    height: 600,
+    width: 370,
+    borderRadius: 5,
     padding: 20,
   },
 });
