@@ -9,6 +9,7 @@ import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Certificate} from './Certificate';  // rmb to create a Certificate js and copy the code from avatar.js so that you may resize you image
 import storage from '@react-native-firebase/storage';
 import auth, {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 // * Step 2 : Write a image change
 const onImageChange = (image: ImageOrVideo) => {
@@ -30,7 +31,7 @@ const onImageChange = (image: ImageOrVideo) => {
   }
 };
 
-const Apply = () => {
+function Apply({navigation}){
 
   const user = firebase.auth().currentUser;
 
@@ -52,6 +53,36 @@ const Apply = () => {
 
   //radio button
   const [value, setValue] = React.useState('');
+  const [applied, setApplied] = React.useState(undefined);
+  const [verify, setVerify] = React.useState([]);
+
+  //firebase
+  const ref = firestore().collection('verifyPro');
+  
+  const id = 'VP'+user.uid;
+
+  async function addVerifyProCol(){
+    if(user){
+      if(!value.trim()){
+        alert('Please select one of the field for submission.');
+        return;
+      } else if (!imageUrl){
+        alert('Upload your certificate before submit.')
+      } else {
+        await ref.doc(id)
+        .set({
+          verifyProId: id,
+          proField: value,
+          userId: user.uid,
+        })
+        .then(() =>{
+          console.log('Verify Pro added!')
+        });
+        setValue('');
+        navigation.navigate('Verify');
+      }
+    }
+  }
 
    //alert confimation
   const createTwoButtonAlert = () =>
@@ -61,8 +92,37 @@ const Apply = () => {
       onPress: () => console.log('Cancel Pressed'),
       style: 'cancel',
     },
-    { text: 'Confirm', onPress: () => console.log('Confirm Pressed') },
+    { text: 'Confirm', onPress: () => addVerifyProCol() },
   ]);
+
+  
+  
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('verifyPro')
+      .where('userId', 'in', [user.uid])
+      .onSnapshot(querySnapshot => {
+        const verify = [];
+         console.log('applied exists: ', querySnapshot.size);
+
+        querySnapshot.forEach(documentSnapshot => {
+          verify.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+       
+        setVerify(verify);
+        if(querySnapshot.size > 1){
+        setApplied(true);
+        }
+        
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
 
   return (
  
@@ -93,10 +153,14 @@ const Apply = () => {
             <RadioButton.Item color='pink' label="Social Work" value="Social Work" />
             <RadioButton.Item color='pink' label="Others" value="Others" />
         </RadioButton.Group>
-
-         <Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
+        
+        {applied ? null : <Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
             Submit
-          </Button>
+          </Button>}
+         
+        
+        
+       
    
      </ScrollView>
     </SafeAreaView>
