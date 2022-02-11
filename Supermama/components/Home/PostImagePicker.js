@@ -41,9 +41,9 @@ export const PostImagePicker = (props: AvatarProps) => {
 const styles = StyleSheet.create({
   avatar: {
     paddingTop: 20,
-    height: 100,
-    width: 100,
-    borderRadius: 100,
+    height: 150,
+    width: 150,
+    borderRadius: 20,
     padding: 20,
   },
 });

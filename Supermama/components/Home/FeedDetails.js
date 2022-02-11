@@ -10,9 +10,12 @@ import {
   ScrollView,
 } from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Button, TextInput, IconButton, Card} from 'react-native-paper';
+import {Button, TextInput, IconButton, Card, Avatar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
+import auth, {firebase} from '@react-native-firebase/auth';
 
+//check user
+const user = firebase.auth().currentUser;
 function FeedDetails({navigation, route}) {
   // past value
   const {item} = route.params;
@@ -21,8 +24,6 @@ function FeedDetails({navigation, route}) {
   const commRef = firestore().collection('comment');
   const [CommentId, setCommentId] = useState('');
   const [commentDocId, setCommentDocId] = useState('');
-  //   // text Comment
-  //   const [visible, setVisible] = useState(false);
 
   const commentRef = useRef();
   const onPressFunction = () => {
@@ -30,7 +31,6 @@ function FeedDetails({navigation, route}) {
   };
   const [comment, setComment] = useState([]);
   const [feed, setFeed] = useState([]);
-  const [reply, setReply] = useState(0);
 
   const [feedId, setFeedId] = useState(item.feedId);
   useEffect(() => {
@@ -47,7 +47,8 @@ function FeedDetails({navigation, route}) {
     await commRef
       .doc(commentDocId)
       .set({
-        userId: item.userid,
+        userId: user.uid,
+        username: user.displayName,
         commentId: CommentId,
         comment: txtComment,
         feedId: feedId,
@@ -68,7 +69,9 @@ function FeedDetails({navigation, route}) {
         <View style={styles.comment}>
           <Card>
             <Card.Content>
-              <Text style={{color: 'black', fontSize: 18}}>Name</Text>
+              <Text style={{color: 'black', fontSize: 18}}>
+                {item.username}
+              </Text>
               <Text style={{color: 'black', fontSize: 15}}>{item.comment}</Text>
             </Card.Content>
           </Card>
@@ -76,7 +79,7 @@ function FeedDetails({navigation, route}) {
       </SafeAreaProvider>
     );
   };
-
+  const [replyNum, setReplyNum] = useState('');
   useEffect(() => {
     const subscriber = firestore()
       .collection('comment')
@@ -92,6 +95,7 @@ function FeedDetails({navigation, route}) {
         });
 
         setComment(comment);
+        setReplyNum(querySnapshot.size);
       });
     // Unsubscribe from events when no longer in use
     return () => subscriber();
@@ -100,63 +104,63 @@ function FeedDetails({navigation, route}) {
   return (
     <SafeAreaProvider>
       <View style={styles.item}>
-        <Card>
-          <Card.Content>
-            <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
-              <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-                {/* <Avatar.Image size={50} source={item.avatar_url} /> */}
-                <Image
-                  source={require('./AddPost_img.jpg')}
-                  style={styles.image}
-                />
-              </View>
-              <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-                <Text style={[styles.title]}> {item.title}</Text>
-                <Text style={[styles.description]}> {item.description}</Text>
-                <Text style={[styles.hash]}> #{item.hashtag}</Text>
-              </View>
-            </View>
-            <IconButton
-              style={[styles.question]}
-              icon={'account-question'}
-              color="black"
-              size={25}
-              // onPress={() => navigation.navigate('Bookmark')}
-            />
-            <IconButton
-              style={[styles.bookmark]}
-              icon={'book'}
-              color="black"
-              size={25}
-              // onPress={() => navigation.navigate('Bookmark')}
-            />
-            <View style={[styles.follow]}>
-              <Text style={[styles.user]}>{item.username}</Text>
-              <Button
-                color="black"
-                mode="outlined"
-                onPress={() => console.log('Follow')}>
-                Follow
-              </Button>
-            </View>
+        <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
+          <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
+            <Image source={require('./AddPost_img.jpg')} style={styles.image} />
+          </View>
+          <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
+            <Text style={[styles.title]}> {item.title}</Text>
+            <Text style={[styles.description]}> {item.description}</Text>
+            <Text style={[styles.hash]}> #{item.hashtag}</Text>
+          </View>
+        </View>
+        <IconButton
+          style={[styles.question]}
+          icon={'account-question'}
+          color="black"
+          size={25}
+          // onPress={() => navigation.navigate('Bookmark')}
+        />
+        <IconButton
+          style={[styles.bookmark]}
+          icon={'book'}
+          color="black"
+          size={25}
+          // onPress={() => navigation.navigate('Bookmark')}
+        />
+        <View style={[styles.follow]}>
+          <Text style={[styles.user]}>{item.username}</Text>
+          <Button
+            color="black"
+            mode="outlined"
+            onPress={() => console.log('Follow')}>
+            Follow
+          </Button>
+        </View>
+        {/* <View style={styles.commentcolumn}>
+          <Text
+            style={{color: 'black'}}
+             onPress={() => Linking.openURL({item.hyperlink})}
+          >
+            {item.hyperlink}
+          </Text>
+        </View> */}
+        <View style={[styles.content]}>
+          <Text style={[styles.user]}>{item.details}</Text>
+        </View>
+        <View style={[styles.commentcolumn]}>
+          <Text style={[styles.description]}>Comment {replyNum}</Text>
+        </View>
 
-            <View style={[styles.content]}>
-              <Text style={[styles.user]}>{item.details}</Text>
-            </View>
-            <View style={[styles.commentcolumn]}>
-              <Text style={[styles.description]}>Comment {reply}</Text>
-            </View>
+        <View style={[styles.container]}>
+          <FlatList
+            ref={commentRef}
+            data={comment}
+            keyExtractor={item => item.commentId}
+            renderItem={commentRender}
+          />
 
-            <View>
-              <FlatList
-                ref={commentRef}
-                data={comment}
-                initialNumToRender={comment.length}
-                maxToRenderPerBatch={comment.length}
-                keyExtractor={item => item.commentId}
-                renderItem={commentRender}
-              />
-            </View>
+          {user ? (
             <View style={styles.action}>
               <TextInput
                 label="Comment"
@@ -179,8 +183,8 @@ function FeedDetails({navigation, route}) {
                 }}
               />
             </View>
-          </Card.Content>
-        </Card>
+          ) : null}
+        </View>
       </View>
     </SafeAreaProvider>
   );
@@ -189,6 +193,7 @@ function FeedDetails({navigation, route}) {
 export default FeedDetails;
 
 const styles = StyleSheet.create({
+  container: {flex: 1},
   bookmark: {position: 'absolute', right: 2, top: 100},
   action: {
     marginTop: 10,

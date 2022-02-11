@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {Button} from 'react-native-paper';
 import AddVideo from './AddVideo';
 import AddFeed from './AddFeed';
-import AddEntertainment from './AddEntertainment';
+import AddEntertainment from './AddEntertainment2';
 import {createStackNavigator} from '@react-navigation/stack';
 const RootStack = createStackNavigator();
 

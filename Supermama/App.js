@@ -25,6 +25,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import auth, {firebase} from '@react-native-firebase/auth';
 
 import ForumScreen from './components/Forum/ForumScreen';
 import AddForum from './components/Forum/AddForum';
@@ -40,6 +41,7 @@ import ForYou from './components/Home/ForYou';
 import MainSign from './components/Home/MainSign';
 import AddFeed from './components/Home/AddFeed';
 import FeedDetails from './components/Home/FeedDetails';
+import EntertainmentDetails from './components/Home/EntertainmentDetails';
 import {LogBox} from 'react-native';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
@@ -141,12 +143,25 @@ function HomeTabs() {
 }
 
 const App: () => Node = () => {
+  const user = firebase.auth().currentUser;
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
+  if (!user) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            cardStyle: {backgroundColor: '#fff'},
+          }}
+          initialRouteName="Main Sign">
+          <Stack.Screen name="Main Sign" component={MainSign} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -169,8 +184,12 @@ const App: () => Node = () => {
         <Stack.Screen name="Feed Screen" component={FeedHome} />
         <Stack.Screen name="Add Feed" component={AddFeed} />
         <Stack.Screen name="Feed Detail" component={FeedDetails} />
-        <Stack.Screen name="Main Sign" component={MainSign} />
+
         <Stack.Screen name="For You" component={ForYou} />
+        <Stack.Screen
+          name="Entertainment Details"
+          component={EntertainmentDetails}
+        />
 
         <Stack.Screen name="Edit Profile" component={EditProfile} />
       </Stack.Navigator>

@@ -1,29 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Alert, FlatList} from 'react-native';
 import {Card, Button} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import {Icon} from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
-import auth, {firebase} from '@react-native-firebase/auth';
 import EntertainmentHome from './EntertainmentHome';
-import Avatar from '../UserProfile/Avatar';
+
+import auth, {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
+import Avatar from '../UserProfile/Avatar';
+
 const onImageChange = (image: ImageOrVideo) => {
   console.log(image);
-  // const [enterId, setEnterId] = useState('');
 
-  // useEffect(() => {
-  //   var date = Date.now().toString();
-  //   var hours = new Date().getHours(); //To get the Current Hours
-  //   var min = new Date().getMinutes(); //To get the Current
-  //   var sec = new Date().getSeconds(); //To get the Current Seconds
-
-  //   setEnterId('E' + date + hours + min + sec);
-  // }, []);
   // upload image to server here
   let reference = storage().ref(
-    'gs://supermama-6aa87.appspot.com/Entertainment/' + 'u',
+    'gs://supermama-6aa87.appspot.com/Entertainment/' + 'ent',
   );
   let task = reference.putFile(image.path.toString());
 
@@ -40,13 +33,6 @@ function AddEntertainment({navigation}) {
   // setEntImage = image => {
   //   upImage.setFieldValue('imageUri', image.uri);
   // };
-
-  const [txtHashtag, setTxtHashtag] = useState('');
-  const [txtDes, setTxtDes] = useState('');
-  //image
-
-  const ref = firestore().collection('entertainment');
-
   const [entId, setEntId] = useState('');
   const [entDocId, setEntDocId] = useState('');
 
@@ -60,11 +46,17 @@ function AddEntertainment({navigation}) {
     setEntDocId('E' + date + hours + min + sec);
   }, []);
 
+  const [txtHashtag, setTxtHashtag] = useState('');
+  const [txtDes, setTxtDes] = useState('');
+
+  const ref = firestore().collection('entertainment');
+
   async function addEntertainmentCol() {
     await ref
       .doc(entDocId)
       .set({
         userId: user.uid,
+        username: user.displayName,
         entertainmentId: entId,
         description: txtDes,
         hashtag: txtHashtag,
@@ -75,6 +67,16 @@ function AddEntertainment({navigation}) {
     setTxtHashtag('');
     setTxtDes('');
   }
+  const [imageUrl, setImageUrl] = useState(undefined);
+  useEffect(() => {
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + user.uid) //name in storage in firebase console
+      .getDownloadURL()
+      .then(url => {
+        setImageUrl(url);
+      })
+      .catch(e => console.log('Errors while downloading => ', e));
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -86,7 +88,7 @@ function AddEntertainment({navigation}) {
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.text_footer}>Username</Text>
+        <Text style={styles.text_footer}>{user.displayName}</Text>
         <Text style={[styles.text_footer, {marginTop: 20}]}>Hashtag</Text>
         <View style={styles.action}>
           <Feather name="hash" color="grey" size={25} style={{marginTop: 10}} />
@@ -108,9 +110,12 @@ function AddEntertainment({navigation}) {
             color="black"
           />
         </View>
-        <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
         <View>
-          <Avatar onChange={onImageChange} source={require('./plus.png')} />
+          <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
+          <Avatar
+            onChange={onImageChange}
+            source={imageUrl ? {uri: imageUrl} : require('./plus.png')}
+          />
         </View>
         <View style={styles.button}>
           <Button
