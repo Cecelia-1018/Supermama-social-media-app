@@ -26,143 +26,63 @@ import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import auth, {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import EntCom from './EntCom.js';
 
 function EntertainmentDetails({route}) {
   //user
   const user = firebase.auth().currentUser;
   const {item} = route.params;
 
-  //comment
-  const [txtComment, setTxtComment] = useState('');
-  const ref = firestore().collection('commEnt');
-
-  const [ComDocId, setComDocId] = useState('');
-  const [txtcomId, setComId] = useState('');
-  const [comDate, setComDate] = useState('');
-  const [comTime, setComTime] = useState('');
   //reference entid
   const [entId, setEntId] = useState(item.entId);
+  const [postId, setPostId] = useState(item.userId);
 
-  useEffect(() => {
-    var head = Date.now().toString();
-    var tail = Math.random().toString().substr(2);
-
-    const d = new Date();
-    var date = d.toLocaleDateString();
-    var time = d.toLocaleTimeString();
-
-    setComDocId('FA' + head + tail);
-    setComId('FA' + head + tail);
-    setComDate(date);
-    setComTime(time);
-  }, []);
   const [avatarUrl, setAvatarUrl] = useState(undefined);
-
-  useEffect(() => {
-    storage()
-      .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + user.uid) //name in storage in firebase console
-      .getDownloadURL()
-      .then(url => {
-        setAvatarUrl(url);
-      })
-      .catch(e => console.log('Errors while downloading => ', e));
-  }, []);
-
-  const [imageUrl, setImageUrl] = useState(undefined);
-
-  useEffect(() => {
-    storage()
-      .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + entId) //name in storage in firebase console
-      .getDownloadURL()
-      .then(url => {
-        setImageUrl(url);
-      })
-      .catch(e => console.log('Errors while downloading => ', e));
-  }, []);
-
-  async function addCommentCol() {
-    if (!txtComment.trim()) {
-      alert('Comment some content.');
-    } else {
-      await ref
-        .doc(ComDocId)
-        .set({
-          //add id here
-          commentId: txtcomId,
-          comment: txtComment,
-          date: comDate,
-          time: comTime,
-          entId: entId,
-          userId: user.uid,
-          username: user.displayName,
-          avatarUrl: avatar,
-        })
-        .then(() => {
-          console.log('Commented!');
-        });
-      setTxtComment('');
-    }
-  }
-
-  //display part
-  const flatlistRef = useRef();
-
-  const onPressFunction = () => {
-    flatlistRef.current.scrollToEnd({animating: true});
-  };
-
-  const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [comm, setComm] = useState([]);
-
-  const renderCom = ({item}) => {
-    return (
-      <SafeAreaProvider>
-        <View>
-          <View style={styles.top}>
-            <Avatar.Image size={30} source={{uri: item.avatar}} />
-            <View
-              style={{flexDirection: 'column', paddingLeft: 10, fontSize: 12}}>
-              <Text style={styles.text}> {item.username} </Text>
-              <Text style={styles.text}>
-                {' '}
-                {item.date} {item.time}{' '}
-              </Text>
-            </View>
-          </View>
-          <Text style={styles.comment}>{item.comment}</Text>
-        </View>
-      </SafeAreaProvider>
-    );
-  };
-
-  const [replyNum, setReplyNum] = useState('');
+  const [follow, setFollow] = useState([]);
+  const [following, setFollowing] = useState(false);
 
   useEffect(() => {
     const subscriber = firestore()
-      .collection('commEnt')
-      .where('entId', 'in', [item.entId])
+      .collection('following')
+      .doc(user.uid)
+      .collection('userFollowing')
+
       .onSnapshot(querySnapshot => {
-        const comment = [];
+        const follow = [];
 
         querySnapshot.forEach(documentSnapshot => {
-          comment.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
+          follow.push(documentSnapshot.id);
+          console.log(documentSnapshot.id);
         });
 
-        setComm(comment);
-        setReplyNum(querySnapshot.size);
-        setLoading(false);
+        setFollow(follow);
+        console.log(follow);
+        console.log(entId);
+        if (follow == postId) setFollowing(true);
+        console.log(following);
       });
-
-    // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
+  const onFollow = () => {
+    console.log('follow');
+    firestore()
+      .collection('following')
+      .doc(user.uid)
+      .collection('userFollowing')
+      .doc(item.userId)
+      .set({})
+      .then(setFollowing(true));
+  };
 
-  if (loading) {
-    return <ActivityIndicator size="large" color="#FFC0CB" />;
-  }
+  const onUnfollow = () => {
+    firestore()
+      .collection('following')
+      .doc(user.uid)
+      .collection('userFollowing')
+      .doc(item.userId)
+      .delete()
+      .then(setFollowing(false));
+  };
 
   return (
     <View style={styles.container}>
@@ -180,7 +100,24 @@ function EntertainmentDetails({route}) {
         <Image style={styles.image} source={{uri: item.image}} />
       </View>
 
-      <Button title="Click Here" onPress={() => alert('Button clicked')} />
+      {following ? (
+        <Button
+          style={[styles.follow]}
+          color="black"
+          mode="outlined"
+          onPress={() => onUnfollow()}>
+          Following
+        </Button>
+      ) : (
+        <Button
+          style={[styles.follow]}
+          color="black"
+          mode="outlined"
+          onPress={() => onFollow()}>
+          Follow
+        </Button>
+      )}
+      {/* <EntCom /> */}
     </View>
   );
 }

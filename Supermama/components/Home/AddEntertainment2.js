@@ -6,6 +6,7 @@ import {
   TextInput,
   Alert,
   FlatList,
+  ActivityIndicator,
   ScrollView,
 } from 'react-native';
 import {Card, Button} from 'react-native-paper';
@@ -23,7 +24,7 @@ import auth, {firebase} from '@react-native-firebase/auth';
 
 function AddEntertainment2() {
   const user = firebase.auth().currentUser;
-
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [avatarUrl, setAvatarUrl] = useState(undefined);
 
   useEffect(() => {
@@ -89,24 +90,28 @@ function AddEntertainment2() {
       })
       .catch(e => console.log('uploading image error =>', e));
     useEffect(() => {
-      myFunction({Id});
-      return () => {
-        myFunction();
-      };
+      let mounted = true;
+      if (mounted) {
+        storage()
+          .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + Id) //name in storage in firebase console
+          .getDownloadURL()
+          .then(url => {
+            setImageUrl(url);
+          })
+          .catch(e => console.log('Errors while downloading => ', e));
+      }
+      return () => (mounted = false);
+      setLoading(false);
     }, []);
+    if (loading) {
+      return <ActivityIndicator size="large" color="#FFC0CB" />;
+    }
   };
+
   // * step 3 declare picture url for displaying (rmb import useState at top)
   const [imageUrl, setImageUrl] = useState(undefined);
   // * step 3a call image from storage (rmb import useEffect at top)
-  const myFunction = ({Id}) => {
-    storage()
-      .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + Id) //name in storage in firebase console
-      .getDownloadURL()
-      .then(url => {
-        setImageUrl(url);
-      })
-      .catch(e => console.log('Errors while downloading => ', e));
-  };
+
   useEffect(() => {
     storage()
       .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + entId) //name in storage in firebase console

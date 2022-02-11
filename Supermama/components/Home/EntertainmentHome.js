@@ -18,6 +18,7 @@ const EntertainmentHome = ({navigation, item}) => {
   const postRef = useRef();
   const [entertainment, setEntertainment] = useState([]);
   const [entId, setEntId] = useState([]);
+
   const [imageUrl, setImageUrl] = useState(undefined);
 
   // * step 3a call image from storage (rmb import useEffect at top)
@@ -100,14 +101,6 @@ const EntertainmentHome = ({navigation, item}) => {
               size={25}
               // onPress={() => navigation.navigate('Bookmark')}
             />
-
-            <Button
-              style={[styles.follow]}
-              color="black"
-              mode="outlined"
-              onPress={() => console.log('Follow')}>
-              Follow
-            </Button>
           </>
         ) : null}
       </View>
@@ -119,10 +112,10 @@ const EntertainmentHome = ({navigation, item}) => {
       .collection('entertainment')
       .onSnapshot(querySnapshot => {
         const entertainment = [];
-        // const varName = [];
+        const varName = [];
 
         querySnapshot.forEach(documentSnapshot => {
-          // varName.push(documentSnapshot.data().entertainmentId);
+          varName.push(documentSnapshot.data().userId);
           entertainment.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
@@ -136,8 +129,7 @@ const EntertainmentHome = ({navigation, item}) => {
         // });
 
         setEntertainment(entertainment);
-
-        console.log(entertainment);
+        setEntId(varName);
       });
 
     // Unsubscribe from events when no longer in use
@@ -202,6 +194,6 @@ const styles = StyleSheet.create({
   },
   like: {textAlignVertical: 'center', color: 'black'},
   grid: {flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'},
-  bookmark: {position: 'absolute', right: 90, top: 12},
+  bookmark: {position: 'absolute', right: 10, top: 12},
   follow: {position: 'absolute', right: 5, top: 18, color: 'black'},
 });
