@@ -89,23 +89,6 @@ function AddEntertainment2() {
         console.log('Image uploaded to the bucket!');
       })
       .catch(e => console.log('uploading image error =>', e));
-    useEffect(() => {
-      let mounted = true;
-      if (mounted) {
-        storage()
-          .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + Id) //name in storage in firebase console
-          .getDownloadURL()
-          .then(url => {
-            setImageUrl(url);
-          })
-          .catch(e => console.log('Errors while downloading => ', e));
-      }
-      return () => (mounted = false);
-      setLoading(false);
-    }, []);
-    if (loading) {
-      return <ActivityIndicator size="large" color="#FFC0CB" />;
-    }
   };
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
@@ -118,6 +101,7 @@ function AddEntertainment2() {
       .getDownloadURL()
       .then(url => {
         setImageUrl(url);
+        console.log(ImageUrl);
       })
       .catch(e => console.log('Errors while downloading => ', e));
   }, []);

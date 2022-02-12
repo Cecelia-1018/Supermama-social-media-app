@@ -56,10 +56,17 @@ function EntertainmentDetails({route}) {
         });
 
         setFollow(follow);
-        console.log(follow);
-        console.log(entId);
-        if (follow == postId) setFollowing(true);
+        console.log(follow.length);
+        // console.log(postId.size);
+        // for (var i = 0; i <= postId.length; i++) {
+        for (var j = 0; j <= follow.length; j++) {
+          if (follow == postId) {
+            setFollowing(true);
+            break;
+          }
+        }
         console.log(following);
+        // }
       });
     return () => subscriber();
   }, []);
@@ -99,7 +106,13 @@ function EntertainmentDetails({route}) {
       <View style={[styles.grid]}>
         <Image style={styles.image} source={{uri: item.image}} />
       </View>
-
+      <IconButton
+        style={[styles.bookmark]}
+        icon={'book'}
+        color="black"
+        size={25}
+        // onPress={() => navigation.navigate('Bookmark')}
+      />
       {following ? (
         <Button
           style={[styles.follow]}
@@ -156,4 +169,6 @@ const styles = StyleSheet.create({
   },
 
   grid: {flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'},
+  follow: {position: 'absolute', right: 5, top: 18, color: 'black'},
+  bookmark: {position: 'absolute', right: 110, top: 12},
 });

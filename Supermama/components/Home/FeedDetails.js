@@ -25,9 +25,9 @@ function FeedDetails({navigation, route}) {
   const [CommentId, setCommentId] = useState('');
   const [commentDocId, setCommentDocId] = useState('');
 
-  const commentRef = useRef();
+  const flatlistRef = useRef();
   const onPressFunction = () => {
-    commentRef.current.scrollToEnd({animating: true});
+    flatlistRef.current.scrollToEnd({animating: true});
   };
   const [comment, setComment] = useState([]);
   const [feed, setFeed] = useState([]);
@@ -102,42 +102,41 @@ function FeedDetails({navigation, route}) {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <View style={styles.item}>
-        <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
-          <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-            <Image source={require('./AddPost_img.jpg')} style={styles.image} />
-          </View>
-          <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-            <Text style={[styles.title]}> {item.title}</Text>
-            <Text style={[styles.description]}> {item.description}</Text>
-            <Text style={[styles.hash]}> #{item.hashtag}</Text>
-          </View>
+    <View style={[styles.container, styles.item]}>
+      <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
+        <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
+          <Image source={require('./AddPost_img.jpg')} style={styles.image} />
         </View>
-        <IconButton
-          style={[styles.question]}
-          icon={'account-question'}
-          color="black"
-          size={25}
-          // onPress={() => navigation.navigate('Bookmark')}
-        />
-        <IconButton
-          style={[styles.bookmark]}
-          icon={'book'}
-          color="black"
-          size={25}
-          // onPress={() => navigation.navigate('Bookmark')}
-        />
-        <View style={[styles.follow]}>
-          <Text style={[styles.user]}>{item.username}</Text>
-          <Button
-            color="black"
-            mode="outlined"
-            onPress={() => console.log('Follow')}>
-            Follow
-          </Button>
+        <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
+          <Text style={[styles.title]}> {item.title}</Text>
+          <Text style={[styles.description]}> {item.description}</Text>
+          <Text style={[styles.hash]}> #{item.hashtag}</Text>
         </View>
-        {/* <View style={styles.commentcolumn}>
+      </View>
+      <IconButton
+        style={[styles.question]}
+        icon={'account-question'}
+        color="black"
+        size={25}
+        // onPress={() => navigation.navigate('Bookmark')}
+      />
+      <IconButton
+        style={[styles.bookmark]}
+        icon={'book'}
+        color="black"
+        size={25}
+        // onPress={() => navigation.navigate('Bookmark')}
+      />
+      <View style={[styles.follow]}>
+        <Text style={[styles.user]}>{item.username}</Text>
+        <Button
+          color="black"
+          mode="outlined"
+          onPress={() => console.log('Follow')}>
+          Follow
+        </Button>
+      </View>
+      {/* <View style={styles.commentcolumn}>
           <Text
             style={{color: 'black'}}
              onPress={() => Linking.openURL({item.hyperlink})}
@@ -145,48 +144,46 @@ function FeedDetails({navigation, route}) {
             {item.hyperlink}
           </Text>
         </View> */}
-        <View style={[styles.content]}>
-          <Text style={[styles.user]}>{item.details}</Text>
-        </View>
-        <View style={[styles.commentcolumn]}>
-          <Text style={[styles.description]}>Comment {replyNum}</Text>
-        </View>
-
-        <View style={[styles.container]}>
-          <FlatList
-            ref={commentRef}
-            data={comment}
-            keyExtractor={item => item.commentId}
-            renderItem={commentRender}
-          />
-
-          {user ? (
-            <View style={styles.action}>
-              <TextInput
-                label="Comment"
-                value={txtComment}
-                onChangeText={setTxtComment}
-                outlineColor="#FFC0CB"
-                activeOutlineColor="#FE7E9C"
-                multiline={true}
-                numberOfLines={4}
-                color="black"
-                placeholder="Your Comment"
-              />
-              <IconButton
-                style={[styles.bookmark]}
-                icon={'send'}
-                color="black"
-                size={25}
-                onPress={() => {
-                  addCommentCol();
-                }}
-              />
-            </View>
-          ) : null}
-        </View>
+      <View style={[styles.content]}>
+        <Text style={[styles.user]}>{item.details}</Text>
       </View>
-    </SafeAreaProvider>
+      <View style={[styles.commentcolumn]}>
+        <Text style={[styles.description]}>Comment {replyNum}</Text>
+      </View>
+      {user ? (
+        <View style={styles.action}>
+          <TextInput
+            label="Comment"
+            value={txtComment}
+            onChangeText={setTxtComment}
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+            multiline={true}
+            numberOfLines={4}
+            color="black"
+            placeholder="Your Comment"
+          />
+          <IconButton
+            style={[styles.bookmark]}
+            icon={'send'}
+            color="black"
+            size={25}
+            onPress={() => {
+              addCommentCol();
+            }}
+          />
+        </View>
+      ) : null}
+      <FlatList
+        ref={flatlistRef}
+        data={comment}
+        keyExtractor={item => item.commentId}
+        renderItem={commentRender}
+        initialNumToRender={comment.length}
+        maxToRenderPerBatch={comment.length}
+        windowSize={5}
+      />
+    </View>
   );
 }
 

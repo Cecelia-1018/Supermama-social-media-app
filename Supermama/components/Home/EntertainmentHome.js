@@ -94,13 +94,7 @@ const EntertainmentHome = ({navigation, item}) => {
               />
             </View>
 
-            <IconButton
-              style={[styles.bookmark]}
-              icon={'book'}
-              color="black"
-              size={25}
-              // onPress={() => navigation.navigate('Bookmark')}
-            />
+            
           </>
         ) : null}
       </View>
@@ -194,6 +188,6 @@ const styles = StyleSheet.create({
   },
   like: {textAlignVertical: 'center', color: 'black'},
   grid: {flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'},
-  bookmark: {position: 'absolute', right: 10, top: 12},
+  
   follow: {position: 'absolute', right: 5, top: 18, color: 'black'},
 });
