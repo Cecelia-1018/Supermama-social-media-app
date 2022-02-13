@@ -43,7 +43,7 @@ import AddFeed from './components/Home/AddFeed';
 import FeedDetails from './components/Home/FeedDetails';
 import EntertainmentDetails from './components/Home/EntertainmentDetails';
 import uploadImage from './components/Home/uploadImage';
-import addEntertainment from './components/Home/AddEntertainment2';
+import AddEntertainment2 from './components/Home/AddEntertainment2';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 
@@ -208,7 +208,7 @@ const App: () => Node = () => {
           name="Entertainment Details"
           component={EntertainmentDetails}
         />
-        <Stack.Screen name="Create Post" component={addEntertainment} />
+        <Stack.Screen name="Create Post" component={AddEntertainment2} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Search " component={SearchScreen} />
       </Stack.Navigator>

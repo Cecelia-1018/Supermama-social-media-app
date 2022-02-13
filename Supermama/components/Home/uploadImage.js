@@ -18,6 +18,8 @@ function uploadImage({navigation}) {
     var min = new Date().getMinutes(); //To get the Current
     var sec = new Date().getSeconds(); //To get the Current Seconds
 
+    var test = "test";
+
     setEntId('E' + date + hours + min + sec);
     setEntDocId('E' + date + hours + min + sec);
   }, []);

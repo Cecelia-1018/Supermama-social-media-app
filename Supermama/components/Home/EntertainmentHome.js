@@ -13,9 +13,12 @@ import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 
-const EntertainmentHome = ({navigation, item}) => {
+const EntertainmentHome = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const postRef = useRef();
+   const onPressFunction = () => {
+    postRef.current.scrollToEnd({animating: true});
+  };
   const [entertainment, setEntertainment] = useState([]);
   const [entId, setEntId] = useState([]);
 
@@ -26,7 +29,7 @@ const EntertainmentHome = ({navigation, item}) => {
   const renderPostItem = ({item}) => {
     return (
       <View style={styles.item}>
-        {!user || item.userId !== user.uid ? (
+        {/* {!user || item.userId !== user.uid ? ( */}
           <>
             <TouchableOpacity
               onPress={() => {
@@ -96,7 +99,7 @@ const EntertainmentHome = ({navigation, item}) => {
 
             
           </>
-        ) : null}
+        {/* ) : null} */}
       </View>
     );
   };
@@ -159,6 +162,9 @@ const EntertainmentHome = ({navigation, item}) => {
         data={entertainment}
         keyExtractor={item => item.entertainmentId}
         renderItem={renderPostItem}
+        initialNumToRender={entertainment.length}
+        maxToRenderPerBatch={entertainment.length}
+        windowSize={5}
       />
     </View>
   );
