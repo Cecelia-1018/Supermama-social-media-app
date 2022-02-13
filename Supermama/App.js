@@ -42,8 +42,10 @@ import MainSign from './components/Home/MainSign';
 import AddFeed from './components/Home/AddFeed';
 import FeedDetails from './components/Home/FeedDetails';
 import EntertainmentDetails from './components/Home/EntertainmentDetails';
+import uploadImage from './components/Home/uploadImage';
+import addEntertainment from './components/Home/AddEntertainment2';
 import {LogBox} from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import {Searchbar} from 'react-native-paper';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
@@ -201,11 +203,12 @@ const App: () => Node = () => {
         <Stack.Screen name="Feed Detail" component={FeedDetails} />
 
         <Stack.Screen name="For You" component={ForYou} />
+        <Stack.Screen name="Upload Image" component={uploadImage} />
         <Stack.Screen
           name="Entertainment Details"
           component={EntertainmentDetails}
         />
-
+        <Stack.Screen name="Create Post" component={addEntertainment} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Search " component={SearchScreen} />
       </Stack.Navigator>

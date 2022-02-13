@@ -26,7 +26,7 @@ function posting({navigation}) {
             Only Video
           </Button>
           <Button
-            onPress={() => navigation.navigate('Create Post')}
+            onPress={() => navigation.navigate('Upload Image')}
             color="#FE7E9C">
             Picture and Words
           </Button>
@@ -50,7 +50,7 @@ const AddPost = ({navigation}) => {
         component={AddVideo}
         options={{headerShown: false}}
       />
-      <RootStack.Screen name="Create Post" component={AddEntertainment} />
+
       <RootStack.Screen name="AddFeed" component={AddFeed} />
     </RootStack.Navigator>
   );

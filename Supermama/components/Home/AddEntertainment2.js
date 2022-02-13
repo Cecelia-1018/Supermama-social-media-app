@@ -8,6 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
   ScrollView,
+  Image,
 } from 'react-native';
 import {Card, Button} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
@@ -20,9 +21,12 @@ import {PostImagePicker} from './PostImagePicker';
 import storage from '@react-native-firebase/storage';
 import auth, {firebase} from '@react-native-firebase/auth';
 
+import uploadImage from './uploadImage';
+
 // * Step 2 : Write a image change
 
-function AddEntertainment2() {
+function AddEntertainment2({navigation, route}) {
+  const {item} = route.params;
   const user = firebase.auth().currentUser;
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [avatarUrl, setAvatarUrl] = useState(undefined);
@@ -33,27 +37,16 @@ function AddEntertainment2() {
       .getDownloadURL()
       .then(url => {
         setAvatarUrl(url);
+        console.log(avatarUrl);
+        console.log(entDocId);
       })
-      .catch(e => console.log('Errors while downloading => ', e));
-  }, []);
-
-  const [entId, setEntId] = useState('');
-  const [entDocId, setEntDocId] = useState('');
-
-  useEffect(() => {
-    var date = Date.now().toString();
-    var hours = new Date().getHours(); //To get the Current Hours
-    var min = new Date().getMinutes(); //To get the Current
-    var sec = new Date().getSeconds(); //To get the Current Seconds
-
-    setEntId('E' + date + hours + min + sec);
-    setEntDocId('E' + date + hours + min + sec);
+      .catch(e => console.log('Errors while downloading avatar=> ', e));
   }, []);
 
   const [txtHashtag, setTxtHashtag] = useState('');
   const [txtDes, setTxtDes] = useState('');
   const [txtUrl, setTxtUrl] = useState(undefined);
-
+  const [entDocId, setEntDocId] = useState(item.entId);
   const ref = firestore().collection('entertainment');
 
   async function addEntertainmentCol() {
@@ -62,7 +55,7 @@ function AddEntertainment2() {
       .set({
         userId: user.uid,
         username: user.displayName,
-        entertainmentId: entId,
+        entertainmentId: item.entId,
         description: txtDes,
         hashtag: txtHashtag,
         avatar: avatarUrl,
@@ -75,35 +68,19 @@ function AddEntertainment2() {
     setTxtDes('');
   }
 
-  const onImageChange = (image: ImageOrVideo) => {
-    console.log(image);
-    let Id = entId;
-    //* step 2 a : upload image to storage
-    let reference = storage().ref(
-      'gs://supermama-6aa87.appspot.com/Entertainment/' + Id,
-    ); //2
-    let task = reference.putFile(image.path.toString());
-
-    task
-      .then(() => {
-        console.log('Image uploaded to the bucket!');
-      })
-      .catch(e => console.log('uploading image error =>', e));
-  };
-
   // * step 3 declare picture url for displaying (rmb import useState at top)
   const [imageUrl, setImageUrl] = useState(undefined);
   // * step 3a call image from storage (rmb import useEffect at top)
 
   useEffect(() => {
     storage()
-      .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + entId) //name in storage in firebase console
+      .ref('gs://supermama-6aa87.appspot.com/Entertainment/' + item.entId) //name in storage in firebase console
       .getDownloadURL()
       .then(url => {
         setImageUrl(url);
-        console.log(ImageUrl);
+        console.log(imageUrl);
       })
-      .catch(e => console.log('Errors while downloading => ', e));
+      .catch(e => console.log('Errors while downloading image=> ', e));
   }, []);
 
   return (
@@ -143,12 +120,8 @@ function AddEntertainment2() {
               color="black"
             />
           </View>
-          <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
-          <PostImagePicker
-            onChange={onImageChange}
-            source={imageUrl ? {uri: imageUrl} : require('./plus.png')}
-          />
-          {imageUrl ? null : <Text>Press image to upload photo.</Text>}
+          {/* <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
+          <Image source={{uri: imageUrl}} /> */}
           <View style={styles.button}>
             <Button
               mode="outlined"
