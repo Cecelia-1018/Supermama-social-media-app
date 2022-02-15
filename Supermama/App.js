@@ -44,6 +44,7 @@ import FeedDetails from './components/Home/FeedDetails';
 import EntertainmentDetails from './components/Home/EntertainmentDetails';
 import uploadImage from './components/Home/uploadImage';
 import AddEntertainment2 from './components/Home/AddEntertainment2';
+import SearchScreen from './components/FilterSearch/SearchScreen';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 
@@ -83,19 +84,19 @@ function StoreScreen() {
   );
 }
 
-function SearchScreen() {
-  const [searchQuery, setSearchQuery] = React.useState('');
+// function SearchScreen() {
+//   const [searchQuery, setSearchQuery] = React.useState('');
 
-  const onChangeSearch = query => setSearchQuery(query);
+//   const onChangeSearch = query => setSearchQuery(query);
 
-  return (
-    <Searchbar
-      placeholder="Search"
-      onChangeText={onChangeSearch}
-      value={searchQuery}
-    />
-  );
-}
+//   return (
+//     <Searchbar
+//       placeholder="Search"
+//       onChangeText={onChangeSearch}
+//       value={searchQuery}
+//     />
+//   );
+// }
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
