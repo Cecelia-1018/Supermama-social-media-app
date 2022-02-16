@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 
-function SearchScreen({navigation}) {
+function SearchForumScreen({navigation}) {
 
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -151,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default SearchForumScreen;

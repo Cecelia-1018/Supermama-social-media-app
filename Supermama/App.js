@@ -44,7 +44,8 @@ import FeedDetails from './components/Home/FeedDetails';
 import EntertainmentDetails from './components/Home/EntertainmentDetails';
 import uploadImage from './components/Home/uploadImage';
 import AddEntertainment2 from './components/Home/AddEntertainment2';
-import SearchScreen from './components/FilterSearch/SearchScreen';
+import SearchForumScreen from './components/FilterSearch/SearchForumScreen';
+import SearchUserScreen from './components/FilterSearch/SearchUserScreen';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 
@@ -211,7 +212,8 @@ const App: () => Node = () => {
         />
         <Stack.Screen name="Create Post" component={AddEntertainment2} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
-        <Stack.Screen name="Search " component={SearchScreen} />
+        <Stack.Screen name="Search Forum" component={SearchForumScreen} />
+        <Stack.Screen name="Search User" component={SearchUserScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

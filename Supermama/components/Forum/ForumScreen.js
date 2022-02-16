@@ -71,7 +71,7 @@ function ForumScreen({ navigation }) {
                   icon={require('./search.png')}
                   color={Colors.black}
                   size={25}
-                  onPress={() => navigation.navigate('Search ')}
+                  onPress={() => navigation.navigate('Search Forum')}
                 />
                  
              

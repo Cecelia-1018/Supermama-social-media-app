@@ -291,10 +291,24 @@ class logOut extends React.Component {
   }
 }
 
-function ProfileScreen() {
+function ProfileScreen({navigation}) {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="User Profile" component={Profile} />
+      <Drawer.Screen name="User Profile" component={Profile} 
+      options={{
+          headerRight: () => (
+            <View style={{flexDirection: 'row'}}>
+                <IconButton
+                  icon={require('../Forum/search.png')}
+                  color={Colors.black}
+                  size={25}
+                  onPress={() => navigation.navigate('Search User')}
+                />
+                 
+             
+            </View>
+          ),
+        }}/>
       <Drawer.Screen
         name="Apply Verify Professional"
         component={VerifyProScreen}
