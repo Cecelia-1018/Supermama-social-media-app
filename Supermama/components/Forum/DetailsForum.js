@@ -71,7 +71,7 @@ function DetailsForum({navigation, route}) {
   
   useEffect(() => {
     storage()
-      .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + item.userId) //name in storage in firebase console
+      .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + user.uid) //name in storage in firebase console
       .getDownloadURL()
       .then((url) => {
         setImageUrl(url);
