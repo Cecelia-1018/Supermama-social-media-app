@@ -38,7 +38,6 @@ function EntertainmentDetails({route}) {
   const [postId, setPostId] = useState(item.userId);
 
   const [avatarUrl, setAvatarUrl] = useState(undefined);
-  const [follow, setFollow] = useState([]);
   const [following, setFollowing] = useState(false);
 
   useEffect(() => {
@@ -47,49 +46,35 @@ function EntertainmentDetails({route}) {
       .doc(user.uid)
       .collection('userFollowing')
 
-      .onSnapshot(querySnapshot => {
-        const follow = [];
-
-        querySnapshot.forEach(documentSnapshot => {
-          follow.push(documentSnapshot.id);
-          console.log(documentSnapshot.id);
-        });
-
-        setFollow(follow);
-        console.log(follow.length);
-        // console.log(postId.size);
-        // for (var i = 0; i <= postId.length; i++) {
-        for (var j = 0; j <= follow.length; j++) {
-          if (follow == postId) {
-            setFollowing(true);
-            break;
-          }
-        }
-        console.log(following);
-        // }
-      });
+      .onSnapshot(querySnapshot =>
+        querySnapshot.forEach(
+          documentSnapshot =>
+            documentSnapshot.id == postId && setFollowing(true),
+        ),
+      );
     return () => subscriber();
-  }, []);
-  const onFollow = () => {
-    console.log('follow');
-    firestore()
-      .collection('following')
-      .doc(user.uid)
-      .collection('userFollowing')
-      .doc(item.userId)
-      .set({})
-      .then(setFollowing(true));
-  };
+  }, [user, setFollowing]);
 
-  const onUnfollow = () => {
-    firestore()
+  const onFollow = useCallback(async () => {
+    console.log('follow');
+    await firestore()
       .collection('following')
       .doc(user.uid)
       .collection('userFollowing')
       .doc(item.userId)
-      .delete()
-      .then(setFollowing(false));
-  };
+      .set({});
+    setFollowing(true);
+  }, [setFollowing, user, item]);
+
+  const onUnfollow = useCallback(async () => {
+    await firestore()
+      .collection('following')
+      .doc(user.uid)
+      .collection('userFollowing')
+      .doc(item.userId)
+      .delete();
+    setFollowing(false);
+  }, [setFollowing, user, item]);
 
   return (
     <View style={styles.container}>
