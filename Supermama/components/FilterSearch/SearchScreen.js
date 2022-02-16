@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 
-function SearchScreen() {
+function SearchScreen({navigation}) {
 
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -75,10 +75,21 @@ function SearchScreen() {
       // Flat List Item
       <Text
         style={styles.itemStyle}
-        onPress={() => getItem(item)}>
-        {item.forumId}
-        {'.'}
-        {item.title.toUpperCase()}
+         onPress={() => {
+            navigation.navigate('Detail Forum', {
+              //pass params here
+              item: {
+                title: item.title,
+                description: item.description,
+                forumId: item.forumId,
+                username: item.username,
+                photoUrl: item.photoUrl,
+                date: item.date,
+                time: item.time,
+              },
+            });
+          }}>
+        {item.title}
       </Text>
     );
   };
@@ -109,7 +120,7 @@ function SearchScreen() {
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
           underlineColorAndroid="transparent"
-          placeholder="Search Here"
+          placeholder="Search Your Question"
         />
         <FlatList
           data={filteredDataSource}
@@ -121,18 +132,6 @@ function SearchScreen() {
     </SafeAreaView>
   );
 
-
-  // const [searchQuery, setSearchQuery] = React.useState('');
-
-  // const onChangeSearch = query => setSearchQuery(query);
-
-  // return (
-  //   <Searchbar
-  //     placeholder="Search"
-  //     onChangeText={onChangeSearch}
-  //     value={searchQuery}
-  //   />
-  // );
 }
 const styles = StyleSheet.create({
   container: {
@@ -146,8 +145,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 20,
     margin: 5,
-    borderColor: '#009688',
-    backgroundColor: '#FFFFFF',
+    borderColor: '#FFC0CB',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 5,
   },
 });
 
