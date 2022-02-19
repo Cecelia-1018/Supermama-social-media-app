@@ -16,7 +16,7 @@ import storage from '@react-native-firebase/storage';
 const EntertainmentHome = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const postRef = useRef();
-   const onPressFunction = () => {
+  const onPressFunction = () => {
     postRef.current.scrollToEnd({animating: true});
   };
   const [entertainment, setEntertainment] = useState([]);
@@ -30,75 +30,73 @@ const EntertainmentHome = ({navigation}) => {
     return (
       <View style={styles.item}>
         {/* {!user || item.userId !== user.uid ? ( */}
-          <>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Entertainment Details', {
-                  item: {
-                    username: item.username,
-                    hashtag: item.hashtag,
-                    description: item.description,
-                    entId: item.entertainmentId,
-                    avatar: item.avatar,
-                    image: item.image,
-                    userId: item.userId,
-                  },
-                });
-              }}>
-              <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
-                <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-                  <Avatar.Image size={50} source={{uri: item.avatar}} />
-                </View>
-                <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-                  <Text style={[styles.user]}> {item.username}</Text>
-                  <Text style={[styles.user]}> #{item.hashtag}</Text>
-                </View>
-              </View>
-              <Text style={[styles.description]}>{item.description}</Text>
-              <View style={[styles.grid]}>
-                <Image style={styles.image} source={{uri: item.image}} />
-              </View>
-            </TouchableOpacity>
-
-            <View
-              style={[
-                {
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-evenly',
+        <>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Entertainment Details', {
+                item: {
+                  username: item.username,
+                  hashtag: item.hashtag,
+                  description: item.description,
+                  entId: item.entertainmentId,
+                  avatar: item.avatar,
+                  image: item.image,
+                  userId: item.userId,
                 },
-              ]}>
-              <View style={[{flexDirection: 'row'}]}>
-                <IconButton
-                  icon={'heart-outline'}
-                  color="black"
-                  size={25}
-                  // onPress={() => navigation.navigate('Bookmark')}
-                />
+              });
+            }}>
+            <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
+              <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
+                <Avatar.Image size={50} source={{uri: item.avatar}} />
+              </View>
+              <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
+                <Text style={[styles.user]}> {item.username}</Text>
+                <Text style={[styles.user]}> #{item.hashtag}</Text>
+              </View>
+            </View>
+            <Text style={[styles.description]}>{item.description}</Text>
+            <View style={[styles.grid]}>
+              <Image style={styles.image} source={{uri: item.image}} />
+            </View>
+          </TouchableOpacity>
 
-                <Text style={[styles.like]}>10</Text>
-              </View>
-              <View style={[{flexDirection: 'row'}]}>
-                <Icon
-                  type="ionicon"
-                  name={
-                    Platform.OS === 'ios'
-                      ? 'ios-chatbubbles-outline'
-                      : 'md-chatbubbles-outline'
-                  }
-                />
-                <Text style={[styles.like]}>111</Text>
-              </View>
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+              },
+            ]}>
+            <View style={[{flexDirection: 'row'}]}>
+              <IconButton
+                icon={'heart-outline'}
+                color="black"
+                size={25}
+                // onPress={() => navigation.navigate('Bookmark')}
+              />
+
+              <Text style={[styles.like]}>10</Text>
+            </View>
+            <View style={[{flexDirection: 'row'}]}>
               <Icon
                 type="ionicon"
                 name={
-                  Platform.OS === 'ios' ? 'ios-send-outline' : 'md-send-outline'
+                  Platform.OS === 'ios'
+                    ? 'ios-chatbubbles-outline'
+                    : 'md-chatbubbles-outline'
                 }
               />
+              <Text style={[styles.like]}>111</Text>
             </View>
-
-            
-          </>
+            <Icon
+              type="ionicon"
+              name={
+                Platform.OS === 'ios' ? 'ios-send-outline' : 'md-send-outline'
+              }
+            />
+          </View>
+        </>
         {/* ) : null} */}
       </View>
     );
@@ -194,6 +192,6 @@ const styles = StyleSheet.create({
   },
   like: {textAlignVertical: 'center', color: 'black'},
   grid: {flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'},
-  
+
   follow: {position: 'absolute', right: 5, top: 18, color: 'black'},
 });

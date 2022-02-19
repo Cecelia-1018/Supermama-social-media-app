@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {Button} from 'react-native-paper';
-import AddVideo from './AddVideo';
+
 import AddFeed from './AddFeed';
 import AddEntertainment from './AddEntertainment2';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -20,11 +20,6 @@ function posting({navigation}) {
       <View style={styles.footer}>
         <Text style={styles.title}>Share Your Life With</Text>
         <ScrollView style={styles.choices}>
-          <Button
-            onPress={() => navigation.navigate('AddVideo')}
-            color="#FE7E9C">
-            Only Video
-          </Button>
           <Button
             onPress={() => navigation.navigate('Upload Image')}
             color="#FE7E9C">
@@ -45,11 +40,6 @@ const AddPost = ({navigation}) => {
   return (
     <RootStack.Navigator>
       <RootStack.Screen name="Add Post" component={posting} />
-      <RootStack.Screen
-        name="AddVideo"
-        component={AddVideo}
-        options={{headerShown: false}}
-      />
 
       <RootStack.Screen name="AddFeed" component={AddFeed} />
     </RootStack.Navigator>

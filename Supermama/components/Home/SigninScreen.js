@@ -59,11 +59,14 @@ const SigninScreen = ({navigation}) => {
     //   data.password,
     // };
 
-    __doSingIn(data.email, data.password);
+    __doSignIn(data.email, data.password);
   };
 
-  const __doSingIn = async (email, password) => {
+  console.log(error);
+
+  const __doSignIn = async (email, password) => {
     try {
+      console.log('TRYING TO SIGN IN');
       let response = await auth().signInWithEmailAndPassword(email, password);
       if (response && response.user) {
         Alert.alert('Success ✅', 'Logged successfully'), RNRestart.Restart();

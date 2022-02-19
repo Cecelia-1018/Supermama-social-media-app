@@ -34,7 +34,7 @@ import DetailsForum from './components/Forum/DetailsForum';
 import ProfileScreen from './components/UserProfile/ProfileScreen';
 import EditProfile from './components/UserProfile/EditProfile';
 import HomeScreen from './components/Home/HomeScreen';
-import VideoHome from './components/Home/VideoHome';
+
 import EntertainmentHome from './components/Home/EntertainmentHome';
 import FeedHome from './components/Home/FeedHome';
 import ForYou from './components/Home/ForYou';
@@ -46,6 +46,9 @@ import uploadImage from './components/Home/uploadImage';
 import AddEntertainment2 from './components/Home/AddEntertainment2';
 import SearchForumScreen from './components/FilterSearch/SearchForumScreen';
 import SearchUserScreen from './components/FilterSearch/SearchUserScreen';
+import StoreScreen from './components/Store/StoreHome';
+import StorePage from './components/Store/StorePage';
+import StoreAdd from './components/Store/StoreAdd';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 
@@ -77,13 +80,13 @@ const Section = ({children, title}): Node => {
   );
 };
 
-function StoreScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+// function StoreScreen() {
+//   return (
+//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+//       <Text>Settings!</Text>
+//     </View>
+//   );
+// }
 
 // function SearchScreen() {
 //   const [searchQuery, setSearchQuery] = React.useState('');
@@ -198,7 +201,6 @@ const App: () => Node = () => {
         <Stack.Screen name="Create Forum" component={AddForum} />
         <Stack.Screen name="Edit Forum" component={EditForum} />
         <Stack.Screen name="Detail Forum" component={DetailsForum} />
-        <Stack.Screen name="Video Home" component={VideoHome} />
         <Stack.Screen name="Entertainment Home" component={EntertainmentHome} />
         <Stack.Screen name="Feed Screen" component={FeedHome} />
         <Stack.Screen name="Add Feed" component={AddFeed} />
@@ -214,6 +216,8 @@ const App: () => Node = () => {
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Search Forum" component={SearchForumScreen} />
         <Stack.Screen name="Search User" component={SearchUserScreen} />
+        <Stack.Screen name="Store Page" component={StorePage} />
+        <Stack.Screen name="Add Products" component={StoreAdd} />
       </Stack.Navigator>
     </NavigationContainer>
   );
