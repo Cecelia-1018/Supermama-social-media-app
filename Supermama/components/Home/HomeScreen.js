@@ -18,7 +18,7 @@ import {
   NavigationContainer,
 } from '@react-navigation/native';
 import auth, {firebase} from '@react-native-firebase/auth';
-
+import VideoHome from './VideoHome';
 import EntertainmentHome from './EntertainmentHome';
 import FeedHome from './FeedHome';
 import Chat from './ChatScreen';
@@ -31,6 +31,10 @@ const RootStack = createStackNavigator();
 
 //const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
 
+function Feed() {
+  return <Text h1>Feed</Text>;
+}
+
 function forYou() {
   return (
     <Tab.Navigator
@@ -39,7 +43,7 @@ function forYou() {
         tabBarIndicatorStyle: {backgroundColor: '#f0ccd2'},
         tabBarStyle: {backgroundColor: 'white'},
       }}>
-      
+      <Tab.Screen name="Video" component={VideoHome} />
       <Tab.Screen name="Entertainment" component={EntertainmentHome} />
       <Tab.Screen name="Feed" component={FeedHome} />
     </Tab.Navigator>

@@ -48,10 +48,10 @@ function uploadImage({navigation}) {
       .getDownloadURL()
       .then(url => {
         setImageUrl(url);
-        console.log(imageUrl);
+        console.log(ImageUrl);
       })
       .catch(e => console.log('Errors while downloading => ', e));
-  }, [setImageUrl]);
+  }, []);
 
   return (
     <View>

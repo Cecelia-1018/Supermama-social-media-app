@@ -126,7 +126,7 @@ function AddEntertainment2({navigation, route}) {
             <Button
               mode="outlined"
               onPress={() => {
-                addEntertainmentCol(), navigation.navigate('Home Tabs');
+                addEntertainmentCol();
               }}
               color="#FE7E9C">
               Submit
