@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Searchbar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
+//just place the backup file back
+
 // step 1 : import all the components we are going to use
 import {
   SafeAreaView,
