@@ -18,7 +18,6 @@ import {
   NavigationContainer,
 } from '@react-navigation/native';
 import auth, {firebase} from '@react-native-firebase/auth';
-import VideoHome from './VideoHome';
 import EntertainmentHome from './EntertainmentHome';
 import FeedHome from './FeedHome';
 import Chat from './ChatScreen';
@@ -43,7 +42,6 @@ function forYou() {
         tabBarIndicatorStyle: {backgroundColor: '#f0ccd2'},
         tabBarStyle: {backgroundColor: 'white'},
       }}>
-      <Tab.Screen name="Video" component={VideoHome} />
       <Tab.Screen name="Entertainment" component={EntertainmentHome} />
       <Tab.Screen name="Feed" component={FeedHome} />
     </Tab.Navigator>
