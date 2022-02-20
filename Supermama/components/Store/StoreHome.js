@@ -10,9 +10,9 @@ import StoreAdd from './StoreAdd';
 
 const RootStack = createStackNavigator();
 
-function Cart() {
-  return <Text h1>Cart</Text>;
-}
+// function Cart() {
+//   return <Text h1>Cart</Text>;
+// }
 function StoreHome({navigation}) {
   return (
     <RootStack.Navigator>
@@ -43,11 +43,11 @@ function StoreHome({navigation}) {
         component={StoreAdd}
         options={{headerShown: true}}
       /> */}
-      <RootStack.Screen
+      {/* <RootStack.Screen
         name="Cart"
         component={Cart}
         options={{headerShown: true}}
-      />
+      /> */}
     </RootStack.Navigator>
   );
 }

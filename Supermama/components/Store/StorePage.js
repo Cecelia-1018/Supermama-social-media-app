@@ -54,6 +54,7 @@ const StoreScreen = ({navigation, route}) => {
                 price: item.price,
                 userId: item.userId,
                 username: item.username,
+                productId: item.productId,
               },
             });
           }}>

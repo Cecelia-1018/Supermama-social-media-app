@@ -53,7 +53,7 @@ function EntertainmentDetails({route}) {
         ),
       );
     return () => subscriber();
-  }, [user, setFollowing]);
+  }, [user, setFollowing, postId]);
 
   const onFollow = useCallback(async () => {
     console.log('follow');
