@@ -24,6 +24,7 @@ import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
 
+
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialTopTabNavigator();
 
@@ -113,7 +114,9 @@ const onAvatarChange = (image: ImageOrVideo) => {
 
   // upload image to server here
   let reference = storage().ref('gs://supermama-6aa87.appspot.com/UserProfile/' + userId); //2
-  let task = reference.putFile(image.path.toString());
+  
+  let task =  reference.putFile(image.path.toString());
+  
 
   task
     .then(() => {
@@ -216,8 +219,9 @@ function ProfileInfo() {
                       },
                     });
                   }}/>
-        <Avatar onChange={onAvatarChange} source={imageUrl? {uri: imageUrl} : require('./addimg.png')} />
-        {imageUrl ?  null : <Text>Press image to upload photo.</Text>}
+       
+        <Avatar onChange={onAvatarChange} source={{uri: imageUrl}} />
+         {imageUrl ?  null : <Text>Press pink circle to upload your profile photo.</Text>}
         <Text> {item.name}</Text>
         <Text style={{alignItems: 'center'}}> {item.bio}</Text>
       

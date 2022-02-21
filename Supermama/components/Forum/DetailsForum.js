@@ -67,7 +67,7 @@ function DetailsForum({navigation, route}) {
 
   //add photo url
   //display user profile picture
-  const [imageUrl, setImageUrl] = useState(undefined);
+  const [imageUrl, setImageUrl] = useState('./question-mark.png');
   
   useEffect(() => {
     storage()

@@ -128,11 +128,11 @@ function Apply({navigation}){
  
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.instruction}>Step 1: Click the picture to upload certificate. {'\n'} </Text>
+        <Text style={styles.instruction}>Step 1: Click the box to upload certificate. {'\n'} </Text>
         {/* * step 4 place image change at screen */}
        <View style={styles.imageContainer}> 
-       <Certificate onChange={onImageChange} source={imageUrl? {uri: imageUrl} : require('../UserProfile/addimg.png')} />
-        {imageUrl ?  null : <Text>Press image to upload photo.</Text>}
+       <Certificate onChange={onImageChange} source={{uri: imageUrl}} />
+        {imageUrl ?  null : <Text>Press above box to upload photo.</Text>}
         </View>
 
         <Text style={styles.instruction}>Step 2: Select your professional field. {'\n'} </Text>

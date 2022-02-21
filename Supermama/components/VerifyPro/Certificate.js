@@ -49,5 +49,7 @@ const styles = StyleSheet.create({
     width: 370,
     borderRadius: 5,
     padding: 20,
+    borderColor: "pink",
+    borderWidth: 2,
   },
 });
