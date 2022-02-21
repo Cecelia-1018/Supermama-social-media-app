@@ -49,7 +49,7 @@ function AddForum({navigation}) {
 
   //add photo url
   //display user profile picture
-  const [imageUrl, setImageUrl] = useState('./question-mark.png'); //add anonymous avatar
+  const [imageUrl, setImageUrl] = useState('null'); //add anonymous avatar
   
   useEffect(() => {
     storage()

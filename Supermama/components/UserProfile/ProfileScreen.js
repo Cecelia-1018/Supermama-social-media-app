@@ -225,13 +225,7 @@ function ProfileInfo() {
         <Text> {item.name}</Text>
         <Text style={{alignItems: 'center'}}> {item.bio}</Text>
       
-        <Button
-          mode="contained"
-          onPress={() => alert('Button clicked')}
-          color="#f0ccd2"
-          style={styles.followButton}>
-          Follow
-        </Button>
+        
       </View>
       <View style={styles.content}>
         <Tab.Navigator
