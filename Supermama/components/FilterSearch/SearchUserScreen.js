@@ -75,20 +75,16 @@ function SearchUserScreen({navigation}) {
       // Flat List Item
       <Text
         style={styles.itemStyle}
-        //  onPress={() => {
-        //     navigation.navigate('Detail Forum', {
-        //       //pass params here
-        //       item: {
-        //         title: item.title,
-        //         description: item.description,
-        //         forumId: item.forumId,
-        //         username: item.username,
-        //         photoUrl: item.photoUrl,
-        //         date: item.date,
-        //         time: item.time,
-        //       },
-        //     });
-        //   }}
+         onPress={() => {
+            navigation.navigate('Profile View', {
+              //pass params here
+              item: {
+                username: item.name,
+                bio: item.bio,
+                userId: item.userId,
+              },
+            });
+          }}
           >
         {item.name}
       </Text>

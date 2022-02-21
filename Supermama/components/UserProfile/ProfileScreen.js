@@ -142,7 +142,7 @@ function ProfileInfo() {
 
   //check this user exist or not
   ref.get().then(documentSnapshot => {
-      console.log('User exists: ', documentSnapshot.exists);
+     
 
        if(documentSnapshot.exists) {
           // work with documents

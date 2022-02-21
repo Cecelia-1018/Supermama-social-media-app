@@ -45,6 +45,7 @@ import uploadImage from './components/Home/uploadImage';
 import AddEntertainment2 from './components/Home/AddEntertainment2';
 import SearchForumScreen from './components/FilterSearch/SearchForumScreen';
 import SearchUserScreen from './components/FilterSearch/SearchUserScreen';
+import ProfileView from './components/UserProfile/ProfileView';
 import StoreScreen from './components/Store/StoreHome';
 import StorePage from './components/Store/StorePage';
 import StoreAdd from './components/Store/StoreAdd';
@@ -212,6 +213,8 @@ const App: () => Node = () => {
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Search Forum" component={SearchForumScreen} />
         <Stack.Screen name="Search User" component={SearchUserScreen} />
+        <Stack.Screen name="Profile View" component={ProfileView} />
+
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />
         <Stack.Screen name="Product Details" component={StoreDetails} />
