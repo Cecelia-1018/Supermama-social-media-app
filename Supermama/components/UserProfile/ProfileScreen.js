@@ -23,6 +23,7 @@ import firestore from '@react-native-firebase/firestore';
 import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
+import UserPost from './UserPost';
 
 
 const Drawer = createDrawerNavigator();
@@ -234,7 +235,7 @@ function ProfileInfo() {
             tabBarIndicatorStyle: {backgroundColor: '#f0ccd2'},
             tabBarStyle: {backgroundColor: 'white'},
           }}>
-          <Tab.Screen name="Posts" component={Posts} />
+          <Tab.Screen name="Posts" component={UserPost} />
           <Tab.Screen name="Collections" component={Collections} />
           <Tab.Screen name="Products" component={Products} />
         </Tab.Navigator>
@@ -255,9 +256,9 @@ function ProfileInfo() {
   );
 }
 
-function Posts() {
-  return <Text>Post</Text>;
-}
+// function Posts() {
+//   return <Text>Post</Text>;
+// }
 
 function Collections() {
   return <Text>Collections</Text>;
