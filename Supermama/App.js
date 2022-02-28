@@ -31,8 +31,16 @@ import ForumScreen from './components/Forum/ForumScreen';
 import AddForum from './components/Forum/AddForum';
 import EditForum from './components/Forum/EditForum';
 import DetailsForum from './components/Forum/DetailsForum';
+
 import ProfileScreen from './components/UserProfile/ProfileScreen';
 import EditProfile from './components/UserProfile/EditProfile';
+import ProfileView from './components/UserProfile/ProfileView';
+import UserEnt from './components/UserProfile/UserEnt';
+import UserVideo from './components/UserProfile/UserVideo';
+import UserFeed from './components/UserProfile/UserFeed';
+import UserCollection from './components/UserProfile/UserCollection';
+import UserProduct from './components/UserProfile/UserProduct';
+
 import HomeScreen from './components/Home/HomeScreen';
 import EntertainmentHome from './components/Home/EntertainmentHome';
 import FeedHome from './components/Home/FeedHome';
@@ -43,14 +51,16 @@ import FeedDetails from './components/Home/FeedDetails';
 import EntertainmentDetails from './components/Home/EntertainmentDetails';
 import uploadImage from './components/Home/uploadImage';
 import AddEntertainment2 from './components/Home/AddEntertainment2';
+
 import SearchForumScreen from './components/FilterSearch/SearchForumScreen';
 import SearchUserScreen from './components/FilterSearch/SearchUserScreen';
-import ProfileView from './components/UserProfile/ProfileView';
+
 import StoreScreen from './components/Store/StoreHome';
 import StorePage from './components/Store/StorePage';
 import StoreAdd from './components/Store/StoreAdd';
 import StoreDetails from './components/Store/StoreDetails';
 import StoreCart from './components/Store/StoreCart';
+
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 
@@ -82,21 +92,6 @@ const Section = ({children, title}): Node => {
   );
 };
 
-
-
-// function SearchScreen() {
-//   const [searchQuery, setSearchQuery] = React.useState('');
-
-//   const onChangeSearch = query => setSearchQuery(query);
-
-//   return (
-//     <Searchbar
-//       placeholder="Search"
-//       onChangeText={onChangeSearch}
-//       value={searchQuery}
-//     />
-//   );
-// }
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -197,6 +192,7 @@ const App: () => Node = () => {
         <Stack.Screen name="Create Forum" component={AddForum} />
         <Stack.Screen name="Edit Forum" component={EditForum} />
         <Stack.Screen name="Detail Forum" component={DetailsForum} />
+        <Stack.Screen name="Search Forum" component={SearchForumScreen} />
 
         <Stack.Screen name="Entertainment Home" component={EntertainmentHome} />
         <Stack.Screen name="Feed Screen" component={FeedHome} />
@@ -210,11 +206,17 @@ const App: () => Node = () => {
           component={EntertainmentDetails}
         />
         <Stack.Screen name="Create Post" component={AddEntertainment2} />
+
         <Stack.Screen name="Edit Profile" component={EditProfile} />
-        <Stack.Screen name="Search Forum" component={SearchForumScreen} />
         <Stack.Screen name="Search User" component={SearchUserScreen} />
         <Stack.Screen name="Profile View" component={ProfileView} />
-
+        
+        <Stack.Screen name="Your Entertainment Posts" component={UserEnt} />
+        <Stack.Screen name="Your Video Posts" component={UserVideo} />
+        <Stack.Screen name="Your Feed Posts" component={UserFeed} />
+        <Stack.Screen name="Your Collection Posts" component={UserCollection} />
+        <Stack.Screen name="Your Product Posts" component={UserProduct} />
+          
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />
         <Stack.Screen name="Product Details" component={StoreDetails} />

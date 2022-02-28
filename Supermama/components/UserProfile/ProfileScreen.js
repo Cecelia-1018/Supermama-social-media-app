@@ -16,18 +16,17 @@ import {Avatar} from './Avatar';
 import {utils} from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import VerifyProScreen from '../VerifyPro/VerifyProScreen';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {Button, Card, IconButton, Title, Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
-import UserPost from './UserPost';
+
 
 
 const Drawer = createDrawerNavigator();
-const Tab = createMaterialTopTabNavigator();
+
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -149,8 +148,7 @@ function ProfileInfo() {
      
 
        if(documentSnapshot.exists) {
-          // work with documents
-          console.log("user existed!");
+         return null;
        } else {
           //firebase with create users 
           ref.set({
@@ -202,47 +200,100 @@ function ProfileInfo() {
   }, []);
 
   const renderItem = ({item}) => {
-    return(
-       <View style={styles.scroll}>
-      <StatusBar barStyle="dark-content" />
-      <View style={styles.userRow}>
-        <IconButton
-          style={[styles.editButton]}
-          color={Colors.grey600}
-          size={20}
-          icon="pen"
-          onPress={() => {
-                    navigation.navigate('Edit Profile', {
-                      item: {
-                        name: item.name,
-                        bio: item.bio,
-                        userId: item.userId,
-                      },
-                    });
-                  }}/>
-       
-        <Avatar onChange={onAvatarChange} source={{uri: imageUrl}} />
-         {imageUrl ?  null : <Text>Press pink circle to upload your profile photo.</Text>}
-        <Text> {item.name}</Text>
-        <Text style={{alignItems: 'center'}}> {item.bio}</Text>
-      
-        
-      </View>
-      <View style={styles.content}>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarLabelStyle: {fontSize: 12},
-            tabBarIndicatorStyle: {backgroundColor: '#f0ccd2'},
-            tabBarStyle: {backgroundColor: 'white'},
-          }}>
-          <Tab.Screen name="Posts" component={UserPost} />
-          <Tab.Screen name="Collections" component={Collections} />
-          <Tab.Screen name="Products" component={Products} />
-        </Tab.Navigator>
-      </View>
-    </View>
+    return (
+      <View
+        style={[
+          styles.mainContainer,
+          {
+            // Try setting `flexDirection` to `"row"`.
+            flexDirection: 'column',
+            backgroundColor: 'white',
+          },
+        ]}>
+        <View style={styles.userRow}>
+          <IconButton
+            style={[styles.editButton]}
+            color={Colors.grey600}
+            size={20}
+            icon="pen"
+            onPress={() => {
+              navigation.navigate('Edit Profile', {
+                item: {
+                  name: item.name,
+                  bio: item.bio,
+                  userId: item.userId,
+                },
+              });
+            }}
+          />
 
-    )
+          <Avatar onChange={onAvatarChange} source={{uri: imageUrl}} />
+          {imageUrl ? null : (
+            <Text>Press pink circle to upload your profile photo.</Text>
+          )}
+          <Text> {item.name}</Text>
+          <Text style={{alignItems: 'center'}}> {item.bio}</Text>
+        </View>
+        <View style={styles.content}>
+         
+          <Card style={styles.card}>
+           <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/group-people-illustration-set_52683-33806.jpg?size=626&ext=jpg&ga=GA1.2.253552068.1642731557' }} />
+            <Card.Actions>
+              <Button mode="default" onPress={() => {
+              navigation.navigate('Your Entertainment Posts',);
+            }}>
+                   Entertainment Posts
+              </Button>
+            </Card.Actions>
+          </Card>
+
+          <Card style={styles.card}>
+          <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/blogging-illustration-concept_114360-788.jpg?w=900' }} />
+            <Card.Actions>
+                <Button mode="default" onPress={() => {
+              navigation.navigate('Your Feed Posts',);
+            }}>
+                   Feed Posts
+              </Button>
+            </Card.Actions>
+          </Card>
+
+           <Card style={styles.card}>
+           <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/influencer-recording-new-video_23-2148522553.jpg?t=st=1646016908~exp=1646017508~hmac=2ad84a9384c8a2db718e551ba23c4b2ca85fcd7f624ab6f13aa243a6397b4d45&w=900' }} />
+            <Card.Actions>
+              <Button mode="default" onPress={() => {
+              navigation.navigate('Your Video Posts',);
+            }}>
+                   Video Posts
+              </Button>
+            </Card.Actions>
+          </Card>
+
+          
+          <Card style={styles.card}>
+          <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/ecommerce-campaign-concept-illustration_114360-8202.jpg?w=996' }} />
+            <Card.Actions>
+               <Button mode="default" onPress={() => {
+              navigation.navigate('Your Product Posts',);
+            }}>
+                   Products
+              </Button>
+            </Card.Actions>
+          </Card>
+
+          <Card style={styles.card}>
+          <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/self-care-illustration-concept_23-2148526939.jpg?w=740' }} />
+             <Card.Actions>
+               <Button mode="default" onPress={() => {
+              navigation.navigate('Your Collection Posts',);
+            }}>
+                  Collections
+              </Button>
+            </Card.Actions>
+          </Card>
+        </View>
+      </View>
+    );
   }
   
 
@@ -255,10 +306,6 @@ function ProfileInfo() {
       />
   );
 }
-
-// function Posts() {
-//   return <Text>Post</Text>;
-// }
 
 function Collections() {
   return <Text>Collections</Text>;
@@ -325,13 +372,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userRow: {
+    flex: 1,
     alignItems: 'center',
     padding: 15,
     marginTop: 10,
   },
   content: {
-    flex: 1,
-    backgroundColor: '#d8d8db',
+    flex: 3,
+    backgroundColor: 'white',
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 15,
+  },
+  card:{
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 15,
   },
   followButton: {
     marginLeft: 10,
