@@ -87,6 +87,7 @@ const StoreScreen = ({navigation, route}) => {
         keyExtractor={item => item.productId}
         renderItem={renderItem}
       />
+      
     </View>
   );
 };

@@ -47,6 +47,7 @@
     "react-native-video": "^5.2.0",
     "react-navigation-drawer": "^2.7.1",
     "rn-bottom-drawer": "^1.4.3",
+    "tipsi-stripe": "^9.2.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
