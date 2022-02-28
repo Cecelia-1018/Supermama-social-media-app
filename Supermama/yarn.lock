@@ -7875,6 +7875,11 @@ tinycolor2@^1.4.2:
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
 
+tipsi-stripe@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/tipsi-stripe/-/tipsi-stripe-9.2.0.tgz#e7d83c00e8223c4b2c3adb3656606ea6c5a36765"
+  integrity sha512-09/KlprrN4xkFFdmswEI2RddSFFu8rvdVSA/GPBXKTg4Pg6tPESDQCAnutW3E3E2uvNIT+HDW1ODCdVUmaPOdQ==
+
 tmpl@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"

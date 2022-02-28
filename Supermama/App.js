@@ -21,6 +21,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import stripe from 'tipsi-stripe';
+stripe.setOptions({
+  publishableKey:
+    'pk_test_51KWsm3FQQubomZ5Y9Ti5SiXtSGUV6c0Tf666rDEMxAINgGotLisPEHApDdB26fHtd9xYBrwDcqahMjyH2Whr3MMg00yjFgsCdf',
+});
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -65,7 +70,7 @@ import StorePage from './components/Store/StorePage';
 import StoreAdd from './components/Store/StoreAdd';
 import StoreDetails from './components/Store/StoreDetails';
 import StoreCart from './components/Store/StoreCart';
-
+import CardFormScreen from './components/Store/scenes/CardFormScreen';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 
@@ -232,6 +237,7 @@ const App: () => Node = () => {
         <Stack.Screen name="Add Products" component={StoreAdd} />
         <Stack.Screen name="Product Details" component={StoreDetails} />
         <Stack.Screen name="Cart" component={StoreCart} />
+        <Stack.Screen name="CardFormScreen" component={CardFormScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
