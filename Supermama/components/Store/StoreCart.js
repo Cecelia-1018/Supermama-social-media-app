@@ -4,9 +4,8 @@ import {Button, IconButton} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
 import {sub} from 'react-native-reanimated';
-import { NavigationContainer } from '@react-navigation/native';
 
-const StoreCart = ({navigation}) => {
+const StoreCart = () => {
   const user = firebase.auth().currentUser;
   const uid = user.uid;
   const cartRef = useRef();
@@ -53,13 +52,6 @@ const StoreCart = ({navigation}) => {
         keyExtractor={item => item.cartId}
         renderItem={renderItem}
       />
-      <Button
-        styele={[styles.pay]}
-        color="pink"
-        onPress={() => navigation.navigate('CardFormScreen')}
-        mode="outlined">
-        Payment
-      </Button>
     </View>
   );
 };
