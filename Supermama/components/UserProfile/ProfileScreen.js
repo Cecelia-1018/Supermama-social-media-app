@@ -140,14 +140,11 @@ function ProfileInfo() {
   //reference of user
   const ref = firestore().collection('users').doc(uid);
 
- 
-
-
   //check this user exist or not
   ref.get().then(documentSnapshot => {
      
 
-       if(documentSnapshot.exists) {
+  if(documentSnapshot.exists) {
          return null;
        } else {
           //firebase with create users 
@@ -257,8 +254,13 @@ function ProfileInfo() {
               </Button>
             </Card.Actions>
           </Card>
+          
+          
+          
+           {/* 
+           DONT CANCEL AND DELETE FIRST
 
-           {/* <Card style={styles.card}>
+           <Card style={styles.card}>
            <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/influencer-recording-new-video_23-2148522553.jpg?t=st=1646016908~exp=1646017508~hmac=2ad84a9384c8a2db718e551ba23c4b2ca85fcd7f624ab6f13aa243a6397b4d45&w=900' }} />
             <Card.Actions>
               <Button mode="default" onPress={() => {

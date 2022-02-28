@@ -40,6 +40,11 @@ import UserVideo from './components/UserProfile/UserVideo';
 import UserFeed from './components/UserProfile/UserFeed';
 import UserCollection from './components/UserProfile/UserCollection';
 import UserProduct from './components/UserProfile/UserProduct';
+import ViewEnt from './components/UserProfile/ViewEnt';
+import ViewVideo from './components/UserProfile/ViewVideo';
+import ViewFeed from './components/UserProfile/ViewFeed';
+import ViewCollection from './components/UserProfile/ViewCollection';
+import ViewProduct from './components/UserProfile/ViewProduct';
 
 import HomeScreen from './components/Home/HomeScreen';
 import EntertainmentHome from './components/Home/EntertainmentHome';
@@ -216,6 +221,12 @@ const App: () => Node = () => {
         <Stack.Screen name="Your Feed Posts" component={UserFeed} />
         <Stack.Screen name="Your Collection Posts" component={UserCollection} />
         <Stack.Screen name="Your Product Posts" component={UserProduct} />
+
+        <Stack.Screen name="View Entertainment Posts" component={ViewEnt} />
+        <Stack.Screen name="View Video Posts" component={ViewVideo} />
+        <Stack.Screen name="View Feed Posts" component={ViewFeed} />
+        <Stack.Screen name="View Collection Posts" component={ViewCollection} />
+        <Stack.Screen name="View Product Posts" component={ViewProduct} />
           
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />
