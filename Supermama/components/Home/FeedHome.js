@@ -31,16 +31,14 @@ const FeedHome = ({navigation}) => {
                 hashtag: item.hashtag,
                 userid: item.userId,
                 username: item.username,
+                image: item.image,
               },
             });
           }}>
           <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
             <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
               {/* <Avatar.Image size={50} source={item.avatar_url} /> */}
-              <Image
-                source={require('./AddPost_img.jpg')}
-                style={styles.image}
-              />
+              <Image style={styles.image} source={{uri: item.image}} />
             </View>
             <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
               <Text style={[styles.user]}> {item.title}</Text>
@@ -58,13 +56,13 @@ const FeedHome = ({navigation}) => {
               </View>
             </View>
           </View>
-          <IconButton
+          {/* <IconButton
             style={[styles.bookmark]}
             icon={'book'}
             color="black"
             size={25}
             // onPress={() => navigation.navigate('Bookmark')}
-          />
+          /> */}
           <Text style={[{fontSize: 0}]}> {item.details}</Text>
           <Text style={[{fontSize: 0}]}> {item.hyperlink}</Text>
         </TouchableOpacity>

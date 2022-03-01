@@ -39,7 +39,7 @@ function uploadImage({navigation}) {
   };
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
-  const [imageUrl, setImageUrl] = useState(undefined);
+  const [imageUrl, setImageUrl] = useState(null);
   // * step 3a call image from storage (rmb import useEffect at top)
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function uploadImage({navigation}) {
       .getDownloadURL()
       .then(url => {
         setImageUrl(url);
-        console.log(ImageUrl);
+        console.log(imageUrl);
       })
       .catch(e => console.log('Errors while downloading => ', e));
   }, []);

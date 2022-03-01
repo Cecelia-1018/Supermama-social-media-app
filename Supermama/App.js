@@ -21,11 +21,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import stripe from 'tipsi-stripe';
-stripe.setOptions({
-  publishableKey:
-    'pk_test_51KWsm3FQQubomZ5Y9Ti5SiXtSGUV6c0Tf666rDEMxAINgGotLisPEHApDdB26fHtd9xYBrwDcqahMjyH2Whr3MMg00yjFgsCdf',
-});
+
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';

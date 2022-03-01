@@ -1,6 +1,10 @@
 import React, {PureComponent} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import stripe from 'tipsi-stripe';
+stripe.setOptions({
+  publishableKey:
+    'pk_test_51KWsm3FQQubomZ5Y9Ti5SiXtSGUV6c0Tf666rDEMxAINgGotLisPEHApDdB26fHtd9xYBrwDcqahMjyH2Whr3MMg00yjFgsCdf',
+});
 import Button from '../components/Button';
 
 import {demoCardFormParameters} from './demodata/demodata';
