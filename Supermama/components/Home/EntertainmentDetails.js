@@ -40,6 +40,82 @@ function EntertainmentDetails({route}) {
   const [avatarUrl, setAvatarUrl] = useState(undefined);
   const [following, setFollowing] = useState(false);
 
+  const ref = firestore().collection('commentEnt');
+  const [CommentId, setCommentId] = useState('');
+  const [commentDocId, setCommentDocId] = useState('');
+  const flatlistRef = useRef();
+  const onPressFunction = () => {
+    flatlistRef.current.scrollToEnd({animating: true});
+  };
+  const [txtComment, setTxtComment] = useState('');
+  const [comment, setComment] = useState([]);
+  useEffect(() => {
+    var date = Date.now().toString();
+    var hours = new Date().getHours(); //To get the Current Hours
+    var min = new Date().getMinutes(); //To get the Current
+    var sec = new Date().getSeconds(); //To get the Current Seconds
+
+    setCommentId('C' + date + hours + min + sec);
+    setCommentDocId('C' + date + hours + min + sec);
+  }, []);
+  async function addReviewCol() {
+    if (!txtComment.trim()) {
+      alert('Please put a review');
+    } else {
+      await ref
+        .doc(commentDocId)
+        .set({
+          userId: user.uid,
+          username: user.displayName,
+          reviewId: CommentId,
+          review: txtComment,
+          entId: entId,
+        })
+        .then(() => {
+          console.log('Comment Added!');
+        });
+      setTxtComment('');
+    }
+  }
+  const reviewRender = ({item}) => {
+    return (
+      <SafeAreaProvider>
+        <View style={styles.comment}>
+          <Card>
+            <Card.Content>
+              <Text style={{color: 'black', fontSize: 18}}>
+                {item.username}
+              </Text>
+              <Text style={{color: 'black', fontSize: 15}}>{item.review}</Text>
+            </Card.Content>
+          </Card>
+        </View>
+      </SafeAreaProvider>
+    );
+  };
+
+  const [replyNum, setReplyNum] = useState('');
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('commentEnt')
+      .where('entId', 'in', [item.entId])
+      .onSnapshot(querySnapshot => {
+        const comment = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          comment.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setComment(comment);
+        setReplyNum(querySnapshot.size);
+      });
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, [item.entId]);
+
   useEffect(() => {
     const subscriber = firestore()
       .collection('following')
@@ -79,7 +155,16 @@ function EntertainmentDetails({route}) {
   return (
     <View style={styles.container}>
       <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
-        <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
+        <View
+          style={[
+            {
+              flexGrow: 0,
+              flexShrink: 1,
+              flexBasis: 'auto',
+              marginLeft: 10,
+              marginTop: 10,
+            },
+          ]}>
           <Avatar.Image size={50} source={{uri: item.avatar}} />
         </View>
         <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
@@ -115,7 +200,42 @@ function EntertainmentDetails({route}) {
           Follow
         </Button>
       )}
-      {/* <EntCom /> */}
+      <View style={[styles.commentcolumn]}>
+        <Text style={[styles.description]}>Comment {replyNum}</Text>
+      </View>
+      {user ? (
+        <View style={styles.action}>
+          <TextInput
+            label="Comment"
+            value={txtComment}
+            onChangeText={setTxtComment}
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+            multiline={true}
+            numberOfLines={2}
+            color="black"
+            placeholder="Your Review"
+          />
+          <IconButton
+            style={[styles.send]}
+            icon={'send'}
+            color="black"
+            size={25}
+            onPress={() => {
+              addReviewCol();
+            }}
+          />
+        </View>
+      ) : null}
+      <FlatList
+        ref={flatlistRef}
+        data={comment}
+        keyExtractor={item => item.entId}
+        renderItem={reviewRender}
+        initialNumToRender={comment.length}
+        maxToRenderPerBatch={comment.length}
+        windowSize={5}
+      />
     </View>
   );
 }
@@ -143,7 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   user: {textAlignVertical: 'top', fontSize: 15, color: 'black'},
-  description: {fontSize: 17, color: 'black'},
+  description: {fontSize: 17, color: 'black', marginLeft: 25,},
   image: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -156,4 +276,14 @@ const styles = StyleSheet.create({
   grid: {flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'},
   follow: {position: 'absolute', right: 5, top: 18, color: 'black'},
   bookmark: {position: 'absolute', right: 110, top: 12},
+  send: {position:'absolute', right: 10, top: 10},
+  commentcolumn: {
+    borderColor: 'pink',
+    borderBottomWidth: 2,
+    margin: 10,
+  },
+  comment: {
+    borderColor: 'black',
+    borderBottomWidth: 1,
+  },
 });

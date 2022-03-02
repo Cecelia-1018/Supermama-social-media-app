@@ -1,61 +1,66 @@
-import React, {PureComponent} from 'react';
+import axios from 'axios';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import stripe from 'tipsi-stripe';
+import {Button} from 'react-native-paper';
+import stripe, {PaymentCardTextField} from 'tipsi-stripe';
 stripe.setOptions({
   publishableKey:
     'pk_test_51KWsm3FQQubomZ5Y9Ti5SiXtSGUV6c0Tf666rDEMxAINgGotLisPEHApDdB26fHtd9xYBrwDcqahMjyH2Whr3MMg00yjFgsCdf',
 });
-import Button from '../components/Button';
 
-import {demoCardFormParameters} from './demodata/demodata';
+const ClassFormScreen = () => {
+  const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(null);
 
-export default class CardFormScreen extends PureComponent {
-  static title = 'Card Form';
-
-  state = {
-    loading: false,
-    paymentMethod: null,
+  const getToken = async () => {
+    const _token = await stripe.createTokenWithCard({
+      number: '4242424242424242',
+      expMonth: 11,
+      expYear: 23,
+      cvc: '123',
+    });
+    return _token.tokenId;
   };
 
-  handleCardPayPress = async () => {
-    try {
-      this.setState({loading: true, paymentMethod: null});
-
-      const paymentMethod = await stripe.paymentRequestWithCardForm(
-        demoCardFormParameters,
-      );
-
-      this.setState({loading: false, paymentMethod});
-    } catch (error) {
-      this.setState({loading: false});
-    }
+  const makePayment = async () => {
+    setLoading(true);
+    const _token = await getToken();
+    setToken(_token);
+    axios({
+      method: 'POST',
+      url: 'http://10.0.2.2:5001/supermama-6aa87/us-central1/completePaymentWithStripe',
+      data: {
+        amount: 100,
+        currency: 'USD',
+        token: _token,
+      },
+    })
+      .then(response => {
+        console.log(JSON.stringify(response, null, 2));
+        setLoading(false);
+      })
+      .catch(err => console.error(err));
   };
 
-  render() {
-    const {loading, paymentMethod} = this.state;
-
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Card Form Example</Text>
-        <Text style={styles.instruction}>
-          Click button to show Card Form dialog.
-        </Text>
-        <Button
-          text="Enter you card and pay"
-          loading={loading}
-          onPress={this.handleCardPayPress}
-        />
-        <View style={styles.paymentMethod}>
-          {paymentMethod && (
-            <Text style={styles.instruction}>
-              Payment Method: {JSON.stringify(paymentMethod)}
-            </Text>
-          )}
-        </View>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Card Form Example</Text>
+      <Text style={styles.instruction}>
+        Click button to show Card Form dialog.
+      </Text>
+      <Button onPress={makePayment}>Pay</Button>
+      <View style={styles.token}>
+        {token && (
+          <Text style={styles.instruction}>
+            Payment Method: {JSON.stringify(token)}
+          </Text>
+        )}
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
+
+export default ClassFormScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +78,14 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-  paymentMethod: {
+  token: {
     height: 20,
+  },
+  field: {
+    width: 300,
+    color: '#449aeb',
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 5,
   },
 });
