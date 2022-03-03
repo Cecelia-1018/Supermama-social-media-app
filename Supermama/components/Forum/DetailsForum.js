@@ -37,6 +37,7 @@ function DetailsForum({navigation, route}) {
   //input answer
   const [txtAns, setTxtAnswer] = React.useState('');
 
+  
   //firebase
   const ref = firestore().collection('answers');
 
@@ -51,6 +52,7 @@ function DetailsForum({navigation, route}) {
   const [ansDate, setAnsDate] = useState('');
   const [ansTime, setAnsTime] = useState('');
 
+
   useEffect(() => {
     var head = Date.now().toString();
     var tail = Math.random().toString().substr(2);
@@ -64,6 +66,49 @@ function DetailsForum({navigation, route}) {
     setAnsDate(date);
     setAnsTime(time);
   }, []);
+
+  
+  const [bookmark, setBookmark] = useState(false);
+  const [bookmarkId, setbookmarkId] = useState(item.forumId);
+
+//start at here to refer waiyi again after exam
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userBookmark')
+
+      .onSnapshot(querySnapshot =>
+        querySnapshot.forEach(
+          documentSnapshot =>
+            documentSnapshot.id == forumId && setBookmark(true),
+        ),
+      );
+    return () => subscriber();
+  }, [user, setBookmark, forumId]);
+
+  const onBookmark = useCallback(async () => {
+    console.log('bookmark');
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userBookmark')
+      .doc(item.forumId)
+      .set({});
+    setBookmark(true);
+  }, [setBookmark, user, item]);
+
+  const onUnBookmark = useCallback(async () => {
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userBookmark')
+      .doc(item.userId)
+      .delete();
+    setBookmark(false);
+  }, [setBookmark, user, item]);
+
+
 
   //add photo url
   //display user profile picture
@@ -233,6 +278,22 @@ function DetailsForum({navigation, route}) {
               //on Press of the button bottom sheet will be visible
             />
           ) : null}
+          {bookmark ? (
+          <IconButton
+              icon="book"
+              color="red"
+              size={20}
+              onPress={() => onUnBookmark()}
+              
+            />
+          ) : (
+             <IconButton
+              icon="book"
+              color="#FE7E9C"
+              size={20}
+              onPress={() => onBookmark()}/>
+          )}
+           
         </Card.Actions>
       </Card>
 
