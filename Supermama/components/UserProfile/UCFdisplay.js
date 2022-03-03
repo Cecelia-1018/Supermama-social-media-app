@@ -36,16 +36,10 @@ function UCFdisplay ({navigation}){
        <SafeAreaProvider>
        <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Detail Forum', {
+            navigation.navigate('Your Collect Forum', {
               //pass params here
               item: {
-                title: item.title,
-                description: item.description,
                 forumId: item.forumId,
-                username: item.username,
-                photoUrl: item.photoUrl,
-                date: item.date,
-                time: item.time,
               },
             });
           }}>
@@ -72,8 +66,10 @@ function UCFdisplay ({navigation}){
       .onSnapshot(
         querySnapshot => {
           const bookmark = [];
+          const forumIdt = [];
 
           querySnapshot.forEach(documentSnapshot => {
+          
             bookmark.push({
               ...documentSnapshot.data(),
               key:documentSnapshot.id
@@ -83,7 +79,7 @@ function UCFdisplay ({navigation}){
           
           setBookmark(bookmark);
           setLoading(false);
-
+          
         });
     
 
@@ -91,6 +87,7 @@ function UCFdisplay ({navigation}){
     return () => subscriber();
   }, []);
 
+ 
   if (loading) {
     return <ActivityIndicator size="large" color="#FFC0CB" />;
   }
