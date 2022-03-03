@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Button, IconButton, Avatar} from 'react-native-paper';
 import {Icon} from 'react-native-elements';

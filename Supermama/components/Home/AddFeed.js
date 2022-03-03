@@ -12,7 +12,9 @@ import firestore from '@react-native-firebase/firestore';
 import {Icon} from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import auth, {firebase} from '@react-native-firebase/auth';
-
+import {PostImagePicker} from '../Home/PostImagePicker';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
+import storage from '@react-native-firebase/storage';
 const AddFeed = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const [txtHashtag, setTxtHashtag] = useState('');
@@ -26,6 +28,7 @@ const AddFeed = ({navigation}) => {
 
   const [feedId, setFeedId] = useState('');
   const [feedDocId, setFeedDocId] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
     var date = Date.now().toString();
@@ -36,6 +39,39 @@ const AddFeed = ({navigation}) => {
     setFeedId('FE' + date + hours + min + sec);
     setFeedDocId('FE' + date + hours + min + sec);
   }, []);
+
+  const onImageChange = (image: ImageOrVideo) => {
+    console.log(image);
+    let Id = feedId;
+    //* step 2 a : upload image to storage
+    let reference = storage().ref(
+      'gs://supermama-6aa87.appspot.com/Product/' + Id,
+    ); //2
+    let task = reference.putFile(image.path.toString());
+
+    task
+      .then(async res => {
+        const imageU = await storage()
+          .ref(res.metadata.fullPath)
+          .getDownloadURL();
+        setImageUrl(imageU);
+        console.log('Image uploaded to the bucket!');
+      })
+      .catch(e => console.log('uploading image error =>', e));
+  };
+  useEffect(() => {
+    if (user) {
+      storage()
+        .ref('gs://supermama-6aa87.appspot.com/Product/' + feedId) //name in storage in firebase console
+        .getDownloadURL()
+        .then(url => {
+          setImageUrl(url);
+          console.log(imageUrl);
+        })
+        .catch(e => console.log('Errors while downloading => ', e));
+    }
+  }, [feedId, imageUrl, user]);
+
 
   async function addFeedCol() {
     await ref
@@ -50,6 +86,7 @@ const AddFeed = ({navigation}) => {
         hashtag: txtHashtag,
         details: txtDetails,
         hyperlink: txtLink,
+        image: imageUrl,
       })
       .then(() => {
         Alert.alert('Success ✅', 'Feed Added Success');
@@ -68,7 +105,7 @@ const AddFeed = ({navigation}) => {
 
       <View style={styles.footer}>
         <ScrollView>
-          <Text style={styles.text_footer}>Username</Text>
+          <Text style={styles.text_footer}>{user.displayName}</Text>
           <Text style={[styles.text_footer, {marginTop: 10}]}>Title</Text>
           <View style={styles.action}>
             <TextInput
@@ -127,6 +164,10 @@ const AddFeed = ({navigation}) => {
             />
           </View>
           <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
+          <PostImagePicker
+              onChange={onImageChange}
+              source={imageUrl ? {uri: imageUrl} : require('./plus.png')}
+            />
           <View style={styles.button}>
             <Button
               mode="outlined"

@@ -22,6 +22,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -65,7 +66,7 @@ import StorePage from './components/Store/StorePage';
 import StoreAdd from './components/Store/StoreAdd';
 import StoreDetails from './components/Store/StoreDetails';
 import StoreCart from './components/Store/StoreCart';
-
+import CardFormScreen from './components/Store/scenes/CardFormScreen';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 
@@ -232,6 +233,7 @@ const App: () => Node = () => {
         <Stack.Screen name="Add Products" component={StoreAdd} />
         <Stack.Screen name="Product Details" component={StoreDetails} />
         <Stack.Screen name="Cart" component={StoreCart} />
+        <Stack.Screen name="CardFormScreen" component={CardFormScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

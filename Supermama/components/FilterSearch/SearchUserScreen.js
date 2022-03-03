@@ -13,52 +13,42 @@ import {
   Alert,
 } from 'react-native';
 
-
 function SearchUserScreen({navigation}) {
-
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
 
-   useEffect(() => {
+  useEffect(() => {
     const subscriber = firestore()
       .collection('users')
-      .onSnapshot(
-        querySnapshot => {
-          const users = [];
+      .onSnapshot(querySnapshot => {
+        const users = [];
 
-          querySnapshot.forEach(documentSnapshot => {
-            users.push({
-              ...documentSnapshot.data(),
-              key:documentSnapshot.id
-            });
+        querySnapshot.forEach(documentSnapshot => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
           });
-    
-          
-         setFilteredDataSource(users);
-         setMasterDataSource(users);
-          
-
         });
-    
+
+        setFilteredDataSource(users);
+        setMasterDataSource(users);
+      });
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
 
-  const searchFilterFunction = (text) => {
+  const searchFilterFunction = text => {
     // Check if searched text is not blank
     if (text) {
       // Inserted text is not blank
       // Filter the masterDataSource
       // Update FilteredDataSource
-      const newData = masterDataSource.filter(
-        function (item) {
-          const itemData = item.name
-            ? item.name.toUpperCase()
-            : ''.toUpperCase();
-          const textData = text.toUpperCase();
-          return itemData.indexOf(textData) > -1;
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
       });
       setFilteredDataSource(newData);
       setSearch(text);
@@ -75,17 +65,16 @@ function SearchUserScreen({navigation}) {
       // Flat List Item
       <Text
         style={styles.itemStyle}
-         onPress={() => {
-            navigation.navigate('Profile View', {
-              //pass params here
-              item: {
-                username: item.name,
-                bio: item.bio,
-                userId: item.userId,
-              },
-            });
-          }}
-          >
+        onPress={() => {
+          navigation.navigate('Profile View', {
+            //pass params here
+            item: {
+              username: item.name,
+              bio: item.bio,
+              userId: item.userId,
+            },
+          });
+        }}>
         {item.name}
       </Text>
     );
@@ -104,17 +93,17 @@ function SearchUserScreen({navigation}) {
     );
   };
 
-   const getItem = (item) => {
+  const getItem = item => {
     // Function for click on an item
     alert('Id : ' + item.userId + ' Title : ' + item.name);
   };
 
- return (
+  return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <TextInput
           style={styles.textInputStyle}
-          onChangeText={(text) => searchFilterFunction(text)}
+          onChangeText={text => searchFilterFunction(text)}
           value={search}
           underlineColorAndroid="transparent"
           placeholder="Search Your Question"
@@ -128,7 +117,6 @@ function SearchUserScreen({navigation}) {
       </View>
     </SafeAreaView>
   );
-
 }
 const styles = StyleSheet.create({
   container: {

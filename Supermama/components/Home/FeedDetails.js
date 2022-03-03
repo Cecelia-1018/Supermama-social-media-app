@@ -105,7 +105,7 @@ function FeedDetails({navigation, route}) {
     <View style={[styles.container, styles.item]}>
       <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
         <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-          <Image source={require('./AddPost_img.jpg')} style={styles.image} />
+          <Image source={{uri: item.image}} style={styles.image} />
         </View>
         <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
           <Text style={[styles.title]}> {item.title}</Text>
