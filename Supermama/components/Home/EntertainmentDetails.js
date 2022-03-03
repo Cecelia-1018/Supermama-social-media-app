@@ -24,7 +24,7 @@ import {
 
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import auth, {firebase} from '@react-native-firebase/auth';
+import {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import EntCom from './EntCom.js';
 
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   user: {textAlignVertical: 'top', fontSize: 15, color: 'black'},
-  description: {fontSize: 17, color: 'black', marginLeft: 25,},
+  description: {fontSize: 17, color: 'black', marginLeft: 25},
   image: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   grid: {flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'},
   follow: {position: 'absolute', right: 5, top: 18, color: 'black'},
   bookmark: {position: 'absolute', right: 110, top: 12},
-  send: {position:'absolute', right: 10, top: 10},
+  send: {position: 'absolute', right: 10, top: 10},
   commentcolumn: {
     borderColor: 'pink',
     borderBottomWidth: 2,

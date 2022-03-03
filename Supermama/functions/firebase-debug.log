@@ -1,0 +1,107 @@
+[debug] [2022-03-03T05:01:56.328Z] ----------------------------------------------------------------------
+[debug] [2022-03-03T05:01:56.329Z] Command:       /usr/local/bin/node /Users/waiyi/.yarn/bin/firebase functions:shell
+[debug] [2022-03-03T05:01:56.330Z] CLI Version:   10.2.1
+[debug] [2022-03-03T05:01:56.330Z] Platform:      darwin
+[debug] [2022-03-03T05:01:56.330Z] Node Version:  v16.14.0
+[debug] [2022-03-03T05:01:56.334Z] Time:          Thu Mar 03 2022 13:01:56 GMT+0800 (Malaysia Time)
+[debug] [2022-03-03T05:01:56.334Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-03-03T05:01:56.366Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-03-03T05:01:56.366Z] > authorizing via signed-in user (waiyi2000@gmail.com)
+[debug] [2022-03-03T05:01:56.366Z] [iam] checking project supermama-6aa87 for permissions ["firebase.projects.get"]
+[debug] [2022-03-03T05:01:56.367Z] > refreshing access token with scopes: []
+[debug] [2022-03-03T05:01:56.367Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2022-03-03T05:01:56.490Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","date":"Thu, 03 Mar 2022 05:01:56 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2022-03-03T05:01:56.532Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/supermama-6aa87:testIamPermissions [none]
+[debug] [2022-03-03T05:01:56.533Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/supermama-6aa87:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-03-03T05:01:57.643Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/supermama-6aa87:testIamPermissions 200
+[debug] [2022-03-03T05:01:57.643Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/supermama-6aa87:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-03-03T05:01:57.668Z] [functions] Using node@16 from host.
+[debug] [2022-03-03T05:01:57.669Z] defaultcredentials: writing to file /Users/waiyi/.config/firebase/waiyi2000_gmail_com_application_default_credentials.json
+[debug] [2022-03-03T05:01:57.671Z] DEBUG: Setting GAC to /Users/waiyi/.config/firebase/waiyi2000_gmail_com_application_default_credentials.json
+[debug] [2022-03-03T05:01:57.672Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/supermama-6aa87/adminSdkConfig [none]
+[debug] [2022-03-03T05:01:58.023Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/supermama-6aa87/adminSdkConfig 200
+[debug] [2022-03-03T05:01:58.024Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/supermama-6aa87/adminSdkConfig {"projectId":"supermama-6aa87","storageBucket":"supermama-6aa87.appspot.com","locationId":"asia-southeast1"}
+[debug] [2022-03-03T05:01:58.056Z] [functions] Watching "/Users/waiyi/Documents/Supermama/Supermama/functions" for Cloud Functions...
+[debug] [2022-03-03T05:01:58.064Z] Validating nodejs source
+[debug] [2022-03-03T05:01:58.803Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "yarn shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^9.8.0",
+    "firebase-functions": "^3.14.1",
+    "stripe": "^8.206.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-03-03T05:01:58.803Z] Building nodejs source
+[debug] [2022-03-03T05:01:58.803Z] Analyzing nodejs backend spec
+[debug] [2022-03-03T05:01:58.890Z] [functions[us-central1-completePaymentWithStripe]] http function initialized (http://localhost:5001/supermama-6aa87/us-central1/completePaymentWithStripe).
+[info] i  functions: Loaded functions: completePaymentWithStripe 
+[warn] ⚠  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage 
+[debug] [2022-03-03T05:02:03.602Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-03-03T05:02:03.602Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-03-03T05:02:03.602Z] Accepted request POST /supermama-6aa87/us-central1/completePaymentWithStripe --> us-central1-completePaymentWithStripe
+[debug] [2022-03-03T05:02:03.606Z] DEBUG: [worker-pool] addWorker(us-central1-completePaymentWithStripe)
+[debug] [2022-03-03T05:02:03.607Z] DEBUG: [worker-pool] Adding worker with key us-central1-completePaymentWithStripe, total=1
+[debug] [2022-03-03T05:02:03.607Z] DEBUG: [worker-pool] submitWork(triggerId=us-central1-completePaymentWithStripe)
+[debug] [2022-03-03T05:02:03.607Z] DEBUG: [worker-us-central1-completePaymentWithStripe-6bf6bfbb-0d57-453f-a735-6229f0f83958]: Assigning socketPath: /var/folders/fh/q0jk3n697bd176799gvy7wdw0000gn/T/fire_emu_7176.sock
+[debug] [2022-03-03T05:02:03.607Z] DEBUG: [worker-us-central1-completePaymentWithStripe-6bf6bfbb-0d57-453f-a735-6229f0f83958]: BUSY
+[debug] [2022-03-03T05:02:04.050Z] DEBUG: [runtime-status] [7176] Functions runtime initialized. {"cwd":"/Users/waiyi/Documents/Supermama/Supermama/functions","node_version":"16.14.0"}
+[debug] [2022-03-03T05:02:04.050Z] DEBUG: [runtime-status] [7176] Disabled runtime features: undefined
+[debug] [2022-03-03T05:02:04.051Z] DEBUG: [runtime-status] [7176] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2022-03-03T05:02:04.051Z] DEBUG: [runtime-status] [7176] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.18.1","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2022-03-03T05:02:04.052Z] DEBUG: [runtime-status] [7176] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2022-03-03T05:02:04.052Z] DEBUG: [runtime-status] [7176] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.18.1","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2022-03-03T05:02:04.065Z] DEBUG: [runtime-status] [7176] Checked functions.config() {"config":{}}
+[debug] [2022-03-03T05:02:04.065Z] DEBUG: [runtime-status] [7176] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.18.1","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2022-03-03T05:02:04.065Z] DEBUG: [runtime-status] [7176] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.18.1","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2022-03-03T05:02:04.065Z] DEBUG: [runtime-status] [7176] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2022-03-03T05:02:04.066Z] DEBUG: [runtime-status] [7176] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.18.1","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2022-03-03T05:02:04.066Z] DEBUG: [runtime-status] [7176] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.12.0","resolution":"/Users/waiyi/Documents/Supermama/Supermama/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2022-03-03T05:02:04.086Z] DEBUG: [runtime-status] [7176] Beginning invocation function completePaymentWithStripe!
+[debug] [2022-03-03T05:02:04.086Z] [functions] Beginning execution of "completePaymentWithStripe"
+[debug] [2022-03-03T05:02:04.086Z] DEBUG: [runtime-status] [7176] Running completePaymentWithStripe in signature http
+[debug] [2022-03-03T05:02:04.087Z] DEBUG: [runtime-status] [7176] Attempting to listen to socketPath: /var/folders/fh/q0jk3n697bd176799gvy7wdw0000gn/T/fire_emu_7176.sock
+[debug] [2022-03-03T05:02:04.090Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-03-03T05:02:04.090Z] DEBUG: [functions] Got req.url=/supermama-6aa87/us-central1/completePaymentWithStripe, mapping to path=/
+[debug] [2022-03-03T05:02:04.097Z] DEBUG: [runtime-status] [7176] Ephemeral server handling POST request
+[debug] [2022-03-03T05:02:04.101Z] DEBUG: [runtime-status] [7176] Ephemeral server survived.
+[debug] [2022-03-03T05:02:05.337Z] [functions] Finished "completePaymentWithStripe" in ~1s
+[debug] [2022-03-03T05:02:05.337Z] DEBUG: [worker-us-central1-completePaymentWithStripe-6bf6bfbb-0d57-453f-a735-6229f0f83958]: IDLE
+[debug] [2022-03-03T05:02:05.337Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2022-03-03T06:06:43.061Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-03-03T06:06:43.063Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-03-03T06:06:43.063Z] Accepted request POST /supermama-6aa87/us-central1/completePaymentWithStripe --> us-central1-completePaymentWithStripe
+[debug] [2022-03-03T06:06:43.065Z] DEBUG: [worker-pool] submitWork(triggerId=us-central1-completePaymentWithStripe)
+[debug] [2022-03-03T06:06:43.067Z] DEBUG: [worker-us-central1-completePaymentWithStripe-6bf6bfbb-0d57-453f-a735-6229f0f83958]: Assigning socketPath: /var/folders/fh/q0jk3n697bd176799gvy7wdw0000gn/T/fire_emu_7176.sock
+[debug] [2022-03-03T06:06:43.067Z] DEBUG: [worker-us-central1-completePaymentWithStripe-6bf6bfbb-0d57-453f-a735-6229f0f83958]: BUSY
+[debug] [2022-03-03T06:06:43.093Z] DEBUG: [runtime-status] [7176] Beginning invocation function completePaymentWithStripe!
+[debug] [2022-03-03T06:06:43.094Z] [functions] Beginning execution of "completePaymentWithStripe"
+[debug] [2022-03-03T06:06:43.094Z] DEBUG: [runtime-status] [7176] Running completePaymentWithStripe in signature http
+[debug] [2022-03-03T06:06:43.110Z] DEBUG: [runtime-status] [7176] Attempting to listen to socketPath: /var/folders/fh/q0jk3n697bd176799gvy7wdw0000gn/T/fire_emu_7176.sock
+[debug] [2022-03-03T06:06:43.129Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-03-03T06:06:43.130Z] DEBUG: [functions] Got req.url=/supermama-6aa87/us-central1/completePaymentWithStripe, mapping to path=/
+[debug] [2022-03-03T06:06:43.133Z] DEBUG: [runtime-status] [7176] Ephemeral server handling POST request
+[debug] [2022-03-03T06:06:43.136Z] DEBUG: [runtime-status] [7176] Ephemeral server survived.
+[debug] [2022-03-03T06:06:44.336Z] [functions] Finished "completePaymentWithStripe" in ~1s
+[debug] [2022-03-03T06:06:44.336Z] DEBUG: [worker-us-central1-completePaymentWithStripe-6bf6bfbb-0d57-453f-a735-6229f0f83958]: IDLE
+[debug] [2022-03-03T06:06:44.337Z] [work-queue] {"queueLength":0,"workRunningCount":0}

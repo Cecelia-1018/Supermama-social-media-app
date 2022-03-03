@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
 import {Button} from 'react-native-paper';
 import stripe from 'tipsi-stripe';
 stripe.setOptions({
@@ -8,7 +8,7 @@ stripe.setOptions({
     'pk_test_51KWsm3FQQubomZ5Y9Ti5SiXtSGUV6c0Tf666rDEMxAINgGotLisPEHApDdB26fHtd9xYBrwDcqahMjyH2Whr3MMg00yjFgsCdf',
 });
 
-const CardPayment = () => {
+const CardPayment = ({navigation}) => {
   // const [loading, setLoading] = useState(false);
   const [token, setToken] = useState(null);
   const [CName, setCName] = useState(null);
@@ -41,8 +41,9 @@ const CardPayment = () => {
       },
     })
       .then(response => {
-        console.log(JSON.stringify(response, null, 2));
+        //console.log(JSON.stringify(response, null, 2));
         // setLoading(false);
+        Alert.alert('Success ✅', 'Feed Added Success'), navigation.goBack();
       })
       .catch(err => console.error(err));
   };

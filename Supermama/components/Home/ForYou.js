@@ -64,7 +64,7 @@ const ForYou = ({navigation}) => {
             <View style={[styles.line]}>
               <Text style={[styles.user]}>{item.name}</Text>
               <Text style={[styles.bio]}> {item.bio}</Text>
-              <Text style={[{fontSize: 0}]}>{item.userId}</Text>
+              <Text style={[{fontSize: 0}]}>{item.key}</Text>
             </View>
             {/* </TouchableOpacity> */}
           </>

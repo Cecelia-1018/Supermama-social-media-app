@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Searchbar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
-
+import {firebase} from '@react-native-firebase/auth';
 // step 1 : import all the components we are going to use
 import {
   SafeAreaView,
@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 function SearchUserScreen({navigation}) {
+  const user = firebase.auth().currentUser;
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
@@ -22,22 +23,37 @@ function SearchUserScreen({navigation}) {
     const subscriber = firestore()
       .collection('users')
       .onSnapshot(querySnapshot => {
-        const users = [];
+        //const users = [];
 
-        querySnapshot.forEach(documentSnapshot => {
-          users.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
+        querySnapshot.forEach(async documentSnapshot => {
+          const following = await firestore()
+            .collection('following')
+            .doc(user.uid)
+            .collection('userFollowing')
+            .doc(documentSnapshot.id)
+            .get();
+          setFilteredDataSource(value => [
+            ...value,
+            {
+              ...documentSnapshot.data(),
+              following: following.exists,
+              key: documentSnapshot.id,
+            },
+          ]);
+          setMasterDataSource(value => [
+            ...value,
+            {
+              ...documentSnapshot.data(),
+              following: following.exists,
+              key: documentSnapshot.id,
+            },
+          ]);
         });
-
-        setFilteredDataSource(users);
-        setMasterDataSource(users);
       });
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, []);
+  }, [user.uid]);
 
   const searchFilterFunction = text => {
     // Check if searched text is not blank
@@ -72,6 +88,7 @@ function SearchUserScreen({navigation}) {
               username: item.name,
               bio: item.bio,
               userId: item.userId,
+              following: item.following,
             },
           });
         }}>
