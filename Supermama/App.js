@@ -22,7 +22,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -66,9 +65,9 @@ import StorePage from './components/Store/StorePage';
 import StoreAdd from './components/Store/StoreAdd';
 import StoreDetails from './components/Store/StoreDetails';
 import StoreCart from './components/Store/StoreCart';
-import CardFormScreen from './components/Store/scenes/CardFormScreen';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
+import CardPayment from './components/Store/CardPayment';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
@@ -97,7 +96,6 @@ const Section = ({children, title}): Node => {
     </View>
   );
 };
-
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -216,7 +214,7 @@ const App: () => Node = () => {
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Search User" component={SearchUserScreen} />
         <Stack.Screen name="Profile View" component={ProfileView} />
-        
+
         <Stack.Screen name="Your Entertainment Posts" component={UserEnt} />
         <Stack.Screen name="Your Video Posts" component={UserVideo} />
         <Stack.Screen name="Your Feed Posts" component={UserFeed} />
@@ -228,12 +226,12 @@ const App: () => Node = () => {
         <Stack.Screen name="View Feed Posts" component={ViewFeed} />
         <Stack.Screen name="View Collection Posts" component={ViewCollection} />
         <Stack.Screen name="View Product Posts" component={ViewProduct} />
-          
+
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />
         <Stack.Screen name="Product Details" component={StoreDetails} />
         <Stack.Screen name="Cart" component={StoreCart} />
-        <Stack.Screen name="CardFormScreen" component={CardFormScreen} />
+        <Stack.Screen name="Card Payment" component={CardPayment} />
       </Stack.Navigator>
     </NavigationContainer>
   );
