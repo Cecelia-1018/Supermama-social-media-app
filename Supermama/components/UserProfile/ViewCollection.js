@@ -1,11 +1,23 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import { List,Colors } from 'react-native-paper';
+import {View, Text, StyleSheet} from 'react-native';
 
 function ViewCollection() {
   return (
     <View style={styles.container}>
-      <Text>Collections</Text>
-      <Button title="Click Here" onPress={() => alert('Button clicked')} />
+    <List.Item
+      title="Entertainment Collections"
+      left={props => <List.Icon   {...props} icon="folder" color={Colors.pink100} />}
+      />
+    <List.Item
+      title="Forum Collections"
+      left={props => <List.Icon   {...props} icon="folder" color={Colors.pink200} />}
+      />
+      <List.Item
+      title="Feed Collections"
+      
+      left={props => <List.Icon  {...props} icon="folder" color={Colors.pink500}/>}
+      />
     </View>
   );
 };
@@ -14,8 +26,7 @@ export default ViewCollection;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+   flex: 1,
+   padding: 5,
   },
 });

@@ -46,6 +46,7 @@ import ViewVideo from './components/UserProfile/ViewVideo';
 import ViewFeed from './components/UserProfile/ViewFeed';
 import ViewCollection from './components/UserProfile/ViewCollection';
 import ViewProduct from './components/UserProfile/ViewProduct';
+import UCFdisplay from './components/UserProfile/UCFdisplay';
 
 import HomeScreen from './components/Home/HomeScreen';
 import EntertainmentHome from './components/Home/EntertainmentHome';
@@ -228,6 +229,9 @@ const App: () => Node = () => {
         <Stack.Screen name="View Feed Posts" component={ViewFeed} />
         <Stack.Screen name="View Collection Posts" component={ViewCollection} />
         <Stack.Screen name="View Product Posts" component={ViewProduct} />
+        
+        <Stack.Screen name="Your Forum Collections" component={UCFdisplay} />
+
           
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />

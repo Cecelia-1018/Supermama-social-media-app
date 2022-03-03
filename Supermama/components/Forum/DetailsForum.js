@@ -76,7 +76,7 @@ function DetailsForum({navigation, route}) {
     const subscriber = firestore()
       .collection('bookmark')
       .doc(user.uid)
-      .collection('userBookmark')
+      .collection('userMarkForum')
 
       .onSnapshot(querySnapshot =>
         querySnapshot.forEach(
@@ -92,9 +92,11 @@ function DetailsForum({navigation, route}) {
     await firestore()
       .collection('bookmark')
       .doc(user.uid)
-      .collection('userBookmark')
+      .collection('userMarkForum')
       .doc(item.forumId)
-      .set({});
+      .set({
+        forumId: item.forumId,
+      });
     setBookmark(true);
   }, [setBookmark, user, item]);
 
@@ -102,7 +104,7 @@ function DetailsForum({navigation, route}) {
     await firestore()
       .collection('bookmark')
       .doc(user.uid)
-      .collection('userBookmark')
+      .collection('userMarkForum')
       .doc(item.userId)
       .delete();
     setBookmark(false);

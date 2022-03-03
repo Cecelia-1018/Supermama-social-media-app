@@ -1,0 +1,121 @@
+import React, { useState, useEffect, useRef} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import {  
+  Card, 
+  Title, 
+  Paragraph,
+  Avatar
+} from 'react-native-paper';
+import firestore from '@react-native-firebase/firestore';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import auth, {firebase} from '@react-native-firebase/auth';
+
+function UCFdisplay ({navigation}){
+ //check user
+  const user = firebase.auth().currentUser;
+  const flatlistRef = useRef();
+
+  const onPressFunction = () => {
+    flatlistRef.current.scrollToEnd({animating: true});
+  };
+
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
+  const [bookmark, setBookmark] = useState([]); // Initial empty array of forums
+
+  const renderItem2 = ({item}) => {
+    return(
+       <SafeAreaProvider>
+       <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Detail Forum', {
+              //pass params here
+              item: {
+                title: item.title,
+                description: item.description,
+                forumId: item.forumId,
+                username: item.username,
+                photoUrl: item.photoUrl,
+                date: item.date,
+                time: item.time,
+              },
+            });
+          }}>
+          <View>
+         
+            <Card>
+              <Card.Content>
+                 <Text> Saved {item.forumId} </Text>
+              </Card.Content>
+            </Card>
+            </View>
+              </TouchableOpacity>
+          </SafeAreaProvider>
+    );
+  };
+
+
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkForum')
+      .onSnapshot(
+        querySnapshot => {
+          const bookmark = [];
+
+          querySnapshot.forEach(documentSnapshot => {
+            bookmark.push({
+              ...documentSnapshot.data(),
+              key:documentSnapshot.id
+            });
+          });
+    
+          
+          setBookmark(bookmark);
+          setLoading(false);
+
+        });
+    
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#FFC0CB" />;
+  }
+
+ 
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        ref={flatlistRef}
+        data={bookmark}
+        keyExtractor={item => item.forumId}
+        renderItem={renderItem2}
+      />
+    </View>
+  );
+
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+ 
+});
+
+
+export default UCFdisplay;
