@@ -4,7 +4,7 @@ import {Button, IconButton} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
 import {sub} from 'react-native-reanimated';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 const StoreCart = ({navigation}) => {
   const user = firebase.auth().currentUser;
@@ -56,7 +56,7 @@ const StoreCart = ({navigation}) => {
       <Button
         styele={[styles.pay]}
         color="pink"
-        onPress={() => navigation.navigate('CardFormScreen')}
+        onPress={() => navigation.navigate('Card Payment')}
         mode="outlined">
         Payment
       </Button>
