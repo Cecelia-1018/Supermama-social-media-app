@@ -30,8 +30,7 @@ function UCFdisplay ({navigation}){
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [bookmark, setBookmark] = useState([]); // Initial empty array of forums
-
-  const [forumId, setForumId] = useState([]);
+  const [size, setSize] = useState('');
 
   const renderItem2 = ({item}) => {
     return(
@@ -49,7 +48,7 @@ function UCFdisplay ({navigation}){
          
             <Card>
               <Card.Content>
-                 <Text> Saved - {item.title} </Text>
+                 <Paragraph>Saved - {item.title} </Paragraph>
               </Card.Content>
             </Card>
             </View>
@@ -80,13 +79,15 @@ function UCFdisplay ({navigation}){
            
             //start at here 
             console.log('ID: ', documentSnapshot.id);
-            setForumId(documentSnapshot.id)
+           
             
           });
     
           
           setBookmark(bookmark);
           setLoading(false);
+          setSize(querySnapshot.size);
+          
           
         });
     
@@ -104,6 +105,7 @@ function UCFdisplay ({navigation}){
 
   return (
     <View style={styles.container}>
+      <Title style={styles.word}>Total Bookmarks : {size}</Title>
       <FlatList
         ref={flatlistRef}
         data={bookmark}
@@ -119,6 +121,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  word:{
+    margin: 10,
+    padding: 5,
+  }
  
 });
 

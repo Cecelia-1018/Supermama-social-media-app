@@ -8,6 +8,7 @@ import {
   Pressable,
   TouchableOpacity,
   Image,
+  Alert
 } from "react-native";
 import {  
   Card, 
@@ -27,15 +28,25 @@ function UCFdetails({navigation, route}) {
   const [forums, setForums] = useState([]); // Initial empty array of forums
   
   const flatlistRef = useRef();
+  const user = firebase.auth().currentUser;
 
   // //firebase reference
-  // const ref = firestore().collection('forums');
+  const ref = firestore().collection('bookmark').doc(user.uid).collection('userMarkForum');
 
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };
 
    const renderItem = ({item}) => {
+
+    async function deleteBook(){
+      ref
+      .doc(item.forumId)
+      .delete()
+      .then(() => {
+        console.log('Forum bookmark deleted!');
+      })
+    }
     return(
        <SafeAreaProvider>
        <TouchableOpacity
@@ -81,25 +92,20 @@ function UCFdetails({navigation, route}) {
                   color="#FE7E9C"
                   size={20}
                   icon={require('../Forum/delete-bin.png')}
-                  // onPress={() =>
-                  //   Alert.alert('Confirmation', 'Confirm to delete?', [
-                  //     {
-                  //       text: 'Cancel',
-                  //       onPress: () => console.log('Cancel Pressed'),
-                  //       style: 'cancel',
-                  //     },
-                  //     {
-                  //       text: 'Confirm',
-                  //       onPress: () =>
-                  //         ref
-                  //           .doc(item.forumId)
-                  //           .delete()
-                  //           .then(() => {
-                  //             console.log('Forum deleted!');
-                  //           }),
-                  //     },
-                  //   ])
-                  // }
+                  onPress={() =>
+                    Alert.alert('Confirmation', 'Confirm to delete?', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: () =>  {deleteBook(), navigation.goBack()},
+                          
+                      },
+                    ])
+                  }
                   />
                    </View>
           </SafeAreaProvider>
