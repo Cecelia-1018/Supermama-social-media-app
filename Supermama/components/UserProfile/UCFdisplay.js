@@ -31,6 +31,8 @@ function UCFdisplay ({navigation}){
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [bookmark, setBookmark] = useState([]); // Initial empty array of forums
 
+  const [forumId, setForumId] = useState([]);
+
   const renderItem2 = ({item}) => {
     return(
        <SafeAreaProvider>
@@ -47,7 +49,7 @@ function UCFdisplay ({navigation}){
          
             <Card>
               <Card.Content>
-                 <Text> Saved {item.forumId} </Text>
+                 <Text> Saved - {item.title} </Text>
               </Card.Content>
             </Card>
             </View>
@@ -66,7 +68,7 @@ function UCFdisplay ({navigation}){
       .onSnapshot(
         querySnapshot => {
           const bookmark = [];
-          const forumIdt = [];
+         
 
           querySnapshot.forEach(documentSnapshot => {
           
@@ -74,6 +76,12 @@ function UCFdisplay ({navigation}){
               ...documentSnapshot.data(),
               key:documentSnapshot.id
             });
+
+           
+            //start at here 
+            console.log('ID: ', documentSnapshot.id);
+            setForumId(documentSnapshot.id)
+            
           });
     
           

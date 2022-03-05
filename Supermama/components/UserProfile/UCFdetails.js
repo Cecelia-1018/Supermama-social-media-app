@@ -28,6 +28,9 @@ function UCFdetails({navigation, route}) {
   
   const flatlistRef = useRef();
 
+  // //firebase reference
+  // const ref = firestore().collection('forums');
+
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };

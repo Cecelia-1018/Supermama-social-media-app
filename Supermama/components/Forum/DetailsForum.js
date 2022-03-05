@@ -96,6 +96,7 @@ function DetailsForum({navigation, route}) {
       .doc(item.forumId)
       .set({
         forumId: item.forumId,
+        title: item.title,
       });
     setBookmark(true);
   }, [setBookmark, user, item]);
