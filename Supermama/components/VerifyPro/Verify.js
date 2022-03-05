@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, Button, StyleSheet, Image} from 'react-native';
 
 function Verify() {
   return (
     <View style={styles.container}>
-      <Text>Verify</Text>
-      <Button title="Click Here" onPress={() => alert('Button clicked')} />
+       <Image
+        source={require('./verify.png')}
+      />
     </View>
   );
 };
@@ -17,5 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
 });
