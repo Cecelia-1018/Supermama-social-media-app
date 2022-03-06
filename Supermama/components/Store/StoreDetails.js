@@ -127,6 +127,7 @@ const StoreDetails = ({route, navigation}) => {
         productName: item.name,
         imageUrl: item.imageUrl,
         price: item.price,
+        quantity: Number(1),
       })
       .then(() => {
         console.log('Add Cart');

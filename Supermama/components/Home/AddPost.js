@@ -18,6 +18,9 @@ function posting({navigation}) {
 
       <View style={styles.footer}>
         <Text style={styles.title}>Share Your Life With</Text>
+        <Text>The post should benefits or no harm to mother.</Text>
+        <Text>Post will be only posted after verify by admin.</Text>
+        <Text>Apologies for inconvenient.</Text>
         <ScrollView style={styles.choices}>
           <Button
             onPress={() => navigation.navigate('Upload Image')}

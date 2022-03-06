@@ -6,8 +6,9 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import {Button} from 'react-native-paper';
+import {IconButton} from 'react-native-paper';
 
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
@@ -17,6 +18,7 @@ const UserProduct = ({navigation, route}) => {
   // const {item} = route.params;
   const [product, setProduct] = useState([]);
   const flatlistRef = useRef();
+  const ref = firestore().collection('product');
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };
@@ -73,6 +75,59 @@ const UserProduct = ({navigation, route}) => {
             <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
               <Text style={[styles.title]}> {item.name}</Text>
               <Text style={[styles.price]}> RM {item.price}</Text>
+              <View
+                style={[
+                  {
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                  },
+                ]}>
+                <IconButton
+                  icon="pen"
+                  color="#FE7E9C"
+                  size={20}
+                  onPress={() => {
+                    navigation.navigate('Edit Product', {
+                      item: {
+                        category: item.category,
+                        description: item.description,
+                        imageUrl: item.image,
+                        name: item.name,
+                        price: item.price,
+                        userId: item.userId,
+                        username: item.username,
+                        productId: item.productId,
+                      },
+                    });
+                  }}
+                />
+
+                <IconButton
+                  color="#FE7E9C"
+                  size={20}
+                  icon={require('../Forum/delete-bin.png')}
+                  onPress={() =>
+                    Alert.alert('Confirmation', 'Confirm to delete?', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: () =>
+                          ref
+                            .doc(item.productId)
+                            .delete()
+                            .then(() => {
+                              console.log('Product deleted!');
+                            }),
+                      },
+                    ])
+                  }
+                />
+              </View>
             </View>
           </View>
         </TouchableOpacity>

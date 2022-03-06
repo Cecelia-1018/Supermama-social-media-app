@@ -54,8 +54,10 @@ import FeedHome from './components/Home/FeedHome';
 import ForYou from './components/Home/ForYou';
 import MainSign from './components/Home/MainSign';
 import AddFeed from './components/Home/AddFeed';
+import EditFeed from './components/Home/EditFeed';
 import FeedDetails from './components/Home/FeedDetails';
 import EntertainmentDetails from './components/Home/EntertainmentDetails';
+import EditEnt from './components/Home/EditEnt';
 import uploadImage from './components/Home/uploadImage';
 import AddEntertainment2 from './components/Home/AddEntertainment2';
 
@@ -67,6 +69,7 @@ import StorePage from './components/Store/StorePage';
 import StoreAdd from './components/Store/StoreAdd';
 import StoreDetails from './components/Store/StoreDetails';
 import StoreCart from './components/Store/StoreCart';
+import EditProduct from './components/Store/EditProduct';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import CardPayment from './components/Store/CardPayment';
@@ -204,6 +207,7 @@ const App: () => Node = () => {
         <Stack.Screen name="Feed Screen" component={FeedHome} />
         <Stack.Screen name="Add Feed" component={AddFeed} />
         <Stack.Screen name="Feed Detail" component={FeedDetails} />
+        <Stack.Screen name="Edit Feed" component={EditFeed} />
 
         <Stack.Screen name="For You" component={ForYou} />
         <Stack.Screen name="Upload Image" component={uploadImage} />
@@ -211,6 +215,7 @@ const App: () => Node = () => {
           name="Entertainment Details"
           component={EntertainmentDetails}
         />
+        <Stack.Screen name="Edit Entertainment" component={EditEnt} />
         <Stack.Screen name="Create Post" component={AddEntertainment2} />
 
         <Stack.Screen name="Edit Profile" component={EditProfile} />
@@ -228,16 +233,16 @@ const App: () => Node = () => {
         <Stack.Screen name="View Feed Posts" component={ViewFeed} />
         <Stack.Screen name="View Collection Posts" component={ViewCollection} />
         <Stack.Screen name="View Product Posts" component={ViewProduct} />
-        
+
         <Stack.Screen name="Your Forum Collections" component={UCFdisplay} />
         <Stack.Screen name="Your Collect Forum" component={UCFdetails} />
 
-          
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />
         <Stack.Screen name="Product Details" component={StoreDetails} />
         <Stack.Screen name="Cart" component={StoreCart} />
         <Stack.Screen name="Card Payment" component={CardPayment} />
+        <Stack.Screen name="Edit Product" component={EditProduct} />
       </Stack.Navigator>
     </NavigationContainer>
   );

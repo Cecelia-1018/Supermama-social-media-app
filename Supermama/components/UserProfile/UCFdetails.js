@@ -8,15 +8,9 @@ import {
   Pressable,
   TouchableOpacity,
   Image,
-  Alert
-} from "react-native";
-import {  
-  Card, 
-  Title, 
-  Paragraph,
-  Avatar,
-  IconButton,
-} from 'react-native-paper';
+  Alert,
+} from 'react-native';
+import {Card, Title, Paragraph, Avatar, IconButton} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -26,30 +20,32 @@ function UCFdetails({navigation, route}) {
   const {item} = route.params;
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
-  
+
   const flatlistRef = useRef();
   const user = firebase.auth().currentUser;
 
   // //firebase reference
-  const ref = firestore().collection('bookmark').doc(user.uid).collection('userMarkForum');
+  const ref = firestore()
+    .collection('bookmark')
+    .doc(user.uid)
+    .collection('userMarkForum');
 
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };
 
-   const renderItem = ({item}) => {
-
-    async function deleteBook(){
+  const renderItem = ({item}) => {
+    async function deleteBook() {
       ref
-      .doc(item.forumId)
-      .delete()
-      .then(() => {
-        console.log('Forum bookmark deleted!');
-      })
+        .doc(item.forumId)
+        .delete()
+        .then(() => {
+          console.log('Forum bookmark deleted!');
+        });
     }
-    return(
-       <SafeAreaProvider>
-       <TouchableOpacity
+    return (
+      <SafeAreaProvider>
+        <TouchableOpacity
           onPress={() => {
             navigation.navigate('Detail Forum', {
               //pass params here
@@ -65,59 +61,62 @@ function UCFdetails({navigation, route}) {
             });
           }}>
           <View>
-         
             <Card>
               <Card.Content>
-              <View style={{ flexDirection: "row",padding:5, margin: 3 }}>
-                <Avatar.Image size={40} source={{uri: item.photoUrl}} />
-                <View style={{ flexDirection: "column",paddingLeft:10}}>
-                <Text> {item.username} </Text>  
-                <Text> Posted by {item.date}  {item.time} </Text>
+                <View style={{flexDirection: 'row', padding: 5, margin: 3}}>
+                  <Avatar.Image size={40} source={{uri: item.photoUrl}} />
+                  <View style={{flexDirection: 'column', paddingLeft: 10}}>
+                    <Text> {item.username} </Text>
+                    <Text>
+                      {' '}
+                      Posted by {item.date} {item.time}{' '}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={{backgroundColor: "#fddde6",borderRadius: 5,padding:5, margin: 5}}>
-                <Title>{item.title}</Title>
-                <Paragraph>{item.description}</Paragraph>
-              </View>
-   
+                <View
+                  style={{
+                    backgroundColor: '#fddde6',
+                    borderRadius: 5,
+                    padding: 5,
+                    margin: 5,
+                  }}>
+                  <Title>{item.title}</Title>
+                  <Paragraph>{item.description}</Paragraph>
+                </View>
               </Card.Content>
-             
-             
             </Card>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.delete}>
-               <IconButton
-                  
-                  color="#FE7E9C"
-                  size={20}
-                  icon={require('../Forum/delete-bin.png')}
-                  onPress={() =>
-                    Alert.alert('Confirmation', 'Confirm to delete?', [
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      {
-                        text: 'Confirm',
-                        onPress: () =>  {deleteBook(), navigation.goBack()},
-                          
-                      },
-                    ])
-                  }
-                  />
-                   </View>
-          </SafeAreaProvider>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.delete}>
+          <IconButton
+            color="#FE7E9C"
+            size={20}
+            icon={require('../Forum/delete-bin.png')}
+            onPress={() =>
+              Alert.alert('Confirmation', 'Confirm to delete?', [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Confirm',
+                  onPress: () => {
+                    deleteBook(), navigation.goBack();
+                  },
+                },
+              ])
+            }
+          />
+        </View>
+      </SafeAreaProvider>
     );
   };
-
-  
 
   useEffect(() => {
     const subscriber = firestore()
       .collection('forums')
-      .where('forumId','in',[item.forumId])
+      .where('forumId', 'in', [item.forumId])
       .onSnapshot(querySnapshot => {
         const forums = [];
 
@@ -138,25 +137,23 @@ function UCFdetails({navigation, route}) {
 
   return (
     <View style={styles.container}>
-       <FlatList
+      <FlatList
         ref={flatlistRef}
         data={forums}
         keyExtractor={item => item.forumId}
         renderItem={renderItem}
       />
-      
     </View>
   );
-};
+}
 
 export default UCFdetails;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  
   },
-  delete:{
-   margin: 10,
+  delete: {
+    margin: 10,
   },
 });

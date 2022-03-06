@@ -88,12 +88,12 @@ function HomePost({navigation}) {
                 size={25}
                 onPress={() => navigation.navigate('AddPost')}
               />
-              <IconButton
+              {/* <IconButton
                 icon="chat"
                 color={Colors.black}
                 size={25}
                 onPress={() => navigation.navigate('ChatScreen')}
-              />
+              /> */}
             </View>
           ),
         }}

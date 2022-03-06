@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Button, IconButton} from 'react-native-paper';
 import {Icon} from 'react-native-elements';
@@ -16,6 +17,7 @@ const UserFeed = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const feedRef = useRef();
   const [feed, setFeed] = useState([]);
+  const ref = firestore().collection('feed');
 
   const renderFeedItem = ({item}) => {
     return (
@@ -36,11 +38,7 @@ const UserFeed = ({navigation}) => {
           }}>
           <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
             <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-              
-              <Image
-                source={require('../Home/AddPost_img.jpg')}
-                style={styles.image}
-              />
+              <Image style={styles.image} source={{uri: item.image}} />
             </View>
             <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
               <Text style={[styles.user]}> {item.title}</Text>
@@ -58,13 +56,56 @@ const UserFeed = ({navigation}) => {
               </View>
             </View>
           </View>
-          <IconButton
-            style={[styles.bookmark]}
-            icon={'book'}
-            color="black"
-            size={25}
-            // onPress={() => navigation.navigate('Bookmark')}
-          />
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              },
+            ]}>
+            <IconButton
+              icon="pen"
+              color="#FE7E9C"
+              size={20}
+              onPress={() => {
+                navigation.navigate('Edit Feed', {
+                  item: {
+                    title: item.title,
+                    description: item.description,
+                    details: item.details,
+                    hashtag: item.hashtag,
+                    feedId: item.feedId,
+                  },
+                });
+              }}
+            />
+
+            <IconButton
+              color="#FE7E9C"
+              size={20}
+              icon={require('../Forum/delete-bin.png')}
+              onPress={() =>
+                Alert.alert('Confirmation', 'Confirm to delete?', [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Confirm',
+                    onPress: () =>
+                      ref
+                        .doc(item.feedId)
+                        .delete()
+                        .then(() => {
+                          console.log('Feed deleted!');
+                        }),
+                  },
+                ])
+              }
+            />
+          </View>
           <Text style={[{fontSize: 0}]}> {item.details}</Text>
           <Text style={[{fontSize: 0}]}> {item.hyperlink}</Text>
         </TouchableOpacity>

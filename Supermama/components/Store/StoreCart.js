@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, Alert} from 'react-native';
 import {Button, IconButton} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
@@ -8,10 +8,37 @@ import {NavigationContainer} from '@react-navigation/native';
 
 const StoreCart = ({navigation}) => {
   const user = firebase.auth().currentUser;
+  const [relod, setRelod] = useState(false);
   const uid = user.uid;
   const cartRef = useRef();
   const [cart, setCart] = useState([]);
-
+  const ref = firestore().collection('cart');
+  async function plusQuantity(id, quant) {
+    await ref
+      .doc(id)
+      .update({
+        quantity: (quant += 1),
+      })
+      .then(() => {
+        console.log('Add 1');
+        setRelod(true);
+      });
+  }
+  async function minusQuantity(id, quant) {
+    await ref
+      .doc(id)
+      .update({
+        quantity: (quant -= 1),
+      })
+      .then(() => {
+        console.log('minus 1');
+        setRelod(true);
+      });
+    if (quant < 1) {
+      ref.doc(id).delete();
+      setRelod(true);
+    }
+  }
   const renderItem = ({item}) => {
     return (
       <View style={styles.item}>
@@ -23,7 +50,47 @@ const StoreCart = ({navigation}) => {
           <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
             <Text style={[styles.user]}> {item.productName}</Text>
             <Text style={[styles.description]}> RM {item.price}</Text>
+            <View style={styles.button}>
+              <IconButton
+                icon={'minus'}
+                color="black"
+                size={25}
+                onPress={() => minusQuantity(item.cartId, item.quantity)}
+              />
+              <Text> {item.quantity}</Text>
+              <IconButton
+                icon={'plus'}
+                color="black"
+                size={25}
+                onPress={() => plusQuantity(item.cartId, item.quantity)}
+              />
+            </View>
           </View>
+
+          <IconButton
+            color="#FE7E9C"
+            size={20}
+            icon={require('../Forum/delete-bin.png')}
+            onPress={() =>
+              Alert.alert('Confirmation', 'Confirm to delete?', [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Confirm',
+                  onPress: () =>
+                    ref
+                      .doc(item.cartId)
+                      .delete()
+                      .then(() => {
+                        console.log('Product deleted!');
+                      }),
+                },
+              ])
+            }
+          />
         </View>
       </View>
     );
@@ -34,17 +101,21 @@ const StoreCart = ({navigation}) => {
       .collection('cart')
       .where('usesrId', 'in', [user.uid])
       .onSnapshot(querySnapshot => {
+        let num = 0;
         const cart = [];
         querySnapshot.forEach(documentSnapshot => {
           cart.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
+            total: (num += parseInt(documentSnapshot.data().price)),
           });
         });
         setCart(cart);
+        setRelod(false);
+        console.log(relod);
       });
     return () => subscriber();
-  }, []);
+  }, [relod, user.uid]);
   return (
     <View style={styles.container}>
       <FlatList
@@ -53,6 +124,7 @@ const StoreCart = ({navigation}) => {
         keyExtractor={item => item.cartId}
         renderItem={renderItem}
       />
+
       <Button
         styele={[styles.pay]}
         color="pink"
@@ -89,4 +161,8 @@ const styles = StyleSheet.create({
   },
   user: {textAlignVertical: 'top', fontSize: 20, color: 'black', marginTop: 10},
   description: {fontSize: 17, color: 'black'},
+  button: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+  },
 });

@@ -15,97 +15,57 @@ import auth, {firebase} from '@react-native-firebase/auth';
 import {PostImagePicker} from '../Home/PostImagePicker';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
-const AddFeed = ({navigation}) => {
+const EditFeed = ({navigation, route}) => {
+  const {item} = route.params;
   const user = firebase.auth().currentUser;
-  const [txtHashtag, setTxtHashtag] = useState('');
-  const [txtDes, setTxtDes] = useState('');
-  const [txtTitles, setTxtTitles] = useState('');
-  const [txtDetails, setTxtDetails] = useState('');
-  const [txtLink, setTxtLink] = useState('');
+  const [txtHashtag, setTxtHashtag] = useState(item.hashtag);
+  const [txtDes, setTxtDes] = useState(item.description);
+  const [txtTitles, setTxtTitles] = useState(item.title);
+  const [txtDetails, setTxtDetails] = useState(item.details);
+
   //image
 
-  const ref = firestore().collection('feed');
+  const ref = firestore().collection('feed').doc(item.feedId);
 
   const [feedId, setFeedId] = useState('');
   const [feedDocId, setFeedDocId] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
-  useEffect(() => {
-    var date = Date.now().toString();
-    var hours = new Date().getHours(); //To get the Current Hours
-    var min = new Date().getMinutes(); //To get the Current
-    var sec = new Date().getSeconds(); //To get the Current Seconds
-
-    setFeedId('FE' + date + hours + min + sec);
-    setFeedDocId('FE' + date + hours + min + sec);
-  }, []);
-
-  const onImageChange = (image: ImageOrVideo) => {
-    console.log(image);
-    let Id = feedId;
-    //* step 2 a : upload image to storage
-    let reference = storage().ref(
-      'gs://supermama-6aa87.appspot.com/Product/' + Id,
-    ); //2
-    let task = reference.putFile(image.path.toString());
-
-    task
-      .then(async res => {
-        const imageU = await storage()
-          .ref(res.metadata.fullPath)
-          .getDownloadURL();
-        setImageUrl(imageU);
-        console.log('Image uploaded to the bucket!');
-      })
-      .catch(e => console.log('uploading image error =>', e));
+  const resetData = e => {
+    e.preventDefault();
+    setTxtHashtag(item.hashtag);
+    setTxtDes(item.description);
+    setTxtDetails(item.details);
+    setTxtTitles(item.title);
   };
-  useEffect(() => {
-    if (user) {
-      storage()
-        .ref('gs://supermama-6aa87.appspot.com/Product/' + feedId) //name in storage in firebase console
-        .getDownloadURL()
-        .then(url => {
-          setImageUrl(url);
-          console.log(imageUrl);
-        })
-        .catch(e => console.log('Errors while downloading => ', e));
-    }
-  }, [feedId, imageUrl, user]);
-
-  async function addFeedCol() {
+  async function updateFeedCol() {
     await ref
-      .doc(feedDocId)
-      .set({
-        userId: user.uid,
-        username: user.displayName,
 
-        feedId: feedId,
+      .update({
         title: txtTitles,
         description: txtDes,
         hashtag: txtHashtag,
         details: txtDetails,
-        hyperlink: txtLink,
-        image: imageUrl,
-        post: Boolean(false),
       })
       .then(() => {
-        Alert.alert('Success ✅', 'Feed Added Success');
+        Alert.alert('Success ✅', 'Feed Updated Success');
       });
     setTxtHashtag('');
     setTxtDes('');
     setTxtTitles('');
+    setTxtDetails('');
+    navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.text_header}>Proffesional Feed</Text>
+        <Text style={styles.text_header}>Profesional Feed</Text>
         <Text style={styles.header_text}>Share it with others</Text>
       </View>
 
       <View style={styles.footer}>
         <ScrollView>
-          <Text style={styles.text_footer}>{user.displayName}</Text>
           <Text style={[styles.text_footer, {marginTop: 10}]}>Title</Text>
           <View style={styles.action}>
             <TextInput
@@ -124,7 +84,6 @@ const AddFeed = ({navigation}) => {
               multiline={true}
               numberOfLines={4}
               color="black"
-              placeholder="not more than 70 characters"
             />
           </View>
           <Text style={[styles.text_footer, {marginTop: 10}]}>Hashtag</Text>
@@ -153,29 +112,24 @@ const AddFeed = ({navigation}) => {
               color="black"
             />
           </View>
-          <Text style={[styles.text_footer, {marginTop: 10}]}>Hyperlink</Text>
-          <View style={styles.action}>
-            <TextInput
-              label="Hyperlink"
-              value={txtLink}
-              onChangeText={setTxtLink}
-              color="black"
-              placeholder="hyperlink if have"
-            />
-          </View>
-          <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
-          <PostImagePicker
-            onChange={onImageChange}
-            source={imageUrl ? {uri: imageUrl} : require('./plus.png')}
-          />
+
           <View style={styles.button}>
             <Button
               mode="outlined"
               onPress={() => {
-                addFeedCol(), navigation.goBack();
+                updateFeedCol();
               }}
               color="#FE7E9C">
-              Submit
+              Update
+            </Button>
+            <Button mode="outlined" color="#FE7E9C" onPress={resetData}>
+              Reset
+            </Button>
+            <Button
+              mode="outlined"
+              color="#FE7E9C"
+              onPress={() => navigation.goBack()}>
+              Back
             </Button>
           </View>
         </ScrollView>
@@ -184,7 +138,7 @@ const AddFeed = ({navigation}) => {
   );
 };
 
-export default AddFeed;
+export default EditFeed;
 
 const styles = StyleSheet.create({
   container: {
@@ -234,6 +188,8 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 30,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
     justifyContent: 'space-evenly',
   },
 });

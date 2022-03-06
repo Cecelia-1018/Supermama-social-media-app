@@ -23,7 +23,7 @@ const EntertainmentHome = ({navigation}) => {
   const [entertainment, setEntertainment] = useState([]);
   const [entId, setEntId] = useState([]);
 
-  const [imageUrl, setImageUrl] = useState(undefined);
+  const ref = firestore().collection('entertainment');
 
   // * step 3a call image from storage (rmb import useEffect at top)
 
@@ -55,7 +55,15 @@ const EntertainmentHome = ({navigation}) => {
                     icon="pen"
                     color="#FE7E9C"
                     size={20}
-                    onPress={() => {}}
+                    onPress={() => {
+                      navigation.navigate('Edit Entertainment', {
+                        item: {
+                          hashtag: item.hashtag,
+                          description: item.description,
+                          entId: item.entertainmentId,
+                        },
+                      });
+                    }}
                   />
 
                   <IconButton
@@ -73,10 +81,10 @@ const EntertainmentHome = ({navigation}) => {
                           text: 'Confirm',
                           onPress: () =>
                             ref
-                              .doc(item.forumId)
+                              .doc(item.entertainmentId)
                               .delete()
                               .then(() => {
-                                console.log('Forum deleted!');
+                                console.log('Entertainment deleted!');
                               }),
                         },
                       ])

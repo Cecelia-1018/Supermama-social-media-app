@@ -155,13 +155,15 @@ const EntertainmentHome = ({navigation}) => {
                     : 'md-chatbubbles-outline'
                 }
               />
-              <Text style={[styles.like]}>111</Text>
             </View>
             <Icon
               type="ionicon"
               name={
-                Platform.OS === 'ios' ? 'ios-send-outline' : 'md-send-outline'
+                Platform.OS === 'ios'
+                  ? 'ios-paper-plane-outline'
+                  : 'md-paper-plane-outline'
               }
+              style={{transform: [{rotate: '40deg'}]}}
             />
           </View>
         </>

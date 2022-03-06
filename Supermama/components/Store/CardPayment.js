@@ -35,7 +35,7 @@ const CardPayment = ({navigation}) => {
       method: 'POST',
       url: 'http://10.0.2.2:5001/supermama-6aa87/us-central1/completePaymentWithStripe',
       data: {
-        amount: 4750,
+        amount: 400,
         currency: 'USD',
         token: _token,
       },
