@@ -36,7 +36,7 @@ function Apply({navigation}){
   const user = firebase.auth().currentUser;
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
-  const [imageUrl, setImageUrl] = useState(undefined);
+  const [imageUrl, setImageUrl] = useState('null');
   
   // * step 3a call image from storage (rmb import useEffect at top)
   useEffect(() => {
@@ -113,8 +113,10 @@ function Apply({navigation}){
         });
        
         setVerify(verify);
-        if(querySnapshot.size > 1){
+        if(querySnapshot.size == 1){
         setApplied(true);
+        }else{
+          setApplied(false);
         }
         
       });
@@ -127,9 +129,22 @@ function Apply({navigation}){
   return (
  
     <SafeAreaView style={styles.container}>
-     
+     <ScrollView style={styles.scrollView}>
         
-        {!applied ? (
+           <View style={styles.imageContainer}> 
+           {applied ?  null : 
+           <View> 
+           <Text style={styles.instruction}>Step 1: Click the box to upload certificate. {'\n'} </Text>
+           <Certificate onChange={onImageChange} source={{uri: imageUrl}} /> 
+           </View>
+           }
+            {imageUrl ?  null : <Text>Press above box to upload photo.</Text>}
+            </View>
+    
+            
+            
+        
+        {applied ? (
           <View style={{alignItems: 'center',
           justifyContent: 'center',}}> 
         <Button mode="contained" disabled='true' onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
@@ -137,15 +152,8 @@ function Apply({navigation}){
           </Button>
           <Text style={{margin: 20, }}> Your submission is done.</Text>
           </View>
-          ) : (
-            <ScrollView style={styles.scrollView}>
-            <Text style={styles.instruction}>Step 1: Click the box to upload certificate. {'\n'} </Text>
-            
-           <View style={styles.imageContainer}> 
-           <Certificate onChange={onImageChange} source={{uri: imageUrl}} />
-            {imageUrl ?  null : <Text>Press above box to upload photo.</Text>}
-            </View>
-    
+          ) : ( 
+            <View> 
             <Text style={styles.instruction}>Step 2: Select your professional field. {'\n'} </Text>
             
             <RadioButton.Group onValueChange={value => setValue(value)} value={value}  >
@@ -164,17 +172,17 @@ function Apply({navigation}){
                 <RadioButton.Item color='pink' label="Social Work" value="Social Work" />
                 <RadioButton.Item color='pink' label="Others" value="Others" />
             </RadioButton.Group>
-            
           <Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
             Submit
           </Button>
-          </ScrollView>
-         )  }
+          </View>
+          
+         ) }
          
         
         
        
-   
+         </ScrollView>
      
     </SafeAreaView>
 
