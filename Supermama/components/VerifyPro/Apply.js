@@ -16,6 +16,7 @@ const onImageChange = (image: ImageOrVideo) => {
   console.log(image);
 
   const user = firebase.auth().currentUser;
+
   if(user){
   let Id = "Verify" + user.uid;
 
@@ -34,6 +35,7 @@ const onImageChange = (image: ImageOrVideo) => {
 function Apply({navigation}){
 
   const user = firebase.auth().currentUser;
+  const [verify, setVerify] = React.useState([]);
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
   const [imageUrl, setImageUrl] = useState('null');
@@ -54,12 +56,14 @@ function Apply({navigation}){
   //radio button
   const [value, setValue] = React.useState('');
   const [applied, setApplied] = React.useState(false);
-  const [verify, setVerify] = React.useState([]);
+  
 
   //firebase
   const ref = firestore().collection('verifyPro');
   
   const id = 'VP'+user.uid;
+
+  const pending = 'pending';
 
   async function addVerifyProCol(){
     if(user){
@@ -74,6 +78,7 @@ function Apply({navigation}){
           verifyProId: id,
           proField: value,
           userId: user.uid,
+          status: pending,
         })
         .then(() =>{
           console.log('Verify Pro added!')
