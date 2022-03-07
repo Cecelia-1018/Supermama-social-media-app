@@ -53,7 +53,7 @@ function Apply({navigation}){
 
   //radio button
   const [value, setValue] = React.useState('');
-  const [applied, setApplied] = React.useState(undefined);
+  const [applied, setApplied] = React.useState(false);
   const [verify, setVerify] = React.useState([]);
 
   //firebase
@@ -154,9 +154,17 @@ function Apply({navigation}){
             <RadioButton.Item color='pink' label="Others" value="Others" />
         </RadioButton.Group>
         
-        {applied ? null : <Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
+        {!applied ? (
+          <View style={{alignItems: 'center',
+          justifyContent: 'center',}}> 
+        <Button mode="contained" disabled='true' onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
+            Done Applied and Wait for Response
+          </Button>
+          <Text style={{margin: 20, }}>Submission only allow once.</Text>
+          </View>
+          ) : (<Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
             Submit
-          </Button>}
+          </Button>) }
          
         
         
@@ -187,5 +195,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     margin: 12,
   },
+
   
 });
