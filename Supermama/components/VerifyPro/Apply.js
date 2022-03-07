@@ -127,32 +127,7 @@ function Apply({navigation}){
   return (
  
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <Text style={styles.instruction}>Step 1: Click the box to upload certificate. {'\n'} </Text>
-        {/* * step 4 place image change at screen */}
-       <View style={styles.imageContainer}> 
-       <Certificate onChange={onImageChange} source={{uri: imageUrl}} />
-        {imageUrl ?  null : <Text>Press above box to upload photo.</Text>}
-        </View>
-
-        <Text style={styles.instruction}>Step 2: Select your professional field. {'\n'} </Text>
-        
-        <RadioButton.Group onValueChange={value => setValue(value)} value={value}  >
-            <RadioButton.Item color='pink' label="Art / Design" value="Art / Design" />
-            <RadioButton.Item color='pink' label="Career Counselling" value="Career Counselling" />
-            <RadioButton.Item color='pink' label="Early Child Education" value="Early Child Education" />
-            <RadioButton.Item color='pink' label="Entrepreneurship" value="Entrepreneurship" />
-            <RadioButton.Item color='pink' label="Fashion Design & Merchandising" value="Fashion Design & Merchandising" />
-            <RadioButton.Item color='pink' label="Finance and Banking" value="Finance and Banking" />
-            <RadioButton.Item color='pink' label="Healthcare/Medicine" value="Healthcare/Medicine" />
-            <RadioButton.Item color='pink' label="Human Resources" value="Human Resources" />
-            <RadioButton.Item color='pink' label="Information Technology" value="Information Technology" />
-            <RadioButton.Item color='pink' label="Law" value="Law" />
-            <RadioButton.Item color='pink' label="Nutrition / Fitness" value="Nutrition / Fitness" />
-            <RadioButton.Item color='pink' label="Primary / Secondary Education" value="Primary / Secondary Education" />
-            <RadioButton.Item color='pink' label="Social Work" value="Social Work" />
-            <RadioButton.Item color='pink' label="Others" value="Others" />
-        </RadioButton.Group>
+     
         
         {!applied ? (
           <View style={{alignItems: 'center',
@@ -160,17 +135,47 @@ function Apply({navigation}){
         <Button mode="contained" disabled='true' onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
             Done Applied and Wait for Response
           </Button>
-          <Text style={{margin: 20, }}>Submission only allow once.</Text>
+          <Text style={{margin: 20, }}> Your submission is done.</Text>
           </View>
-          ) : (<Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
+          ) : (
+            <ScrollView style={styles.scrollView}>
+            <Text style={styles.instruction}>Step 1: Click the box to upload certificate. {'\n'} </Text>
+            
+           <View style={styles.imageContainer}> 
+           <Certificate onChange={onImageChange} source={{uri: imageUrl}} />
+            {imageUrl ?  null : <Text>Press above box to upload photo.</Text>}
+            </View>
+    
+            <Text style={styles.instruction}>Step 2: Select your professional field. {'\n'} </Text>
+            
+            <RadioButton.Group onValueChange={value => setValue(value)} value={value}  >
+                <RadioButton.Item color='pink' label="Art / Design" value="Art / Design" />
+                <RadioButton.Item color='pink' label="Career Counselling" value="Career Counselling" />
+                <RadioButton.Item color='pink' label="Early Child Education" value="Early Child Education" />
+                <RadioButton.Item color='pink' label="Entrepreneurship" value="Entrepreneurship" />
+                <RadioButton.Item color='pink' label="Fashion Design & Merchandising" value="Fashion Design & Merchandising" />
+                <RadioButton.Item color='pink' label="Finance and Banking" value="Finance and Banking" />
+                <RadioButton.Item color='pink' label="Healthcare/Medicine" value="Healthcare/Medicine" />
+                <RadioButton.Item color='pink' label="Human Resources" value="Human Resources" />
+                <RadioButton.Item color='pink' label="Information Technology" value="Information Technology" />
+                <RadioButton.Item color='pink' label="Law" value="Law" />
+                <RadioButton.Item color='pink' label="Nutrition / Fitness" value="Nutrition / Fitness" />
+                <RadioButton.Item color='pink' label="Primary / Secondary Education" value="Primary / Secondary Education" />
+                <RadioButton.Item color='pink' label="Social Work" value="Social Work" />
+                <RadioButton.Item color='pink' label="Others" value="Others" />
+            </RadioButton.Group>
+            
+          <Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
             Submit
-          </Button>) }
+          </Button>
+          </ScrollView>
+         )  }
          
         
         
        
    
-     </ScrollView>
+     
     </SafeAreaView>
 
   );
