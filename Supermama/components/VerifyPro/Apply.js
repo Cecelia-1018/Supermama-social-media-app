@@ -63,7 +63,7 @@ function Apply({navigation}){
   
   const id = 'VP'+user.uid;
 
-  const pending = 'pending';
+  const pending = 'Pending';
 
   async function addVerifyProCol(){
     if(user){

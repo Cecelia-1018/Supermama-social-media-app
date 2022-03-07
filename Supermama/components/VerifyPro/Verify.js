@@ -1,26 +1,53 @@
 import React,{useState, useEffect, useRef} from 'react';
-import {View, Text, Button, StyleSheet, Image, ActivityIndicator,FlatList} from 'react-native';
+import {View, Text, Button, StyleSheet, Image,FlatList} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import auth, {firebase} from '@react-native-firebase/auth';
+import {  
+  Card, 
+  Title, 
+  Paragraph,
+} from 'react-native-paper';
 
 function Verify() {
+
   const flatlistRef = useRef();
 
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };
 
-  const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const user = firebase.auth().currentUser;
   
   const [verify, setVerify] = React.useState([]);
 
+  // * step 3 declare picture url for displaying (rmb import useState at top)
+  const [imageUrl, setImageUrl] = useState('null');
+  
+  // * step 3a call image from storage (rmb import useEffect at top)
+  useEffect(() => {
+    if(user){
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/VerifyPro/' + "Verify" +user.uid) //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        setImageUrl(url);
+      })
+      .catch((e) => console.log('Errors while downloading => ', e));
+    }
+  }, []);
+
   const renderItem = ({item}) => {
-    return(
+    return (
       <View>
-       <Text> {item.status} </Text>  
-       <Text> {item.proField} </Text>
+        <Card>
+          <Card.Content>
+          <Paragraph><Text style={styles.baseText}>Verification Status :</Text> {item.status}  </Paragraph>  
+          <Paragraph><Text style={styles.baseText}>Professional Field  :</Text> {item.proField} </Paragraph> 
+          <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>
+          </Card.Content>
+        </Card>
       </View>
     );
   };
@@ -42,7 +69,7 @@ function Verify() {
     
           
           setVerify(verify);
-          // setLoading(false);
+         
   
         });
     
@@ -51,9 +78,7 @@ function Verify() {
     return () => subscriber();
   }, []);
   
-  // if (loading) {
-  //   return <ActivityIndicator size="large" color="#FFC0CB" />;
-  // }
+  
 
   return (
     <View style={styles.container}>
@@ -76,8 +101,15 @@ export default Verify;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'white',
   },
+  baseText: {
+    fontWeight: 'bold'
+  },
+  tinyLogo: {
+    width: 350,
+    height: 350,
+    margin: 5,
+  },
+  
 });
