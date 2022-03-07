@@ -134,7 +134,7 @@ function Apply({navigation}){
            <View style={styles.imageContainer}> 
            {applied ?  null : 
            <View> 
-           <Text style={styles.instruction}>Step 1: Click the box to upload certificate. {'\n'} </Text>
+           <Text style={styles.instruction}>Step 1: Click the blank to upload certificate. {'\n'} </Text>
            <Certificate onChange={onImageChange} source={{uri: imageUrl}} /> 
            </View>
            }
