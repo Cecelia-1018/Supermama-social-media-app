@@ -60,7 +60,7 @@ function Apply({navigation}){
   const [verify, setVerify] = React.useState([]);
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
-  const [imageUrl, setImageUrl] = useState("null");
+  const [imageUrl, setImageUrl] = useState(undefined);
   
   // * step 3a call image from storage (rmb import useEffect at top)
   useEffect(() => {
@@ -198,7 +198,7 @@ function Apply({navigation}){
             Done Applied and Wait for Response
           </Button>
           <Text style={{margin: 20, }}> Your submission is done.</Text>
-          {/* <IconButton
+          <IconButton
                   color="red"
                   size={20}
                   icon={require('../Forum/delete-bin.png')}
@@ -216,10 +216,10 @@ function Apply({navigation}){
                           .delete()
                           .then(() => {
                               console.log('submission deleted!');
-                          }),onImageDelete()}
+                          })}
                       },
                     ])
-                  }/>  */}
+                  }/> 
           </View>
           ) : ( 
             <View> 

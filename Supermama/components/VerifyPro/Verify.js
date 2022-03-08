@@ -33,7 +33,7 @@ function Verify() {
        .getDownloadURL()
        .then((url) => {
          setImageUrl(url);
-         
+
        })
        .catch((e) => console.log('Errors while downloading => ', e));
      }
@@ -48,7 +48,7 @@ function Verify() {
           <Paragraph><Text style={styles.baseText}>Verification Status :</Text> <Text style={{color:'red'}}>{item.status}</Text> </Paragraph>  
           <Paragraph><Text style={styles.baseText}>Professional Field  :</Text> {item.proField} </Paragraph> 
           <Paragraph><Text style={styles.baseText}>Applied Datetime    :</Text> {item.datetime} </Paragraph> 
-          {imageUrl? ( <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>) : ( <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>)}
+          <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>
          
           </Card.Content>
         </Card>
