@@ -152,6 +152,7 @@ function ProfileInfo() {
           userId: user.uid,
           name: user.displayName,
           bio: "Kindly add up your bio.",
+          userType: "Normal",
     })
     .then(() => {
       console.log('User Info added!');
@@ -230,6 +231,7 @@ function ProfileInfo() {
           )}
           <Text> {item.name}</Text>
           <Text style={{alignItems: 'center'}}> {item.bio}</Text>
+          {/* <Text> {item.userType} user </Text> */}
         </View>
         <View style={styles.content}>
          
