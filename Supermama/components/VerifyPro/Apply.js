@@ -33,6 +33,27 @@ const onImageChange = (image: ImageOrVideo) => {
   }
 };
 
+// // * Step 2 : Write a image change
+// const onImageDelete = (image: ImageOrVideo) => {
+//   console.log(image);
+
+//   const user = firebase.auth().currentUser;
+
+//   if(user){
+//   let Id = "Verify" + user.uid;
+
+//   //* step 2 a : upload image to storage
+//   let reference = storage().ref('gs://supermama-6aa87.appspot.com/VerifyPro/' + Id); //2
+//   let task = reference.delete();
+
+//   task
+//     .then(() => {
+//       console.log('Image uploaded to the bucket!');
+//     })
+//     .catch(e => console.log('uploading image error =>', e));
+//   }
+// };
+
 function Apply({navigation}){
 
   const user = firebase.auth().currentUser;
@@ -82,8 +103,6 @@ function Apply({navigation}){
 
   const pending = 'Pending';
 
-  const photoUrl = imageUrl;
-
   async function addVerifyProCol(){
     if(user){
       if(!value.trim()){
@@ -98,7 +117,7 @@ function Apply({navigation}){
           proField: value,
           userId: user.uid,
           status: pending,
-          certificate: photoUrl,
+          photoURL: imageUrl,
           datetime: datetime,
         })
         .then(() =>{
@@ -120,6 +139,8 @@ function Apply({navigation}){
     },
     { text: 'Confirm', onPress: () => addVerifyProCol() },
   ]);
+
+
 
  
   
@@ -177,7 +198,7 @@ function Apply({navigation}){
             Done Applied and Wait for Response
           </Button>
           <Text style={{margin: 20, }}> Your submission is done.</Text>
-          <IconButton
+          {/* <IconButton
                   color="red"
                   size={20}
                   icon={require('../Forum/delete-bin.png')}
@@ -190,15 +211,15 @@ function Apply({navigation}){
                       },
                       {
                         text: 'Confirm',
-                        onPress: () =>
+                        onPress: () => {
                           ref.doc(id)
                           .delete()
                           .then(() => {
                               console.log('submission deleted!');
-                          }),
+                          }),onImageDelete()}
                       },
                     ])
-                  }/> 
+                  }/>  */}
           </View>
           ) : ( 
             <View> 
