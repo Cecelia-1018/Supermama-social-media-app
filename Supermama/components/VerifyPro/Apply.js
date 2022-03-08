@@ -60,7 +60,7 @@ function Apply({navigation}){
   const [verify, setVerify] = React.useState([]);
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
-  const [imageUrl, setImageUrl] = useState(undefined);
+  const [imageUrl, setImageUrl] = useState("null");
   
   // * step 3a call image from storage (rmb import useEffect at top)
   useEffect(() => {
