@@ -3,6 +3,7 @@ import {View, Text, StyleSheet,SafeAreaView,ScrollView, StatusBar,Alert,} from '
 import { 
   Button,
   RadioButton,
+  IconButton
  } from "react-native-paper";
 // * Step 1 : Import   step 5 at Certificate.js
 import {ImageOrVideo} from 'react-native-image-crop-picker';
@@ -38,7 +39,7 @@ function Apply({navigation}){
   const [verify, setVerify] = React.useState([]);
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
-  const [imageUrl, setImageUrl] = useState('null');
+  const [imageUrl, setImageUrl] = useState(undefined);
   
   // * step 3a call image from storage (rmb import useEffect at top)
   useEffect(() => {
@@ -57,13 +58,31 @@ function Apply({navigation}){
   const [value, setValue] = React.useState('');
   const [applied, setApplied] = React.useState(false);
   
+   //set date time for each forum post
+   const [appliedDate, setAppliedDate] = useState('');
+   const [appliedTime, setAppliedTime] = useState('');
+   
+   useEffect(() => {
+     
+     const d = new Date()
+     var date = d.toLocaleDateString();
+     var time = d.toLocaleTimeString();
+    
+     setAppliedDate(date);
+     setAppliedTime(time);
+     
+   }, []);
 
+   const datetime = appliedDate + appliedTime;
+   
   //firebase
   const ref = firestore().collection('verifyPro');
   
   const id = 'VP'+user.uid;
 
   const pending = 'Pending';
+
+  const photoUrl = imageUrl;
 
   async function addVerifyProCol(){
     if(user){
@@ -79,6 +98,8 @@ function Apply({navigation}){
           proField: value,
           userId: user.uid,
           status: pending,
+          certificate: photoUrl,
+          datetime: datetime,
         })
         .then(() =>{
           console.log('Verify Pro added!')
@@ -100,7 +121,7 @@ function Apply({navigation}){
     { text: 'Confirm', onPress: () => addVerifyProCol() },
   ]);
 
-  
+ 
   
   useEffect(() => {
     const subscriber = firestore()
@@ -156,6 +177,28 @@ function Apply({navigation}){
             Done Applied and Wait for Response
           </Button>
           <Text style={{margin: 20, }}> Your submission is done.</Text>
+          <IconButton
+                  color="red"
+                  size={20}
+                  icon={require('../Forum/delete-bin.png')}
+                  onPress={() =>
+                    Alert.alert('Confirmation', 'Confirm to delete your submission,"undo" is not allowed?', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: () =>
+                          ref.doc(id)
+                          .delete()
+                          .then(() => {
+                              console.log('submission deleted!');
+                          }),
+                      },
+                    ])
+                  }/> 
           </View>
           ) : ( 
             <View> 

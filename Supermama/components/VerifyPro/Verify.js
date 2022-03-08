@@ -22,30 +22,15 @@ function Verify() {
   
   const [verify, setVerify] = React.useState([]);
 
-  // * step 3 declare picture url for displaying (rmb import useState at top)
-  const [imageUrl, setImageUrl] = useState('null');
-  
-  // * step 3a call image from storage (rmb import useEffect at top)
-  useEffect(() => {
-    if(user){
-    storage()
-      .ref('gs://supermama-6aa87.appspot.com/VerifyPro/' + "Verify" +user.uid) //name in storage in firebase console
-      .getDownloadURL()
-      .then((url) => {
-        setImageUrl(url);
-      })
-      .catch((e) => console.log('Errors while downloading => ', e));
-    }
-  }, []);
-
   const renderItem = ({item}) => {
     return (
       <View>
         <Card>
           <Card.Content>
-          <Paragraph><Text style={styles.baseText}>Verification Status :</Text> {item.status}  </Paragraph>  
+          <Paragraph><Text style={styles.baseText}>Verification Status :</Text> <Text style={{color:'red'}}>{item.status}</Text> </Paragraph>  
           <Paragraph><Text style={styles.baseText}>Professional Field  :</Text> {item.proField} </Paragraph> 
-          <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>
+          <Paragraph><Text style={styles.baseText}>Applied Datetime    :</Text> {item.datetime} </Paragraph> 
+          <Image style={styles.tinyLogo} source={{uri: item.certificate}}/>
           </Card.Content>
         </Card>
       </View>
