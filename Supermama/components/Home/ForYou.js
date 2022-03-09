@@ -49,24 +49,25 @@ const ForYou = ({navigation}) => {
     return (
       <View style={styles.item}>
         {item.following ? (
-          // <TouchableOpacity
-          //   onPress={() => {
-          //     navigation.navigate('Profile View', {
-          //       //pass params here
-          //       item: {
-          //         username: item.name,
-          //         bio: item.bio,
-          //         userId: item.userId,
-          //       },
-          //     });
-          //   }}>
-          <View style={[styles.line]}>
-            <Text style={[styles.user]}>{item.name}</Text>
-            <Text style={[styles.bio]}> {item.bio}</Text>
-            <Text style={[{fontSize: 0}]}>{item.key}</Text>
-          </View>
-        ) : // </TouchableOpacity>
-        null}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Profile View', {
+                //pass params here
+                item: {
+                  username: item.name,
+                  bio: item.bio,
+                  userId: item.userId,
+                  following: item.following,
+                },
+              });
+            }}>
+            <View style={[styles.line]}>
+              <Text style={[styles.user]}>{item.name}</Text>
+              <Text style={[styles.bio]}> {item.bio}</Text>
+              <Text style={[{fontSize: 0}]}>{item.key}</Text>
+            </View>
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   };

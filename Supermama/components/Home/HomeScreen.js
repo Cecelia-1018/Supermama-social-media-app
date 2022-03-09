@@ -48,15 +48,6 @@ function forYou() {
   );
 }
 
-function following() {
-  const user = firebase.auth().currentUser;
-  if (user) {
-    return <ForYou />;
-  } else {
-    return <MainSign />;
-  }
-}
-
 function HomeScreen() {
   const [folow, setFolow] = useState(0);
   return (
@@ -67,7 +58,10 @@ function HomeScreen() {
         tabBarStyle: {backgroundColor: 'white'},
       }}>
       <Tab.Screen name="For You" component={forYou} />
-      <Tab.Screen name="Following" component={following} />
+      <Tab.Screen
+        name="Following"
+        component={firebase.auth().currentUser ? ForYou : MainSign}
+      />
     </Tab.Navigator>
   );
 }

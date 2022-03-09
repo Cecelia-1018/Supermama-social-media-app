@@ -12,6 +12,8 @@ const StoreCart = ({navigation}) => {
   const uid = user.uid;
   const cartRef = useRef();
   const [cart, setCart] = useState([]);
+  const [number, setNumber] = useState(0);
+
   const ref = firestore().collection('cart');
   async function plusQuantity(id, quant) {
     await ref
@@ -39,6 +41,17 @@ const StoreCart = ({navigation}) => {
       setRelod(true);
     }
   }
+
+  function completeDelete() {
+    let temp = ref.where('usesrId', 'in', [user.uid]);
+    temp.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.delete();
+      });
+      navigation.navigate('Card Payment');
+    });
+  }
+
   const renderItem = ({item}) => {
     return (
       <View style={styles.item}>
@@ -101,16 +114,18 @@ const StoreCart = ({navigation}) => {
       .collection('cart')
       .where('usesrId', 'in', [user.uid])
       .onSnapshot(querySnapshot => {
-        let num = 0;
         const cart = [];
+        // const total = 0;
         querySnapshot.forEach(documentSnapshot => {
           cart.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
-            total: (num += parseInt(documentSnapshot.data().price)),
           });
+          // total.push({...documentSnapshot.data().price});
         });
         setCart(cart);
+        // num += total;
+        // setNumber(total);
         setRelod(false);
         console.log(relod);
       });
@@ -128,7 +143,19 @@ const StoreCart = ({navigation}) => {
       <Button
         styele={[styles.pay]}
         color="pink"
-        onPress={() => navigation.navigate('Card Payment')}
+        onPress={() =>
+          Alert.alert('Confirmation', 'Ready to pay?', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {
+              text: 'Confirm',
+              onPress: () => completeDelete(),
+            },
+          ])
+        }
         mode="outlined">
         Payment
       </Button>

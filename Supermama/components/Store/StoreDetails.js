@@ -161,7 +161,7 @@ const StoreDetails = ({route, navigation}) => {
         <Text style={[styles.det]}>{item.description}</Text>
       </ScrollView>
       <View style={[styles.commentcolumn]}>
-        <Text style={[styles.description]}>Comment {replyNum}</Text>
+        <Text style={[styles.description]}>Question {replyNum}</Text>
       </View>
       {user ? (
         <View style={styles.action}>

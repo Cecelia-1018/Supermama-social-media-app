@@ -15,6 +15,7 @@ import firestore from '@react-native-firebase/firestore';
 import {firebase} from '@react-native-firebase/auth';
 
 const EntertainmentHome = ({navigation}) => {
+  console.disableYellowBox = true;
   const user = firebase.auth().currentUser;
   const postRef = useRef();
   const onPressFunction = () => {
@@ -89,86 +90,86 @@ const EntertainmentHome = ({navigation}) => {
 
   const renderPostItem = ({item}) => {
     return (
-      <View style={styles.item}>
-        {/* {!user || item.userId !== user.uid ? ( */}
-        <>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Entertainment Details', {
-                item: {
-                  username: item.username,
-                  hashtag: item.hashtag,
-                  description: item.description,
-                  entId: item.entertainmentId,
-                  avatar: item.avatar,
-                  image: item.image,
-                  userId: item.userId,
-                },
-              });
-            }}>
-            <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
-              <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-                <Avatar.Image size={50} source={{uri: item.avatar}} />
+      <>
+        {item.post ? (
+          <View style={styles.item}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Entertainment Details', {
+                  item: {
+                    username: item.username,
+                    hashtag: item.hashtag,
+                    description: item.description,
+                    entId: item.entertainmentId,
+                    avatar: item.avatar,
+                    image: item.image,
+                    userId: item.userId,
+                  },
+                });
+              }}>
+              <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
+                <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
+                  <Avatar.Image size={50} source={{uri: item.avatar}} />
+                </View>
+                <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
+                  <Text style={[styles.user]}> {item.username}</Text>
+                  <Text style={[styles.user]}> #{item.hashtag}</Text>
+                </View>
               </View>
-              <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-                <Text style={[styles.user]}> {item.username}</Text>
-                <Text style={[styles.user]}> #{item.hashtag}</Text>
+              <Text style={[styles.description]}>{item.description}</Text>
+              <View style={[styles.grid]}>
+                <Image style={styles.image} source={{uri: item.image}} />
               </View>
-            </View>
-            <Text style={[styles.description]}>{item.description}</Text>
-            <View style={[styles.grid]}>
-              <Image style={styles.image} source={{uri: item.image}} />
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
 
-          <View
-            style={[
-              {
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-              },
-            ]}>
-            <View style={[{flexDirection: 'row'}]}>
-              {item.like ? (
-                <IconButton
-                  icon={'heart'}
-                  color="black"
-                  size={25}
-                  onPress={() => onUnlike(item.entertainmentId)}
+            <View
+              style={[
+                {
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                },
+              ]}>
+              <View style={[{flexDirection: 'row'}]}>
+                {item.like ? (
+                  <IconButton
+                    icon={'heart'}
+                    color="black"
+                    size={25}
+                    onPress={() => onUnlike(item.entertainmentId)}
+                  />
+                ) : (
+                  <IconButton
+                    icon={'heart-outline'}
+                    color="black"
+                    size={25}
+                    onPress={() => onLike(item.entertainmentId)}
+                  />
+                )}
+              </View>
+              <View style={[{flexDirection: 'row'}]}>
+                <Icon
+                  type="ionicon"
+                  name={
+                    Platform.OS === 'ios'
+                      ? 'ios-chatbubbles-outline'
+                      : 'md-chatbubbles-outline'
+                  }
                 />
-              ) : (
-                <IconButton
-                  icon={'heart-outline'}
-                  color="black"
-                  size={25}
-                  onPress={() => onLike(item.entertainmentId)}
-                />
-              )}
-            </View>
-            <View style={[{flexDirection: 'row'}]}>
+              </View>
               <Icon
                 type="ionicon"
                 name={
                   Platform.OS === 'ios'
-                    ? 'ios-chatbubbles-outline'
-                    : 'md-chatbubbles-outline'
+                    ? 'ios-paper-plane-outline'
+                    : 'md-paper-plane-outline'
                 }
+                style={{transform: [{rotate: '40deg'}]}}
               />
             </View>
-            <Icon
-              type="ionicon"
-              name={
-                Platform.OS === 'ios'
-                  ? 'ios-paper-plane-outline'
-                  : 'md-paper-plane-outline'
-              }
-              style={{transform: [{rotate: '40deg'}]}}
-            />
           </View>
-        </>
-        {/* ) : null} */}
-      </View>
+        ) : null}
+      </>
     );
   };
 

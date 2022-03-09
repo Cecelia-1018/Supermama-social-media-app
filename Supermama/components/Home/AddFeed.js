@@ -161,6 +161,7 @@ const AddFeed = ({navigation}) => {
               onChangeText={setTxtLink}
               color="black"
               placeholder="hyperlink if have"
+              selectTextOnFocus={true}
             />
           </View>
           <Text style={[styles.text_footer, {marginTop: 10}]}>Image</Text>
