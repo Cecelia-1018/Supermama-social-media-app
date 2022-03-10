@@ -123,7 +123,7 @@ function SearchUserScreen({navigation}) {
           onChangeText={text => searchFilterFunction(text)}
           value={search}
           underlineColorAndroid="transparent"
-          placeholder="Search Your Question"
+          placeholder="Search by person's name"
         />
         <FlatList
           data={filteredDataSource}

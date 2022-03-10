@@ -75,6 +75,7 @@ import {Searchbar} from 'react-native-paper';
 import CardPayment from './components/Store/CardPayment';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
+LogBox.ignoreAllLogs();//Hide all warning notifications on front-end
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';

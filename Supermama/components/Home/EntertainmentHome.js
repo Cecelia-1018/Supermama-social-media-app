@@ -15,7 +15,7 @@ import firestore from '@react-native-firebase/firestore';
 import {firebase} from '@react-native-firebase/auth';
 
 const EntertainmentHome = ({navigation}) => {
-  console.disableYellowBox = true;
+  // console.disableYellowBox = true;
   const user = firebase.auth().currentUser;
   const postRef = useRef();
   const onPressFunction = () => {
