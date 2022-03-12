@@ -99,7 +99,7 @@ const AddFeed = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.text_header}>Proffesional Feed</Text>
+        <Text style={styles.text_header}>Profesional Feed</Text>
         <Text style={styles.header_text}>Share it with others</Text>
       </View>
 

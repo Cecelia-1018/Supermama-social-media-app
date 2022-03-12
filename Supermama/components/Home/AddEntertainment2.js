@@ -60,9 +60,10 @@ function AddEntertainment2({navigation, route}) {
         hashtag: txtHashtag,
         avatar: avatarUrl,
         image: imageUrl,
+        post: Boolean(false),
       })
       .then(() => {
-        Alert.alert('Success ✅', 'Post Added Success');
+        Alert.alert('Success ✅', 'Post Added Success'), navigation.navigate('Home');
       });
     setTxtHashtag('');
     setTxtDes('');

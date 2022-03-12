@@ -27,26 +27,30 @@ const CardPayment = ({navigation}) => {
     return _token.tokenId;
   };
 
-  const makePayment = async () => {
-    // setLoading(true);
-    const _token = await getToken();
-    setToken(_token);
-    axios({
-      method: 'POST',
-      url: 'http://10.0.2.2:5001/supermama-6aa87/us-central1/completePaymentWithStripe',
-      data: {
-        amount: 400,
-        currency: 'USD',
-        token: _token,
-      },
-    })
-      .then(response => {
-        //console.log(JSON.stringify(response, null, 2));
-        // setLoading(false);
-        Alert.alert('Success ✅', 'Feed Added Success'), navigation.goBack();
-      })
-      .catch(err => console.error(err));
-  };
+  // const makePayment = async () => {
+  //   // setLoading(true);
+  //   const _token = await getToken();
+  //   setToken(_token);
+  //   axios({
+  //     method: 'POST',
+  //     url: 'http://10.0.2.2:5001/supermama-6aa87/us-central1/completePaymentWithStripe',
+  //     data: {
+  //       amount: 400,
+  //       currency: 'USD',
+  //       token: _token,
+  //     },
+  //   })
+  //     .then(response => {
+  //       //console.log(JSON.stringify(response, null, 2));
+  //       // setLoading(false);
+  //       Alert.alert('Success ✅', 'Feed Added Success'), navigation.goBack();
+  //     })
+  //     .catch(err => console.error(err));
+  // };
+const makePayment= ()=> {
+  Alert.alert('Success ✅', 'Payment success'),navigation.navigate('Store');
+}
+
 
   return (
     <View style={styles.container}>
