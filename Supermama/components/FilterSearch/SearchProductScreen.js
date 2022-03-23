@@ -169,7 +169,7 @@ function SearchProductScreen(){
        >
          {/* <Tab.Screen name="Search Video" component={SearchVideo} /> */}
           <Tab.Screen name="Name" component={SearchByName} />
-          <Tab.Screen name="Price" component={SearchByName} />
+          <Tab.Screen name="Price" component={SearchByPrice} />
           <Tab.Screen name="Category" component={SearchByCategory} />
          
        </Tab.Navigator>
