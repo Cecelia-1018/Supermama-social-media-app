@@ -34,6 +34,12 @@ function StoreHome({navigation}) {
                 size={25}
                 onPress={() => navigation.navigate('Cart')}
               />
+               <IconButton
+                icon={require('../Forum/search.png')}
+                color={Colors.black}
+                size={25}
+                onPress={() => navigation.navigate('Search Product')}
+              />
             </View>
           ),
         }}

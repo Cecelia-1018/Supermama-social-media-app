@@ -64,6 +64,7 @@ import AddEntertainment2 from './components/Home/AddEntertainment2';
 import SearchForumScreen from './components/FilterSearch/SearchForumScreen';
 import SearchUserScreen from './components/FilterSearch/SearchUserScreen';
 import SearchPostScreen from './components/FilterSearch/SearchPostScreen';
+import SearchProductScreen from './components/FilterSearch/SearchProductScreen';
 
 import StoreScreen from './components/Store/StoreHome';
 import StorePage from './components/Store/StorePage';
@@ -246,6 +247,8 @@ const App: () => Node = () => {
         <Stack.Screen name="Cart" component={StoreCart} />
         <Stack.Screen name="Card Payment" component={CardPayment} />
         <Stack.Screen name="Edit Product" component={EditProduct} />
+        <Stack.Screen name="Search Product" component={SearchProductScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
