@@ -4,16 +4,16 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 
 const Tab = createMaterialTopTabNavigator();
 
-function SearchVideo() {
-  return <Text>video</Text>;
-}
+// function SearchVideo() {
+//   return <Text>video</Text>;
+// }
 
 function SearchEntertainments() {
   return <Text>entertainment</Text>;
 }
 
-function SearchProducts() {
-  return <Text>Products</Text>;
+function SearchFeeds() {
+  return <Text>Feed</Text>;
 }
 
 function SearchPostScreen() {
@@ -25,9 +25,9 @@ function SearchPostScreen() {
         tabBarStyle: { backgroundColor: "white" },
       }}
     >
-      <Tab.Screen name="Search Video" component={SearchVideo} />
+      {/* <Tab.Screen name="Search Video" component={SearchVideo} /> */}
        <Tab.Screen name="Search Entertainment" component={SearchEntertainments} />
-        <Tab.Screen name="Search Product" component={SearchProducts} />
+        <Tab.Screen name="Search Feeds" component={SearchFeeds} />
       
     </Tab.Navigator>
   );

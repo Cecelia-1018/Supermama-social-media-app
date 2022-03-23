@@ -82,6 +82,12 @@ function HomePost({navigation}) {
                 size={25}
                 onPress={() => navigation.navigate('AddPost')}
               />
+              <IconButton
+                icon={require('../Forum/search.png')}
+                color={Colors.black}
+                size={25}
+                onPress={() => navigation.navigate('Search Post')}
+              />
               {/* <IconButton
                 icon="chat"
                 color={Colors.black}

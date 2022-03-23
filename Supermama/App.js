@@ -63,6 +63,7 @@ import AddEntertainment2 from './components/Home/AddEntertainment2';
 
 import SearchForumScreen from './components/FilterSearch/SearchForumScreen';
 import SearchUserScreen from './components/FilterSearch/SearchUserScreen';
+import SearchPostScreen from './components/FilterSearch/SearchPostScreen';
 
 import StoreScreen from './components/Store/StoreHome';
 import StorePage from './components/Store/StorePage';
@@ -218,6 +219,7 @@ const App: () => Node = () => {
         />
         <Stack.Screen name="Edit Entertainment" component={EditEnt} />
         <Stack.Screen name="Create Post" component={AddEntertainment2} />
+        <Stack.Screen name="Search Post" component={SearchPostScreen} />
 
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Search User" component={SearchUserScreen} />
