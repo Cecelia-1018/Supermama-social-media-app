@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Alert} from 'react-native';
+import {Text, View, StyleSheet, Alert,SafeAreaView,ScrollView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {TextInput, Card, Title, Button, Snackbar,Switch, Paragraph} from 'react-native-paper';
+import {TextInput, Card, Title, Button, Snackbar,Switch, Paragraph, Divider} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import YoursForum from './YoursForum';
 import auth, {firebase} from '@react-native-firebase/auth';
@@ -147,8 +147,33 @@ function AddForum({navigation}) {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollView}>
       <Card>
+      <Card.Content>
+          <Title>Enter Your Question </Title>
+          <TextInput
+            value={txtTil}
+            onChangeText={setTxtTitle}
+            mode="outlined"
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+          />
+        </Card.Content>
+       
+        <Card.Content>
+          <Title>Give more describe your question</Title>
+          <TextInput
+            value={txtDes}
+            onChangeText={setTxtDes}
+            mode="outlined"
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+            multiline={true}
+            numberOfLines={5}
+            
+          />
+        </Card.Content>
       <Card.Content>
           <Title>Add a hashtag </Title>
           <TextInput
@@ -183,30 +208,7 @@ function AddForum({navigation}) {
           />
          
         </Card.Content>
-        <Card.Content>
-          <Title>Enter Your Question </Title>
-          <TextInput
-            value={txtTil}
-            onChangeText={setTxtTitle}
-            mode="outlined"
-            outlineColor="#FFC0CB"
-            activeOutlineColor="#FE7E9C"
-          />
-        </Card.Content>
-       
-        <Card.Content>
-          <Title>Give more describe your question</Title>
-          <TextInput
-            value={txtDes}
-            onChangeText={setTxtDes}
-            mode="outlined"
-            outlineColor="#FFC0CB"
-            activeOutlineColor="#FE7E9C"
-            multiline={true}
-            numberOfLines={5}
-          />
-          
-        </Card.Content>
+        
         <Card.Content>
         <Title>Switch On or Off Anonymous mode</Title>
         <Paragraph>This will hide your name and profile picture for this forum post.</Paragraph>
@@ -250,13 +252,19 @@ function AddForum({navigation}) {
           Back
         </Button>
       </View>
-    </View>
+    
+    </ScrollView>
+     
+     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollView: {
+    backgroundColor: 'white',
   },
   btnContainer: {
     flexDirection: 'row-reverse',
