@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Searchbar} from 'react-native-paper';
+import {Searchbar,Avatar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import {firebase} from '@react-native-firebase/auth';
 // step 1 : import all the components we are going to use
@@ -11,6 +11,7 @@ import {
   FlatList,
   TextInput,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 
 function SearchUserScreen({navigation}) {
@@ -79,21 +80,27 @@ function SearchUserScreen({navigation}) {
   const ItemView = ({item}) => {
     return (
       // Flat List Item
+      <TouchableOpacity 
+      onPress={() => {
+        navigation.navigate('Profile View', {
+          //pass params here
+          item: {
+            username: item.name,
+            bio: item.bio,
+            userId: item.userId,
+            following: item.following,
+          },
+        });
+      }}
+      style={{borderRadius: 10, marginRight: 3, marginLeft: 5, marginBottom: 5}}
+      >
+         {/* <Avatar.Image size={24} source={{uri: })} /> */}
       <Text
         style={styles.itemStyle}
-        onPress={() => {
-          navigation.navigate('Profile View', {
-            //pass params here
-            item: {
-              username: item.name,
-              bio: item.bio,
-              userId: item.userId,
-              following: item.following,
-            },
-          });
-        }}>
+        >
         {item.name}
       </Text>
+      </TouchableOpacity>
     );
   };
 
@@ -110,10 +117,10 @@ function SearchUserScreen({navigation}) {
     );
   };
 
-  const getItem = item => {
-    // Function for click on an item
-    alert('Id : ' + item.userId + ' Title : ' + item.name);
-  };
+  // const getItem = item => {
+  //   // Function for click on an item
+  //   alert('Id : ' + item.userId + ' Title : ' + item.name);
+  // };
 
   return (
     <SafeAreaView style={{flex: 1}}>
