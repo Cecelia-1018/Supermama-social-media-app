@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Alert} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {TextInput, Card, Title, Button, Snackbar} from 'react-native-paper';
+import {TextInput, Card, Title, Button, Snackbar,Switch, Paragraph} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import YoursForum from './YoursForum';
 import auth, {firebase} from '@react-native-firebase/auth';
@@ -14,6 +14,10 @@ function AddForum({navigation}) {
   const [txtDes, setTxtDes] = React.useState('');
   const [txtHashtag, setHashtag] = React.useState('optional');
   const [txtCategory, SetCategory] = React.useState('');
+
+  //switch
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   //categories
   const categories = ['Education','Food','Female Disease','Heathcare','Life','Pregnancy','Parenting','Other'];
@@ -82,7 +86,8 @@ function AddForum({navigation}) {
         alert('Please select category.');
         return;
       } else {
-        await ref
+        if(!isSwitchOn){
+          await ref
           .doc(forumDocId)
           .set({
             //add id here
@@ -106,6 +111,35 @@ function AddForum({navigation}) {
         // setUserName('');
         onToggleSnackBar();
         navigation.navigate('Yours');
+        }else{
+        
+
+        await ref
+          .doc(forumDocId)
+          .set({
+            //add id here
+            forumId: txtForumId,
+            title: txtTil,
+            description: txtDes,
+            hashtag: txtHashtag, 
+            category: txtCategory,
+            date: forumDate,
+            time: forumTime,
+            photoUrl: 'https://thumbs.dreamstime.com/b/iconic-image-social-networks-anonymous-very-personal-character-social-profile-over-pure-purple-background-148178926.jpg',
+            username: 'Anonymous',
+            userId: user.uid,
+          })
+          .then(() => {
+            console.log('Forum added!');
+          });
+        setTxtTitle('');
+        setTxtDes('');
+        setHashtag('');
+        // setUserName('');
+        onToggleSnackBar();
+        navigation.navigate('Yours');
+        }
+        
       }
     } else {
       console.log('cannot add on');
@@ -146,7 +180,6 @@ function AddForum({navigation}) {
             dropdownStyle={styles.dropdown1DropdownStyle}
             rowStyle={styles.dropdown1RowStyle}
             rowTextStyle={styles.dropdown1RowTxtStyle}
-
           />
          
         </Card.Content>
@@ -172,6 +205,17 @@ function AddForum({navigation}) {
             multiline={true}
             numberOfLines={5}
           />
+          
+        </Card.Content>
+        <Card.Content>
+        <Title>Switch On or Off Anonymous mode</Title>
+        <Paragraph>This will hide your name and profile picture for this forum post.</Paragraph>
+        <View style={{marginLeft: 15}}> 
+        <Switch 
+        value={isSwitchOn} 
+        onValueChange={onToggleSwitch}
+        color='#FE7E9C'/>
+        </View>
         </Card.Content>
         
       </Card>
