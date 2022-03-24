@@ -14,6 +14,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import LinearGradient from 'react-native-linear-gradient';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -96,8 +97,17 @@ function SearchByName({navigation}) {
                 productId: item.productId,
               },
             });
-          }}>
+          }}
+          style={{borderRadius: 10, marginRight: 3, marginLeft: 5, marginBottom: 5}}
+          >
+             <LinearGradient
+        colors={['#DAE2F8', '#ffdde1' ]}
+        // style={styles.box1}
+        start={{x: 0.3, y: 0}}
+        style={{borderRadius: 5,}}
+        >
           <View style={styles.gridStyle}> 
+       
           <View> 
             <Image style={styles.image} source={{uri: item.image}} />
           </View>
@@ -105,7 +115,9 @@ function SearchByName({navigation}) {
           <View> 
           <Text style={styles.itemStyle}>{item.name} {'\n'}RM {item.price}</Text>
           </View>
+         
           </View>
+          </LinearGradient>
           </TouchableOpacity> 
         );
       };
@@ -206,9 +218,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 170,
-        margin: 2,
-        backgroundColor: '#FFC0CB',
+        // margin: 5,
+        // backgroundColor: '#FFC0CB',
         borderRadius: 5,
+        
+        
       },
    
   });

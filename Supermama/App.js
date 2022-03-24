@@ -76,7 +76,7 @@ import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import CardPayment from './components/Store/CardPayment';
 
-LogBox.ignoreLogs(['EventEmitter.removeListener','Encountered two children with the same key' ]);
+LogBox.ignoreLogs(['EventEmitter.removeListener','Encountered two children with the same key', "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!"]);
 // LogBox.ignoreAllLogs();//Hide all warning notifications on front-end
 
 const Section = ({children, title}): Node => {
