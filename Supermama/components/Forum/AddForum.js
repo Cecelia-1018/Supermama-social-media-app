@@ -6,11 +6,17 @@ import firestore from '@react-native-firebase/firestore';
 import YoursForum from './YoursForum';
 import auth, {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import SelectDropdown from 'react-native-select-dropdown';
 
 function AddForum({navigation}) {
   //input
   const [txtTil, setTxtTitle] = React.useState('');
   const [txtDes, setTxtDes] = React.useState('');
+  const [txtHashtag, setHashtag] = React.useState('optional');
+  const [txtCategory, SetCategory] = React.useState('');
+
+  //categories
+  const categories = ['Education','Food','Female Disease','Heathcare','Life','Pregnancy','Parenting','Other'];
 
   //firebase
   const ref = firestore().collection('forums');
@@ -69,6 +75,9 @@ function AddForum({navigation}) {
       } else if (!txtDes.trim()) {
         alert('Please describe a bit your problem.');
         return;
+      } else if (!txtHashtag.trim()) {
+        alert('Please add a hashtag.');
+        return;
       } else {
         await ref
           .doc(forumDocId)
@@ -77,6 +86,8 @@ function AddForum({navigation}) {
             forumId: txtForumId,
             title: txtTil,
             description: txtDes,
+            hashtag: txtHashtag, 
+            category: txtCategory,
             date: forumDate,
             time: forumTime,
             photoUrl: imageUrl,
@@ -88,6 +99,7 @@ function AddForum({navigation}) {
           });
         setTxtTitle('');
         setTxtDes('');
+        setHashtag('');
         // setUserName('');
         onToggleSnackBar();
         navigation.navigate('Yours');
@@ -100,6 +112,41 @@ function AddForum({navigation}) {
   return (
     <View style={styles.container}>
       <Card>
+      <Card.Content>
+          <Title>Add a hashtag </Title>
+          <TextInput
+            value={txtHashtag}
+            onChangeText={setHashtag}
+            mode="outlined"
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+          />
+          <Text>Give a meaningful hashtag name for other easy search.</Text>
+          </Card.Content>
+          <Card.Content>
+          <Title>Select Category</Title>
+          
+          <SelectDropdown
+            data={categories}
+            dropdownBackgroundColor='#FFC0CB'
+            onSelect={selectedItem => SetCategory(selectedItem)}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            defaultButtonText="Select Category"
+            buttonStyle={styles.dropdown1BtnStyle}
+            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+            dropdownIconPosition={"right"}
+            dropdownStyle={styles.dropdown1DropdownStyle}
+            rowStyle={styles.dropdown1RowStyle}
+            rowTextStyle={styles.dropdown1RowTxtStyle}
+
+          />
+         
+        </Card.Content>
         <Card.Content>
           <Title>Enter Your Question </Title>
           <TextInput
@@ -110,6 +157,7 @@ function AddForum({navigation}) {
             activeOutlineColor="#FE7E9C"
           />
         </Card.Content>
+       
         <Card.Content>
           <Title>Give more describe your question</Title>
           <TextInput
@@ -122,6 +170,7 @@ function AddForum({navigation}) {
             numberOfLines={5}
           />
         </Card.Content>
+        
       </Card>
 
       <View style={styles.btnContainer}>
@@ -171,6 +220,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
   },
+  dropdown1BtnStyle: {
+    width: "80%",
+    height: 50,
+    backgroundColor: "#FFF",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#FFC0CB",
+  },
+  dropdown1BtnTxtStyle: { color: "#444", textAlign: "left" },
+  dropdown1DropdownStyle: { backgroundColor: "#EFEFEF" },
+  dropdown1RowStyle: {
+    backgroundColor: "#EFEFEF",
+    borderBottomColor: "#C5C5C5",
+  },
+  dropdown1RowTxtStyle: { color: "#444", textAlign: "left" },
 });
 
 export default AddForum;
