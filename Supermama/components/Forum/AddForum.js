@@ -78,6 +78,9 @@ function AddForum({navigation}) {
       } else if (!txtHashtag.trim()) {
         alert('Please add a hashtag.');
         return;
+      } else if (!txtCategory.trim()) {
+        alert('Please select category.');
+        return;
       } else {
         await ref
           .doc(forumDocId)
