@@ -7,6 +7,8 @@ import YoursForum from './YoursForum';
 import auth, {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import SelectDropdown from 'react-native-select-dropdown';
+import {AddForumImage} from './AddForumImage'; 
+
 
 function AddForum({navigation}) {
   //input
@@ -14,21 +16,6 @@ function AddForum({navigation}) {
   const [txtDes, setTxtDes] = React.useState('');
   const [txtHashtag, setHashtag] = React.useState('optional');
   const [txtCategory, SetCategory] = React.useState('');
-
-  //switch
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-
-  //categories
-  const categories = ['Education','Food','Female Disease','Heathcare','Life','Pregnancy','Parenting','Other'];
-
-  //firebase
-  const ref = firestore().collection('forums');
-
-  //snackbar
-  const [visible, setVisible] = React.useState(false);
-  const onToggleSnackBar = () => setVisible(!visible);
-  const onDismissSnackBar = () => setVisible(false);
 
   //declare forum id with 'F + datetime'
   const [forumDocId, setForumDocId] = useState('');
@@ -53,6 +40,102 @@ function AddForum({navigation}) {
 
     
   }, []);
+
+  // * Step 2 : Write a image change
+const onImageChange = (image: ImageOrVideo) => {
+  console.log(image);
+
+  const user = firebase.auth().currentUser;
+
+  if(user){
+  let Id = "Img1" + txtForumId ;
+
+  //* step 2 a : upload image to storage
+  let reference = storage().ref('gs://supermama-6aa87.appspot.com/Forum/'+user.uid +'/' + Id); //2
+  let task = reference.putFile(image.path.toString());
+
+  task
+    .then(() => {
+      console.log('Image uploaded to the bucket!');
+    })
+    .catch(e => console.log('uploading image error =>', e));
+  }
+};
+
+const onImageChange2 = (image: ImageOrVideo) => {
+  console.log(image);
+
+  const user = firebase.auth().currentUser;
+
+  if(user){
+  let Id = "Img2" + txtForumId;
+
+  //* step 2 a : upload image to storage
+  let reference = storage().ref('gs://supermama-6aa87.appspot.com/Forum/'+user.uid +'/' + Id); //2
+  let task = reference.putFile(image.path.toString());
+
+  task
+    .then(() => {
+      console.log('Image uploaded to the bucket!');
+    })
+    .catch(e => console.log('uploading image error =>', e));
+  }
+};
+
+
+  // * step 3 declare picture url for displaying (rmb import useState at top)
+  const [imageUrlForum, setImageUrlForum] = useState(undefined);
+  const [imageUrlForum2, setImageUrlForum2] = useState(undefined);
+  
+  // * step 3a call image from storage (rmb import useEffect at top)
+  useEffect(() => {
+    if(user){
+      let Id = "Img1" + txtForumId;
+
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/Forum/'+user.uid +'/' + Id) //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        setImageUrlForum(url);
+      })
+      .catch((e) => console.log('Errors while downloading => ', e));
+    }
+
+
+  }, []);
+
+  useEffect(() => {
+    if(user){
+      let Id = "Img2" + txtForumId;
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/Forum/'+user.uid +'/' + Id) //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        setImageUrlForum2(url);
+      })
+      .catch((e) => console.log('Errors while downloading => ', e));
+    }
+
+
+  }, []);
+
+
+  //switch
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+
+  //categories
+  const categories = ['Education','Food','Female Disease','Heathcare','Life','Pregnancy','Parenting','Other'];
+
+  //firebase
+  const ref = firestore().collection('forums');
+
+  //snackbar
+  const [visible, setVisible] = React.useState(false);
+  const onToggleSnackBar = () => setVisible(!visible);
+  const onDismissSnackBar = () => setVisible(false);
+
+  
 
   //add userId
   const user = firebase.auth().currentUser;
@@ -101,6 +184,8 @@ function AddForum({navigation}) {
             photoUrl: imageUrl,
             username: user.displayName,
             userId: user.uid,
+            // imgOne: imageUrlForum,
+            // imgTwo: imageUrlForum2
           })
           .then(() => {
             console.log('Forum added!');
@@ -208,6 +293,19 @@ function AddForum({navigation}) {
           />
          
         </Card.Content>
+
+        <Card.Content> 
+        <Title>Add Image</Title>
+        <Text>Press pink boxes to add image.Maximum 3 images upload.</Text>
+        <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            <AddForumImage onChange={onImageChange} source={{uri: imageUrlForum}} /> 
+            <AddForumImage onChange={onImageChange2} source={{uri: imageUrlForum2}} /> 
+            <AddForumImage onChange={onImageChange} source={{uri: imageUrlForum}} /> 
+        </ScrollView>
+        </Card.Content> 
         
         <Card.Content>
         <Title>Switch On or Off Anonymous mode</Title>
