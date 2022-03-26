@@ -10,56 +10,226 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import {Card, Title, Paragraph, Avatar, IconButton} from 'react-native-paper';
+import {
+  Card,
+  Title,
+  Paragraph,
+  Avatar,
+  TextInput,
+  Button,
+  IconButton,
+  Colors,
+  Dialog,
+  Portal,
+} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import storage from '@react-native-firebase/storage';
+import {BottomSheet} from 'react-native-btr';
 
 function UCFdetails({navigation, route}) {
   //navigation
   const {item} = route.params;
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [forums, setForums] = useState([]); // Initial empty array of forums
+  //replies
+  const [replyNum, setReplyNum] = useState('');
 
   const flatlistRef = useRef();
   const user = firebase.auth().currentUser;
+  //reference id
+  const [forumId, setForumId] = useState(item.forumId);
 
-  // //firebase reference
-  const ref = firestore()
-    .collection('bookmark')
-    .doc(user.uid)
-    .collection('userMarkForum');
+  //input answer
+  const [txtAns, setTxtAnswer] = React.useState('');
+
+  //firebase
+  const ref = firestore().collection('answers');
+
+  //declare forum answer id with 'fa + datetime'
+  const [AnsDocId, setAnsDocId] = useState('');
+  const [txtansId, setAnsId] = useState('');
+
+   //set date time for each forum post
+   const [ansDate, setAnsDate] = useState('');
+   const [ansTime, setAnsTime] = useState('');
+   
+   useEffect(() => {
+    var head = Date.now().toString();
+    var tail = Math.random().toString().substr(2);
+
+    const d = new Date();
+    var date = d.toLocaleDateString();
+    var time = d.toLocaleTimeString();
+
+    setAnsDocId('FA' + head + tail);
+    setAnsId('FA' + head + tail);
+    setAnsDate(date);
+    setAnsTime(time);
+  }, []);
+
+  const [bookmark, setBookmark] = useState(false);
+  const [bookmarkId, setbookmarkId] = useState(item.forumId);
+
+  //start at here to refer waiyi again after exam
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkForum')
+
+      .onSnapshot(querySnapshot =>
+        querySnapshot.forEach(
+          documentSnapshot =>
+            documentSnapshot.id == forumId && setBookmark(true),
+        ),
+      );
+    return () => subscriber();
+  }, [user, setBookmark, forumId]);
+
+  const onBookmark = useCallback(async () => {
+    console.log('bookmark');
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkForum')
+      .doc(item.forumId)
+      .set({
+        forumId: item.forumId,
+        title: item.title,
+      });
+    setBookmark(true);
+  }, [setBookmark, user, item]);
+
+  const onUnBookmark = useCallback(async () => {
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkForum')
+      .doc(item.userId)
+      .delete();
+    setBookmark(false);
+  }, [setBookmark, user, item]);
+
+  //add photo url
+  //display user profile picture
+  const [imageUrl, setImageUrl] = useState('null');
+
+  useEffect(() => {
+    storage()
+      .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + user.uid) //name in storage in firebase console
+      .getDownloadURL()
+      .then(url => {
+        setImageUrl(url);
+      })
+      .catch(e => console.log('Errors while downloading => ', e));
+  }, []);
+
+  async function addAnswerCol() {
+    if (!txtAns.trim()) {
+      alert('Please enter your answer for submit.');
+    } else {
+      await ref
+        .doc(AnsDocId)
+        .set({
+          //add id here
+          answerId: txtansId,
+          answer: txtAns,
+          date: ansDate,
+          time: ansTime,
+          forumId: forumId,
+          userId: user.uid,
+          username: user.displayName,
+          photoUrl: imageUrl,
+        })
+        .then(() => {
+          console.log('Answer Forum added!');
+        });
+      setTxtAnswer('');
+    }
+  }
+
+  //bottom sheet
+  const [visible, setVisible] = useState(false);
+
+  const toggleBottomNavigationView = () => {
+    //Toggling the visibility state of the bottom sheet
+    setVisible(!visible);
+  };
+
 
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };
-
-  const renderItem = ({item}) => {
-    async function deleteBook() {
-      ref
-        .doc(item.forumId)
-        .delete()
-        .then(() => {
-          console.log('Forum bookmark deleted!');
-        });
-    }
+  const [answers, setAnswer] = useState([]); // Initial empty array of forums
+  
+  const renderItem3 = ({item}) => {
     return (
       <SafeAreaProvider>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Detail Forum', {
-              //pass params here
-              item: {
-                title: item.title,
-                description: item.description,
-                forumId: item.forumId,
-                username: item.username,
-                photoUrl: item.photoUrl,
-                date: item.date,
-                time: item.time,
-              },
-            });
-          }}>
+        <View>
+          <Card>
+            <Card.Content>
+              <View style={styles.top}>
+                <Avatar.Image size={30} source={{uri: item.photoUrl}} />
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingLeft: 10,
+                    fontSize: 12,
+                  }}>
+                  <Text style={styles.text}> {item.username} </Text>
+                  <Text style={styles.text}>
+                    {' '}
+                    Answered by {item.date} {item.time}{' '}
+                  </Text>
+                </View>
+              </View>
+              <Text style={styles.answer}>{item.answer}</Text>
+            </Card.Content>
+
+            {/* <Card.Actions>
+              {user ? (
+                <IconButton
+                  color="#FE7E9C"
+                  size={20}
+                  icon={require('./delete-bin.png')}
+                  onPress={() =>
+                    Alert.alert('Confirmation', 'Confirm to delete?', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: () =>
+                          ref
+                            .doc(item.answerId)
+                            .delete()
+                            .then(() => {
+                              console.log('Forum deleted!');
+                            }),
+                      },
+                    ])
+                  }
+                />
+              ) : null}
+            </Card.Actions> */}
+          </Card>
+        </View>
+      </SafeAreaProvider>
+    );
+  };
+
+  
+
+  const renderItem = ({item}) => {
+   
+    return (
+      <SafeAreaProvider>
+      
           <View>
             <Card>
               <Card.Content>
@@ -73,6 +243,39 @@ function UCFdetails({navigation, route}) {
                     </Text>
                   </View>
                 </View>
+                <View style={{flexDirection: 'row'}}>
+            <View>
+              <LinearGradient
+                colors={['#DAE2F8', '#ffdde1']}
+                // style={styles.box1}
+                start={{x: 0.3, y: 0}}
+                style={{
+                  borderRadius: 5,
+                  marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                  alignSelf: 'flex-start',
+                }}>
+                <Paragraph style={styles.text2}> {item.category}</Paragraph>
+              </LinearGradient>
+            </View>
+            <View>
+              <LinearGradient
+                colors={['#EF629F', '#EECDA3']}
+                // style={styles.box1}
+                start={{x: 0.0, y: 0.5}}
+                end={{x: 1.0, y: 0.5}}
+                style={{
+                  borderRadius: 5,
+                  marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                  alignSelf: 'flex-start',
+                }}>
+                <Paragraph style={styles.text2}> #{item.hashtag}</Paragraph>
+              </LinearGradient>
+            </View>
+          </View>
                 <View
                   style={{
                     backgroundColor: '#fddde6',
@@ -83,32 +286,82 @@ function UCFdetails({navigation, route}) {
                   <Title>{item.title}</Title>
                   <Paragraph>{item.description}</Paragraph>
                 </View>
+                <Text style={{marginLeft: 5}}> {replyNum} replies</Text>
               </Card.Content>
             </Card>
           </View>
-        </TouchableOpacity>
-        <View style={styles.delete}>
-          <IconButton
-            color="#FE7E9C"
-            size={20}
-            icon={require('../Forum/delete-bin.png')}
-            onPress={() =>
-              Alert.alert('Confirmation', 'Confirm to delete?', [
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
-                },
-                {
-                  text: 'Confirm',
-                  onPress: () => {
-                    deleteBook(), navigation.goBack();
-                  },
-                },
-              ])
-            }
+       <Card>
+          <Card.Actions>
+          {user ? (
+            <IconButton
+              icon={require('../Forum/reply.png')}
+              color="#FE7E9C"
+              size={20}
+              onPress={toggleBottomNavigationView}
+              //on Press of the button bottom sheet will be visible
+            />
+          ) : null}
+          {bookmark ? (
+            <IconButton
+              icon="book"
+              color="red"
+              size={20}
+              onPress={() => onUnBookmark()}
+            />
+          ) : (
+            <IconButton
+              icon="book"
+              color="#FE7E9C"
+              size={20}
+              onPress={() => onBookmark()}
+            />
+          )}
+        </Card.Actions>
+      </Card>
+
+      <View style={styles.spaceOne}>
+        <Title> Answers </Title>
+      </View>
+
+      <BottomSheet
+        visible={visible}
+        //setting the visibility state of the bottom shee
+        onBackButtonPress={toggleBottomNavigationView}
+        //Toggling the visibility state on the click of the back botton
+        onBackdropPress={toggleBottomNavigationView}
+        //Toggling the visibility state on the clicking out side of the sheet
+      >
+        {/*Bottom Sheet inner View*/}
+        <View style={styles.bottomNavigationView}>
+          <TextInput
+            value={txtAns}
+            onChangeText={setTxtAnswer}
+            placeholder="Type your answer"
+            multiline={true}
+            numberOfLines={10}
           />
+          <Button
+            mode="contained"
+            onPress={() => {
+              addAnswerCol(), setVisible(!visible);
+            }}
+            color="#FFF">
+            Submit
+          </Button>
         </View>
+      </BottomSheet>
+
+      <FlatList
+        ref={flatlistRef}
+        data={answers}
+        initialNumToRender={answers.length}
+        maxToRenderPerBatch={answers.length}
+        key={item => item.answerId}
+        renderItem={renderItem3}
+        windowSize={5}
+      />
+        
+        
       </SafeAreaProvider>
     );
   };
@@ -129,11 +382,36 @@ function UCFdetails({navigation, route}) {
 
         setForums(forums);
         setLoading(false);
+       
       });
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('answers')
+      .where('forumId', 'in', [item.forumId])
+      .onSnapshot(querySnapshot => {
+        const answers = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          answers.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setAnswer(answers);
+        setReplyNum(querySnapshot.size);
+        setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -143,6 +421,7 @@ function UCFdetails({navigation, route}) {
         keyExtractor={item => item.forumId}
         renderItem={renderItem}
       />
+      
     </View>
   );
 }
@@ -153,7 +432,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  delete: {
-    margin: 10,
+  btnContainer: {
+    flexDirection: 'row-reverse',
+  },
+  layout: {
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  list: {
+    marginTop: 20,
+  },
+  bottomNavigationView: {
+    backgroundColor: '#fff',
+    width: '100%',
+    height: 245,
+  },
+  space: {
+    backgroundColor: '#fddde6',
+    borderRadius: 5,
+    padding: 5,
+    margin: 5,
+  },
+  spaceOne: {
+    padding: 5,
+    margin: 2,
+  },
+  top: {
+    flexDirection: 'row',
+    padding: 5,
+    margin: 3,
+  },
+  answer: {
+    backgroundColor: '#fddde6',
+    borderRadius: 5,
+    padding: 5,
+    margin: 3,
+    fontSize: 15,
+    color: 'black',
+  },
+  text: {
+    fontSize: 10,
+  },
+  text2: {
+    fontWeight: 'bold',
+    color: '#3D155F',
   },
 });
