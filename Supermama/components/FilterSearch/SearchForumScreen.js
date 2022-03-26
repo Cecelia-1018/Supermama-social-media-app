@@ -162,8 +162,144 @@ function SearchByHashTag({navigation}) {
   );
 }
 
-function SearchByCategory() {
-  return <Text>Cat</Text>;
+function SearchByCategory({navigation}) {
+  const [search, setSearch] = useState('');
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
+
+   useEffect(() => {
+    const subscriber = firestore()
+      .collection('forums')
+      .onSnapshot(
+        querySnapshot => {
+          const forums = [];
+
+          querySnapshot.forEach(documentSnapshot => {
+            forums.push({
+              ...documentSnapshot.data(),
+              key:documentSnapshot.id
+            });
+          });
+    
+          
+         setFilteredDataSource(forums);
+         setMasterDataSource(forums);
+          
+
+        });
+    
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter(
+        function (item) {
+          const itemData = item.category
+            ? item.category.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
+  const ItemView = ({item}) => {
+    return (
+      // Flat List Item
+
+      < TouchableOpacity
+        style={styles.itemStyle}
+         onPress={() => {
+            navigation.navigate('Detail Forum', {
+              //pass params here
+              item: {
+                title: item.title,
+                description: item.description,
+                forumId: item.forumId,
+                username: item.username,
+                photoUrl: item.photoUrl,
+                date: item.date,
+                time: item.time,
+                hashtag: item.hashtag,
+                category: item.category,
+              },
+            });
+          }}>
+           
+         <View style={{flexDirection:'row', }}> 
+         
+         <Avatar.Image size={40} source={{uri: item.photoUrl}} />
+         <View style={{marginLeft: 5, width: 320}} >
+         <LinearGradient
+                colors={['#DAE2F8', '#ffdde1']}
+                // style={styles.box1}
+                start={{x: 0.0, y: 0.5}}
+                end={{x: 1.0, y: 0.5}}
+                style={{
+                  borderRadius: 5,
+                  // marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                 
+                  alignSelf: 'flex-start',
+                }}>
+                <Paragraph style={styles.text2}> {item.category}</Paragraph>
+          </LinearGradient>
+         <Text>{item.username} asked Question: </Text>
+         <Paragraph>{item.title}</Paragraph>
+         </View>
+         </View>
+         
+      </ TouchableOpacity>
+    );
+  };
+
+  const ItemSeparatorView = () => {
+    return (
+      // Flat List Item Separator
+      <View
+        style={{
+          height: 0.5,
+          width: '100%',
+          backgroundColor: '#C8C8C8',
+        }}
+      />
+    );
+  };
+
+ return (
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={(text) => searchFilterFunction(text)}
+          value={search}
+          underlineColorAndroid="transparent"
+          placeholder="Search By Category"
+        />
+        <FlatList
+          data={filteredDataSource}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={ItemSeparatorView}
+          renderItem={ItemView}
+        />
+      </View>
+    </SafeAreaView>
+  );
 }
 
 function SearchByQuestion({navigation}){
