@@ -26,6 +26,7 @@ import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import auth, {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 function DetailsForum({navigation, route}) {
   //check user
@@ -37,7 +38,6 @@ function DetailsForum({navigation, route}) {
   //input answer
   const [txtAns, setTxtAnswer] = React.useState('');
 
-  
   //firebase
   const ref = firestore().collection('answers');
 
@@ -51,7 +51,6 @@ function DetailsForum({navigation, route}) {
   //set date time for each forum post
   const [ansDate, setAnsDate] = useState('');
   const [ansTime, setAnsTime] = useState('');
-
 
   useEffect(() => {
     var head = Date.now().toString();
@@ -67,11 +66,10 @@ function DetailsForum({navigation, route}) {
     setAnsTime(time);
   }, []);
 
-  
   const [bookmark, setBookmark] = useState(false);
   const [bookmarkId, setbookmarkId] = useState(item.forumId);
 
-//start at here to refer waiyi again after exam
+  //start at here to refer waiyi again after exam
   useEffect(() => {
     const subscriber = firestore()
       .collection('bookmark')
@@ -111,20 +109,18 @@ function DetailsForum({navigation, route}) {
     setBookmark(false);
   }, [setBookmark, user, item]);
 
-
-
   //add photo url
   //display user profile picture
   const [imageUrl, setImageUrl] = useState('null');
-  
+
   useEffect(() => {
     storage()
       .ref('gs://supermama-6aa87.appspot.com/UserProfile/' + user.uid) //name in storage in firebase console
       .getDownloadURL()
-      .then((url) => {
+      .then(url => {
         setImageUrl(url);
       })
-      .catch((e) => console.log('Errors while downloading => ', e));
+      .catch(e => console.log('Errors while downloading => ', e));
   }, []);
 
   async function addAnswerCol() {
@@ -177,13 +173,20 @@ function DetailsForum({navigation, route}) {
             <Card.Content>
               <View style={styles.top}>
                 <Avatar.Image size={30} source={{uri: item.photoUrl}} />
-                <View style={{ flexDirection: "column",paddingLeft:10,fontSize: 12}}>
-                <Text style={styles.text}> {item.username} </Text>  
-                <Text style={styles.text}> Answered by {item.date}  {item.time} </Text>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingLeft: 10,
+                    fontSize: 12,
+                  }}>
+                  <Text style={styles.text}> {item.username} </Text>
+                  <Text style={styles.text}>
+                    {' '}
+                    Answered by {item.date} {item.time}{' '}
+                  </Text>
                 </View>
               </View>
               <Text style={styles.answer}>{item.answer}</Text>
-              
             </Card.Content>
 
             {/* <Card.Actions>
@@ -219,7 +222,7 @@ function DetailsForum({navigation, route}) {
       </SafeAreaProvider>
     );
   };
-  
+
   //replies
   const [replyNum, setReplyNum] = useState('');
 
@@ -229,7 +232,6 @@ function DetailsForum({navigation, route}) {
       .where('forumId', 'in', [item.forumId])
       .onSnapshot(querySnapshot => {
         const answers = [];
-        
 
         querySnapshot.forEach(documentSnapshot => {
           answers.push({
@@ -265,12 +267,52 @@ function DetailsForum({navigation, route}) {
               </Text>
             </View>
           </View>
-        <View style={styles.space}>
-          <Title>{item.title}</Title>
-          <Paragraph>{item.description}</Paragraph>
-          <Text> {replyNum} replies</Text>
-        </View>
         </Card.Content>
+        <Card.Content> 
+        <View style={{flexDirection: 'row'}}>
+            <View>
+              <LinearGradient
+                colors={['#DAE2F8', '#ffdde1']}
+                // style={styles.box1}
+                start={{x: 0.3, y: 0}}
+                style={{
+                  borderRadius: 5,
+                  marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                  alignSelf: 'flex-start',
+                }}>
+                <Paragraph style={styles.text2}> {item.category}</Paragraph>
+              </LinearGradient>
+            </View>
+            <View>
+              <LinearGradient
+                colors={['#EF629F', '#EECDA3']}
+                // style={styles.box1}
+                start={{x: 0.0, y: 0.5}}
+                end={{x: 1.0, y: 0.5}}
+                style={{
+                  borderRadius: 5,
+                  marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                  alignSelf: 'flex-start',
+                }}>
+                <Paragraph style={styles.text2}> #{item.hashtag}</Paragraph>
+              </LinearGradient>
+            </View>
+          </View>
+          </Card.Content>
+         <Card.Content>
+
+          <View style={styles.space}>
+            <Title>{item.title}</Title>
+            <Paragraph>{item.description}</Paragraph>
+            
+          </View>
+          <Text style={{marginLeft: 5}}> {replyNum} replies</Text>
+        </Card.Content>
+        
         <Card.Actions>
           {user ? (
             <IconButton
@@ -282,26 +324,25 @@ function DetailsForum({navigation, route}) {
             />
           ) : null}
           {bookmark ? (
-          <IconButton
+            <IconButton
               icon="book"
               color="red"
               size={20}
               onPress={() => onUnBookmark()}
-              
             />
           ) : (
-             <IconButton
+            <IconButton
               icon="book"
               color="#FE7E9C"
               size={20}
-              onPress={() => onBookmark()}/>
+              onPress={() => onBookmark()}
+            />
           )}
-           
         </Card.Actions>
       </Card>
 
       <View style={styles.spaceOne}>
-      <Title> Answers </Title>
+        <Title> Answers </Title>
       </View>
 
       <BottomSheet
@@ -366,26 +407,36 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 245,
   },
-  space:{
-    padding:2, 
-    margin: 2
+  space: {
+    backgroundColor: '#fddde6',
+    borderRadius: 5,
+    padding: 5,
+    margin: 5,
   },
-  spaceOne:{
-    padding: 5, 
-    margin: 2
+  spaceOne: {
+    padding: 5,
+    margin: 2,
   },
-  top: { 
-    flexDirection: "row",
-    padding:5, 
-    margin: 3 
+  top: {
+    flexDirection: 'row',
+    padding: 5,
+    margin: 3,
   },
-  answer:{
-    backgroundColor: "#fddde6",borderRadius: 5,padding:5, margin: 3,fontSize: 15, color: "black"
+  answer: {
+    backgroundColor: '#fddde6',
+    borderRadius: 5,
+    padding: 5,
+    margin: 3,
+    fontSize: 15,
+    color: 'black',
   },
-  text:{
-   fontSize: 10,
-  }
-  
+  text: {
+    fontSize: 10,
+  },
+  text2: {
+    fontWeight: 'bold',
+    color: '#3D155F',
+  },
 });
 
 export default DetailsForum;

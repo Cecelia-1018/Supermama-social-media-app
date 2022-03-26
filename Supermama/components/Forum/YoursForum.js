@@ -23,6 +23,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import EditForum from './EditForum';
 import auth, {firebase} from '@react-native-firebase/auth';
+import LinearGradient from 'react-native-linear-gradient';
 
 function YoursForum({navigation}) {
   //add user
@@ -56,6 +57,9 @@ function YoursForum({navigation}) {
                 username: item.username,
                 date: item.date,
                 time: item.time,
+                photoUrl: item.photoUrl,
+                hashtag: item.hashtag,
+                category: item.category,
               },
             });
           }}>
@@ -69,8 +73,30 @@ function YoursForum({navigation}) {
                 <Text> Posted by {item.date}  {item.time} </Text>
                 </View>
               </View>
+
+              <View style={{flexDirection:'row'}}> 
+                <View>
+                <LinearGradient
+                  colors={['#DAE2F8', '#ffdde1']}
+                  // style={styles.box1}
+                  start={{x: 0.3, y: 0}}
+                  style={{borderRadius: 5,marginLeft: 5,paddingRight: 5, paddingLeft: 2, alignSelf: 'flex-start'}}>
+                  <Paragraph style={styles.text}> {item.category}</Paragraph>
+                </LinearGradient>
+                </View>
+                <View>
+                <LinearGradient
+                  colors={['#EF629F','#EECDA3']}
+                  // style={styles.box1}
+                  start={{x: 0.0, y: 0.5}}
+                  end={{x: 1.0, y:0.5}}
+                  style={{borderRadius: 5,marginLeft: 5,paddingRight: 5, paddingLeft: 2, alignSelf: 'flex-start'}}>
+                  <Paragraph style={styles.text}> #{item.hashtag}</Paragraph>
+                </LinearGradient>
+                </View>
+                </View>
              
-              <View style={{padding:2, margin: 2}}>
+              <View style={{padding:2, margin: 5}}>
                 <Title>{item.title}</Title>
                 <Paragraph>{item.description}</Paragraph>
               </View>
@@ -165,6 +191,10 @@ function YoursForum({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  text:{
+    fontWeight: 'bold',
+    color: '#3D155F',
   },
 });
 

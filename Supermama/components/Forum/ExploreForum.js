@@ -70,9 +70,10 @@ function ExploreForum({navigation}) {
                 </View>
                 <View>
                 <LinearGradient
-                  colors={['#DAE2F8', '#ffdde1']}
+                  colors={['#EF629F','#EECDA3']}
                   // style={styles.box1}
-                  start={{x: 0.3, y: 0}}
+                  start={{x: 0.0, y: 0.5}}
+                  end={{x: 1.0, y:0.5}}
                   style={{borderRadius: 5,marginLeft: 5,paddingRight: 5, paddingLeft: 2, alignSelf: 'flex-start'}}>
                   <Paragraph style={styles.text}> #{item.hashtag}</Paragraph>
                 </LinearGradient>
@@ -140,8 +141,9 @@ const styles = StyleSheet.create({
   },
   text:{
     fontWeight: 'bold',
-    color: '#696969',
-  }
+    color: '#3D155F',
+  },
+  
 });
 
 export default ExploreForum;
