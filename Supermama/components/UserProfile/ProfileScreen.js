@@ -234,6 +234,9 @@ function ProfileInfo() {
           {/* <Text> {item.userType} user </Text> */}
         </View>
         <View style={styles.content}>
+        
+        <TouchableOpacity  onPress={() => {
+              navigation.navigate('Your Collection Posts',);}}>
         <Card style={styles.card}>
           <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/self-care-illustration-concept_23-2148526939.jpg?w=740' }} />
              <Card.Actions>
@@ -243,8 +246,13 @@ function ProfileInfo() {
                   Collections
               </Button>
             </Card.Actions>
+             
           </Card>
-         
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={() => {
+              navigation.navigate('Your Entertainment Posts',);
+            }}>
           <Card style={styles.card}>
            <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/group-people-illustration-set_52683-33806.jpg?size=626&ext=jpg&ga=GA1.2.253552068.1642731557' }} />
             <Card.Actions>
@@ -255,7 +263,11 @@ function ProfileInfo() {
               </Button>
             </Card.Actions>
           </Card>
+          </TouchableOpacity>
 
+          <TouchableOpacity  onPress={() => {
+              navigation.navigate('Your Feed Posts',);
+            }}>
           <Card style={styles.card}>
           <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/blogging-illustration-concept_114360-788.jpg?w=900' }} />
             <Card.Actions>
@@ -266,7 +278,7 @@ function ProfileInfo() {
               </Button>
             </Card.Actions>
           </Card>
-          
+          </TouchableOpacity>
           
           
            {/* 
@@ -283,7 +295,9 @@ function ProfileInfo() {
             </Card.Actions>
           </Card> */}
 
-          
+        <TouchableOpacity  onPress={() => {
+              navigation.navigate('Your Product Posts',);
+            }}>
           <Card style={styles.card}>
           <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/ecommerce-campaign-concept-illustration_114360-8202.jpg?w=996' }} />
             <Card.Actions>
@@ -294,7 +308,7 @@ function ProfileInfo() {
               </Button>
             </Card.Actions>
           </Card>
-
+          </TouchableOpacity>
           
         </View>
       </View>

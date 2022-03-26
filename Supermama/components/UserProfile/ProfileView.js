@@ -91,6 +91,13 @@ function ProfileView({navigation, route}) {
         </View>
 
         <View style={styles.content}>
+        <TouchableOpacity   onPress={() => {
+                  navigation.navigate('View Entertainment Posts', {
+                    item: {
+                      userId: item.userId,
+                    },
+                  });
+                }}>
           <Card style={styles.card}>
             <Card.Cover
               source={{
@@ -111,7 +118,15 @@ function ProfileView({navigation, route}) {
               </Button>
             </Card.Actions>
           </Card>
+          </TouchableOpacity>
 
+          <TouchableOpacity  onPress={() => {
+                  navigation.navigate('View Feed Posts', {
+                    item: {
+                      userId: item.userId,
+                    },
+                  });
+                }}>
           <Card style={styles.card}>
             <Card.Cover
               source={{
@@ -132,7 +147,15 @@ function ProfileView({navigation, route}) {
               </Button>
             </Card.Actions>
           </Card>
-
+          </TouchableOpacity>
+          
+          <TouchableOpacity  onPress={() => {
+                  navigation.navigate('View Product Posts', {
+                    item: {
+                      userId: item.userId,
+                    },
+                  });
+                }}>
           <Card style={styles.card}>
             <Card.Cover
               source={{
@@ -153,7 +176,11 @@ function ProfileView({navigation, route}) {
               </Button>
             </Card.Actions>
           </Card>
-
+          </TouchableOpacity>
+           
+          <TouchableOpacity  onPress={() => {
+                  navigation.navigate('View Collection Posts');
+                }}>
           <Card style={styles.card}>
             <Card.Cover
               source={{
@@ -170,6 +197,7 @@ function ProfileView({navigation, route}) {
               </Button>
             </Card.Actions>
           </Card>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

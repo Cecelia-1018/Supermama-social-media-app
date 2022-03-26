@@ -1,5 +1,5 @@
 import React, {useState, useEffect,useRef} from 'react';
-import {Searchbar,Paragraph,Title} from 'react-native-paper';
+import {Searchbar,Paragraph,Title,Chip} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 // step 1 : import all the components we are going to use
 import {
@@ -11,7 +11,8 @@ import {
   TextInput,
   Alert,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LinearGradient from 'react-native-linear-gradient';
@@ -440,6 +441,12 @@ function SearchByCategory({navigation}) {
             underlineColorAndroid="transparent"
             placeholder="Search By Categories"
           />
+        <ScrollView horizontal={true} style={{margin: 5}}>
+        <Chip style={{ backgroundColor: '#f9e1e0' }} onPress={() => searchFilterFunction('Balloon')}>Balloon</Chip>
+        <Chip style={{ backgroundColor: '#feadb9' }} onPress={() => searchFilterFunction('Cake')}>Cake</Chip>
+        <Chip style={{ backgroundColor:'#fddde6' }} onPress={() => searchFilterFunction('Container')}>Container</Chip>
+        <Chip style={{ backgroundColor:  '#edc2d8ff'}} onPress={() => searchFilterFunction('Toy')}>Toy</Chip>
+        </ScrollView>
           <FlatList
             data={filteredDataSource}
             keyExtractor={(item, index) => index.toString()}
