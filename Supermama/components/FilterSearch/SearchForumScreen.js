@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Searchbar} from 'react-native-paper';
+import {Searchbar, Avatar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
-
-//just place the backup file back
-
 // step 1 : import all the components we are going to use
 import {
   SafeAreaView,
@@ -13,11 +10,23 @@ import {
   FlatList,
   TextInput,
   Alert,
+  TouchableOpacity
 } from 'react-native';
 
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-function SearchForumScreen({navigation}) {
 
+const Tab = createMaterialTopTabNavigator();
+
+function SearchByHashTag() {
+  return <Text>HT</Text>;
+}
+
+function SearchByCategory() {
+  return <Text>Cat</Text>;
+}
+
+function SearchByQuestion({navigation}){
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
@@ -75,7 +84,8 @@ function SearchForumScreen({navigation}) {
   const ItemView = ({item}) => {
     return (
       // Flat List Item
-      <Text
+
+      < TouchableOpacity
         style={styles.itemStyle}
          onPress={() => {
             navigation.navigate('Detail Forum', {
@@ -88,11 +98,14 @@ function SearchForumScreen({navigation}) {
                 photoUrl: item.photoUrl,
                 date: item.date,
                 time: item.time,
+                hashtag: item.hashtag,
+                category: item.category,
               },
             });
           }}>
-        {item.title}
-      </Text>
+
+        <Text>{item.title}</Text>
+      </ TouchableOpacity>
     );
   };
 
@@ -133,6 +146,24 @@ function SearchForumScreen({navigation}) {
       </View>
     </SafeAreaView>
   );
+}
+
+function SearchForumScreen({navigation}) {
+  return (
+    <Tab.Navigator
+     screenOptions={{
+       tabBarLabelStyle: { fontSize: 12 },
+       tabBarIndicatorStyle: { backgroundColor: "#f0ccd2" },
+       tabBarStyle: { backgroundColor: "white" },
+     }}
+   >
+     {/* <Tab.Screen name="Search Video" component={SearchVideo} /> */}
+      <Tab.Screen name="Questions" component={SearchByQuestion} />
+      <Tab.Screen name="Forum Category" component={SearchByCategory} />
+      <Tab.Screen name="Forum Hashtag" component={SearchByCategory} />
+   </Tab.Navigator>
+ );
+ 
 
 }
 const styles = StyleSheet.create({
