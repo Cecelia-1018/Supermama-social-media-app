@@ -43,13 +43,6 @@ function AddForum({navigation}) {
     
   }, []);
 
- 
-
-  
-  
-  
-  
-
 
   //switch
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
