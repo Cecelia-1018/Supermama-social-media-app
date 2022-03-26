@@ -211,7 +211,7 @@ function ProfileInfo() {
         <View style={styles.userRow}>
           <IconButton
             style={[styles.editButton]}
-            color={Colors.grey600}
+            color={Colors.pink300}
             size={20}
             icon="pen"
             onPress={() => {
@@ -234,6 +234,16 @@ function ProfileInfo() {
           {/* <Text> {item.userType} user </Text> */}
         </View>
         <View style={styles.content}>
+        <Card style={styles.card}>
+          <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/self-care-illustration-concept_23-2148526939.jpg?w=740' }} />
+             <Card.Actions>
+               <Button mode="default" onPress={() => {
+              navigation.navigate('Your Collection Posts',);
+            }}>
+                  Collections
+              </Button>
+            </Card.Actions>
+          </Card>
          
           <Card style={styles.card}>
            <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/group-people-illustration-set_52683-33806.jpg?size=626&ext=jpg&ga=GA1.2.253552068.1642731557' }} />
@@ -285,16 +295,7 @@ function ProfileInfo() {
             </Card.Actions>
           </Card>
 
-          <Card style={styles.card}>
-          <Card.Cover source={{ uri: 'https://img.freepik.com/free-vector/self-care-illustration-concept_23-2148526939.jpg?w=740' }} />
-             <Card.Actions>
-               <Button mode="default" onPress={() => {
-              navigation.navigate('Your Collection Posts',);
-            }}>
-                  Collections
-              </Button>
-            </Card.Actions>
-          </Card>
+          
         </View>
       </View>
     );

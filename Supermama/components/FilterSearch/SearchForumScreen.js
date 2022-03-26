@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Searchbar, Avatar, Paragraph} from 'react-native-paper';
+import {Searchbar, Avatar, Paragraph, Chip, Title} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 // step 1 : import all the components we are going to use
 import {
@@ -10,7 +10,8 @@ import {
   FlatList,
   TextInput,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LinearGradient from 'react-native-linear-gradient';
@@ -144,6 +145,7 @@ function SearchByHashTag({navigation}) {
  return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
+        
         <TextInput
           style={styles.textInputStyle}
           onChangeText={(text) => searchFilterFunction(text)}
@@ -281,6 +283,8 @@ function SearchByCategory({navigation}) {
     );
   };
 
+
+
  return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -291,6 +295,16 @@ function SearchByCategory({navigation}) {
           underlineColorAndroid="transparent"
           placeholder="Search By Category"
         />
+        <ScrollView horizontal={true} style={{margin: 5}}>
+        <Chip style={{ backgroundColor: '#f9e1e0' }} onPress={() => searchFilterFunction('Parenting')}>Parenting</Chip>
+        <Chip style={{ backgroundColor: '#feadb9' }} onPress={() => searchFilterFunction('Pregnancy')}>Pregnancy</Chip>
+        <Chip style={{ backgroundColor:'#bc85a3' }} onPress={() => searchFilterFunction('Education')}>Education</Chip>
+        <Chip style={{ backgroundColor:  '#edc2d8ff'}} onPress={() => searchFilterFunction('Food')}>Food</Chip>
+        <Chip style={{ backgroundColor: '#db7093'}} onPress={() => searchFilterFunction('Female Disease')}>Female Disease</Chip>
+        <Chip style={{ backgroundColor: '#ff69b4' }} onPress={() => searchFilterFunction('Heathcare')}>Heathcare</Chip>
+        <Chip style={{ backgroundColor: '#ffe4e1' }} onPress={() => searchFilterFunction('Life')}>Life</Chip>
+        <Chip style={{ backgroundColor:'#fddde6' }} onPress={() => searchFilterFunction('Other')}>Other</Chip>
+        </ScrollView>
         <FlatList
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
