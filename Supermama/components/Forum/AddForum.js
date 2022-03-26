@@ -26,13 +26,13 @@ function AddForum({navigation}) {
 
   useEffect(() => {
     const d = new Date();
-    var hours = d.getHours(); //To get the Current Hours
-    var min = d.getMinutes(); //To get the Current Minutes
+    var head = Date.now().toString();
+    var tail = Math.random().toString().substr(2);
     var date = d.toLocaleDateString();
     var time = d.toLocaleTimeString();
 
-    setForumDocId('F' + hours + min);
-    setForumId('F' + hours + min);
+    setForumDocId('F' + head + tail);
+    setForumId('F' + head + tail);
     setForumDate(date);
     setForumTime(time);
 

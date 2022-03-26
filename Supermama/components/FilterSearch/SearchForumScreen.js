@@ -103,7 +103,7 @@ function SearchByQuestion({navigation}){
               },
             });
           }}>
-
+        
         <Text>{item.title}</Text>
       </ TouchableOpacity>
     );
