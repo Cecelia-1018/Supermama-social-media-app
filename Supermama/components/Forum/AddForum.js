@@ -7,8 +7,6 @@ import YoursForum from './YoursForum';
 import auth, {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import SelectDropdown from 'react-native-select-dropdown';
-
-
  
 
 function AddForum({navigation}) {
@@ -16,7 +14,7 @@ function AddForum({navigation}) {
   const [txtTil, setTxtTitle] = React.useState('');
   const [txtDes, setTxtDes] = React.useState('');
   const [txtHashtag, setHashtag] = React.useState('optional');
-  const [txtCategory, SetCategory] = React.useState('');
+  const [txtCategory, setCategory] = React.useState('');
 
   //declare forum id with 'F + datetime'
   const [forumDocId, setForumDocId] = useState('');
@@ -27,8 +25,6 @@ function AddForum({navigation}) {
   const [forumTime, setForumTime] = useState('');
 
   useEffect(() => {
-    
-    
     const d = new Date();
     var hours = d.getHours(); //To get the Current Hours
     var min = d.getMinutes(); //To get the Current Minutes
@@ -93,9 +89,6 @@ function AddForum({navigation}) {
         alert('Please select category.');
         return;
       } else {
-        // * step 3a call image from storage (rmb import useEffect at top)
- 
-
         if(!isSwitchOn){
           await ref
           .doc(forumDocId)
@@ -118,6 +111,7 @@ function AddForum({navigation}) {
         setTxtTitle('');
         setTxtDes('');
         setHashtag('');
+        setCategory('');
         // setUserName('');
         onToggleSnackBar();
         navigation.navigate('Yours');
@@ -145,6 +139,7 @@ function AddForum({navigation}) {
         setTxtTitle('');
         setTxtDes('');
         setHashtag('');
+        setCategory('');
         // setUserName('');
         onToggleSnackBar();
         navigation.navigate('Yours');
@@ -201,7 +196,7 @@ function AddForum({navigation}) {
           <SelectDropdown
             data={categories}
             dropdownBackgroundColor='#FFC0CB'
-            onSelect={selectedItem => SetCategory(selectedItem)}
+            onSelect={selectedItem => setCategory(selectedItem)}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
             }}

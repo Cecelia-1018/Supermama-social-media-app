@@ -54,7 +54,6 @@ function YoursForum({navigation}) {
                 description: item.description,
                 forumId: item.forumId,
                 username: item.username,
-                photoUrl: item.photoUrl,
                 date: item.date,
                 time: item.time,
               },
@@ -88,6 +87,9 @@ function YoursForum({navigation}) {
                         title: item.title,
                         description: item.description,
                         forumId: item.forumId,
+                        hashtag: item.hashtag,
+                        category: item.category,
+                        photoUrl: item.photoUrl,
                       },
                     });
                   }}/>
