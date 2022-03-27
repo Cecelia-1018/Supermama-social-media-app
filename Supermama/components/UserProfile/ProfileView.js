@@ -178,26 +178,6 @@ function ProfileView({navigation, route}) {
           </Card>
           </TouchableOpacity>
            
-          <TouchableOpacity  onPress={() => {
-                  navigation.navigate('View Collection Posts');
-                }}>
-          <Card style={styles.card}>
-            <Card.Cover
-              source={{
-                uri: 'https://img.freepik.com/free-vector/self-care-illustration-concept_23-2148526939.jpg?w=740',
-              }}
-            />
-            <Card.Actions>
-              <Button
-                mode="default"
-                onPress={() => {
-                  navigation.navigate('View Collection Posts');
-                }}>
-                Collections
-              </Button>
-            </Card.Actions>
-          </Card>
-          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
