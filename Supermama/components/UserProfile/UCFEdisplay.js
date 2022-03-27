@@ -20,7 +20,7 @@ import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import auth, {firebase} from '@react-native-firebase/auth';
 
-function UCFEdisplay(){
+function UCFEdisplay({navigation}){
    //check user
    const user = firebase.auth().currentUser;
    const flatlistRef = useRef();
