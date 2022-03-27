@@ -152,6 +152,51 @@ function EntertainmentDetails({route}) {
     setFollowing(false);
   }, [setFollowing, user, item]);
 
+  //bookmark 
+  const [bookmark, setBookmark] = useState(false);
+  const [bookmarkId, setbookmarkId] = useState(item.entId);
+  //reference id
+  // const [entId, setentId] = useState(item.entId);
+  //start at here to refer waiyi again after exam
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkEntertainment')
+
+      .onSnapshot(querySnapshot =>
+        querySnapshot.forEach(
+          documentSnapshot =>
+            documentSnapshot.id == entId && setBookmark(true),
+        ),
+      );
+    return () => subscriber();
+  }, [user, setBookmark, entId]);
+
+  const onBookmark = useCallback(async () => {
+    console.log('bookmark');
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkEntertainment')
+      .doc(item.entId)
+      .set({
+        entId: item.entId,
+        image: item.image,
+      });
+    setBookmark(true);
+  }, [setBookmark, user, item]);
+
+  const onUnBookmark = useCallback(async () => {
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkEntertainment')
+      .doc(item.entId)
+      .delete();
+    setBookmark(false);
+  }, [setBookmark, user, item]);
+
   return (
     <View style={styles.container}>
       <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
@@ -176,13 +221,25 @@ function EntertainmentDetails({route}) {
       <View style={[styles.grid]}>
         <Image style={styles.image} source={{uri: item.image}} />
       </View>
-      <IconButton
-        style={[styles.bookmark]}
-        icon={'book'}
-        color="black"
-        size={25}
-        // onPress={() => navigation.navigate('Bookmark')}
-      />
+      
+      {bookmark ? (
+            <IconButton
+              icon="book"
+              color="red"
+              style={[styles.bookmark]}
+              size={20}
+              onPress={() => onUnBookmark()}
+            />
+          ) : (
+            <IconButton
+              icon="book"
+              color="#FE7E9C"
+              style={[styles.bookmark]}
+              size={20}
+              onPress={() => onBookmark()}
+            />
+          )}
+    
       {following ? (
         <Button
           style={[styles.follow]}
@@ -200,6 +257,9 @@ function EntertainmentDetails({route}) {
           Follow
         </Button>
       )}
+     
+
+
       <View style={[styles.commentcolumn]}>
         <Text style={[styles.description]}>Comment {replyNum}</Text>
       </View>
@@ -275,7 +335,7 @@ const styles = StyleSheet.create({
 
   grid: {flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'},
   follow: {position: 'absolute', right: 5, top: 18, color: 'black'},
-  bookmark: {position: 'absolute', right: 110, top: 12},
+  bookmark: {position: 'absolute', right: 120, top: 20},
   send: {position: 'absolute', right: 10, top: 10},
   commentcolumn: {
     borderColor: 'pink',

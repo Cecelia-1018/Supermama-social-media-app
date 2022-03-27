@@ -45,8 +45,13 @@ import ViewVideo from './components/UserProfile/ViewVideo';
 import ViewFeed from './components/UserProfile/ViewFeed';
 import ViewCollection from './components/UserProfile/ViewCollection';
 import ViewProduct from './components/UserProfile/ViewProduct';
+
 import UCFdisplay from './components/UserProfile/UCFdisplay';
 import UCFdetails from './components/UserProfile/UCFdetails';
+import UCEdisplay from './components/UserProfile/UCEdisplay';
+import UCEdetails from './components/UserProfile/UCEdetails';
+import UCFEdisplay from './components/UserProfile/UCFEdisplay';
+import UCFEdetails from './components/UserProfile/UCFEdetails';
 
 import HomeScreen from './components/Home/HomeScreen';
 import EntertainmentHome from './components/Home/EntertainmentHome';
@@ -249,6 +254,10 @@ const App: () => Node = () => {
 
         <Stack.Screen name="Your Forum Collections" component={UCFdisplay} />
         <Stack.Screen name="Your Collect Forum" component={UCFdetails} />
+        <Stack.Screen name="Your Entertainment Collections" component={UCEdisplay} />
+        <Stack.Screen name="Your Collect Entertainments" component={UCEdetails} />
+        <Stack.Screen name="Your Feed Collections" component={UCFEdisplay} />
+        <Stack.Screen name="Your Collect Feeds" component={UCFEdetails} />
 
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />

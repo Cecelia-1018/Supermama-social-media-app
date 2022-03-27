@@ -8,7 +8,10 @@ function UserCollection({navigation}) {
       <List.Item
       title="Entertainment Collections"
       left={props => <List.Icon   {...props} icon="folder" color={Colors.pink100} />}
-      ouchableOpacity
+      onPress={() => {
+        navigation.navigate('Your Entertainment Collections', 
+        );
+      }}
          
       />
       <List.Item
@@ -22,6 +25,10 @@ function UserCollection({navigation}) {
       <List.Item
       title="Feed Collections"
       left={props => <List.Icon  {...props} icon="folder" color={Colors.pink500}/>}
+      onPress={() => {
+        navigation.navigate('Your Feed Collections', 
+        );
+      }}
       />
     </View>
   );

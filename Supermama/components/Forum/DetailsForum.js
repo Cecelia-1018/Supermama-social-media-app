@@ -104,7 +104,7 @@ function DetailsForum({navigation, route}) {
       .collection('bookmark')
       .doc(user.uid)
       .collection('userMarkForum')
-      .doc(item.userId)
+      .doc(item.forumId)
       .delete();
     setBookmark(false);
   }, [setBookmark, user, item]);
