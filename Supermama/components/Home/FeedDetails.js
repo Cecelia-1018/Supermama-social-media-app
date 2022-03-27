@@ -101,6 +101,51 @@ function FeedDetails({navigation, route}) {
     return () => subscriber();
   }, []);
 
+   //bookmark 
+   const [bookmark, setBookmark] = useState(false);
+   const [bookmarkId, setbookmarkId] = useState(item.feedId);
+   //reference id
+   // const [entId, setentId] = useState(item.entId);
+   //start at here to refer waiyi again after exam
+   useEffect(() => {
+     const subscriber = firestore()
+       .collection('bookmark')
+       .doc(user.uid)
+       .collection('userMarkFeed')
+ 
+       .onSnapshot(querySnapshot =>
+         querySnapshot.forEach(
+           documentSnapshot =>
+             documentSnapshot.id == feedId && setBookmark(true),
+         ),
+       );
+     return () => subscriber();
+   }, [user, setBookmark, feedId]);
+ 
+   const onBookmark = useCallback(async () => {
+     console.log('bookmark');
+     await firestore()
+       .collection('bookmark')
+       .doc(user.uid)
+       .collection('userMarkFeed')
+       .doc(item.feedId)
+       .set({
+         feedId: item.feedId,
+         title: item.title,
+       });
+     setBookmark(true);
+   }, [setBookmark, user, item]);
+ 
+   const onUnBookmark = useCallback(async () => {
+     await firestore()
+       .collection('bookmark')
+       .doc(user.uid)
+       .collection('userMarkFeed')
+       .doc(item.feedId)
+       .delete();
+     setBookmark(false);
+   }, [setBookmark, user, item]);
+
   return (
     <View style={[styles.container, styles.item]}>
       <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
@@ -120,13 +165,24 @@ function FeedDetails({navigation, route}) {
         size={25}
         // onPress={() => navigation.navigate('Bookmark')}
       />
-      <IconButton
-        style={[styles.bookmark]}
-        icon={'book'}
-        color="black"
-        size={25}
-        // onPress={() => navigation.navigate('Bookmark')}
-      />
+      {bookmark ? (
+            <IconButton
+              icon="book"
+              color="red"
+              style={[styles.bookmark]}
+              size={20}
+              onPress={() => onUnBookmark()}
+            />
+          ) : (
+            <IconButton
+              icon="book"
+              color="#FE7E9C"
+              style={[styles.bookmark]}
+              size={20}
+              onPress={() => onBookmark()}
+            />
+          )}
+    
       <View style={[styles.follow]}>
         <Text style={[styles.user]}>{item.username}</Text>
         <Button
