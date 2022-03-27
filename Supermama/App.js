@@ -88,6 +88,7 @@ LogBox.ignoreLogs([
   'Encountered two children with the same key',
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
   'source.uri should not be an empty string',
+  'Warning: Each child in a list should have a unique "key" prop.'
 ]);
 // LogBox.ignoreAllLogs();//Hide all warning notifications on front-end
 

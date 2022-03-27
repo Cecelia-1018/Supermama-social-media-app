@@ -70,49 +70,6 @@ function UCFdetails({navigation, route}) {
     setAnsTime(time);
   }, []);
 
-  const [bookmark, setBookmark] = useState(false);
-  const [bookmarkId, setbookmarkId] = useState(item.forumId);
-
-  //start at here to refer waiyi again after exam
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('bookmark')
-      .doc(user.uid)
-      .collection('userMarkForum')
-
-      .onSnapshot(querySnapshot =>
-        querySnapshot.forEach(
-          documentSnapshot =>
-            documentSnapshot.id == forumId && setBookmark(true),
-        ),
-      );
-    return () => subscriber();
-  }, [user, setBookmark, forumId]);
-
-  const onBookmark = useCallback(async () => {
-    console.log('bookmark');
-    await firestore()
-      .collection('bookmark')
-      .doc(user.uid)
-      .collection('userMarkForum')
-      .doc(item.forumId)
-      .set({
-        forumId: item.forumId,
-        title: item.title,
-      });
-    setBookmark(true);
-  }, [setBookmark, user, item]);
-
-  const onUnBookmark = useCallback(async () => {
-    await firestore()
-      .collection('bookmark')
-      .doc(user.uid)
-      .collection('userMarkForum')
-      .doc(item.forumId)
-      .delete();
-    setBookmark(false);
-  }, [setBookmark, user, item]);
-
   //add photo url
   //display user profile picture
   const [imageUrl, setImageUrl] = useState('null');
@@ -301,21 +258,7 @@ function UCFdetails({navigation, route}) {
               //on Press of the button bottom sheet will be visible
             />
           ) : null}
-          {bookmark ? (
-            <IconButton
-              icon="book"
-              color="red"
-              size={20}
-              onPress={() => onUnBookmark()}
-            />
-          ) : (
-            <IconButton
-              icon="book"
-              color="#FE7E9C"
-              size={20}
-              onPress={() => onBookmark()}
-            />
-          )}
+          
         </Card.Actions>
       </Card>
 
