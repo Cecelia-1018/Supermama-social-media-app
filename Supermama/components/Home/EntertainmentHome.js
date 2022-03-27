@@ -157,7 +157,7 @@ const EntertainmentHome = ({navigation}) => {
                   }
                 />
               </View>
-              <Icon
+              {/* <Icon
                 type="ionicon"
                 name={
                   Platform.OS === 'ios'
@@ -165,7 +165,7 @@ const EntertainmentHome = ({navigation}) => {
                     : 'md-paper-plane-outline'
                 }
                 style={{transform: [{rotate: '40deg'}]}}
-              />
+              /> */}
             </View>
           </View>
         ) : null}

@@ -6,7 +6,7 @@ import auth, {firebase} from '@react-native-firebase/auth';
 import {sub} from 'react-native-reanimated';
 import {NavigationContainer} from '@react-navigation/native';
 
-const StoreCart = ({navigation}) => {
+const StoreComplete = ({navigation}) => {
   const user = firebase.auth().currentUser;
   const [relod, setRelod] = useState(false);
   const uid = user.uid;
@@ -15,50 +15,11 @@ const StoreCart = ({navigation}) => {
   const [number, setNumber] = useState(0);
 
   const ref = firestore().collection('cart');
-  async function plusQuantity(id, quant) {
-    await ref
-      .doc(id)
-      .update({
-        quantity: (quant += 1),
-      })
-      .then(() => {
-        console.log('Add 1');
-        setRelod(true);
-      });
-  }
-  async function minusQuantity(id, quant) {
-    await ref
-      .doc(id)
-      .update({
-        quantity: (quant -= 1),
-      })
-      .then(() => {
-        console.log('minus 1');
-        setRelod(true);
-      });
-    if (quant < 1) {
-      ref.doc(id).delete();
-      setRelod(true);
-    }
-  }
-
-  function completeDelete() {
-    let temp = ref.where('usesrId', 'in', [user.uid]);
-    temp.get().then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        doc.ref.update({
-          payment: Boolean(true),
-          courier: Boolean(false),
-        });
-      });
-      navigation.navigate('Card Payment');
-    });
-  }
 
   const renderItem = ({item}) => {
     return (
       <>
-        {item.payment ? null : (
+        {item.payment ? (
           <View style={styles.item}>
             <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
               <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
@@ -68,50 +29,40 @@ const StoreCart = ({navigation}) => {
               <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
                 <Text style={[styles.user]}> {item.productName}</Text>
                 <Text style={[styles.description]}> RM {item.price}</Text>
-                <View style={styles.button}>
-                  <IconButton
-                    icon={'minus'}
-                    color="black"
-                    size={25}
-                    onPress={() => minusQuantity(item.cartId, item.quantity)}
-                  />
-                  <Text> {item.quantity}</Text>
-                  <IconButton
-                    icon={'plus'}
-                    color="black"
-                    size={25}
-                    onPress={() => plusQuantity(item.cartId, item.quantity)}
-                  />
-                </View>
               </View>
-
-              <IconButton
-                color="#FE7E9C"
-                size={20}
-                icon={require('../Forum/delete-bin.png')}
-                onPress={() =>
-                  Alert.alert('Confirmation', 'Confirm to delete?', [
-                    {
-                      text: 'Cancel',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel',
-                    },
-                    {
-                      text: 'Confirm',
-                      onPress: () =>
-                        ref
-                          .doc(item.cartId)
-                          .delete()
-                          .then(() => {
-                            console.log('Product deleted!');
-                          }),
-                    },
-                  ])
-                }
-              />
+              {item.courier ? null : (
+                <IconButton
+                  color="black"
+                  size={20}
+                  icon={'check'}
+                  onPress={() =>
+                    Alert.alert(
+                      'Confirmation',
+                      'Confirm receive? The record will be delete once received',
+                      [
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {
+                          text: 'Confirm',
+                          onPress: () =>
+                            ref
+                              .doc(item.cartId)
+                              .delete()
+                              .then(() => {
+                                console.log('Product received!');
+                              }),
+                        },
+                      ],
+                    )
+                  }
+                />
+              )}
             </View>
           </View>
-        )}
+        ) : null}
       </>
     );
   };
@@ -146,31 +97,11 @@ const StoreCart = ({navigation}) => {
         keyExtractor={item => item.cartId}
         renderItem={renderItem}
       />
-
-      <Button
-        styele={[styles.pay]}
-        color="pink"
-        onPress={() =>
-          Alert.alert('Confirmation', 'Ready to pay?', [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            {
-              text: 'Confirm',
-              onPress: () => completeDelete(),
-            },
-          ])
-        }
-        mode="outlined">
-        Payment
-      </Button>
     </View>
   );
 };
 
-export default StoreCart;
+export default StoreComplete;
 
 const styles = StyleSheet.create({
   container: {

@@ -128,6 +128,7 @@ const StoreDetails = ({route, navigation}) => {
         imageUrl: item.imageUrl,
         price: item.price,
         quantity: Number(1),
+        payment: Boolean(false),
       })
       .then(() => {
         console.log('Add Cart');

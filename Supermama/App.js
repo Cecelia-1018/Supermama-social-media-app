@@ -60,6 +60,8 @@ import EntertainmentDetails from './components/Home/EntertainmentDetails';
 import EditEnt from './components/Home/EditEnt';
 import uploadImage from './components/Home/uploadImage';
 import AddEntertainment2 from './components/Home/AddEntertainment2';
+import ChatScreen from './components/Home/ChatScreen';
+import ChatDetails from './components/Home/ChatDetails';
 
 import SearchForumScreen from './components/FilterSearch/SearchForumScreen';
 import SearchUserScreen from './components/FilterSearch/SearchUserScreen';
@@ -70,13 +72,18 @@ import StoreScreen from './components/Store/StoreHome';
 import StorePage from './components/Store/StorePage';
 import StoreAdd from './components/Store/StoreAdd';
 import StoreDetails from './components/Store/StoreDetails';
-import StoreCart from './components/Store/StoreCart';
+import Cart from './components/Store/Cart';
 import EditProduct from './components/Store/EditProduct';
 import {LogBox} from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import CardPayment from './components/Store/CardPayment';
 
-LogBox.ignoreLogs(['EventEmitter.removeListener','Encountered two children with the same key', "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",'source.uri should not be an empty string']);
+LogBox.ignoreLogs([
+  'EventEmitter.removeListener',
+  'Encountered two children with the same key',
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+  'source.uri should not be an empty string',
+]);
 // LogBox.ignoreAllLogs();//Hide all warning notifications on front-end
 
 const Section = ({children, title}): Node => {
@@ -206,6 +213,8 @@ const App: () => Node = () => {
         <Stack.Screen name="Detail Forum" component={DetailsForum} />
         <Stack.Screen name="Search Forum" component={SearchForumScreen} />
 
+        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="Chat Details" component={ChatDetails} />
         <Stack.Screen name="Entertainment Home" component={EntertainmentHome} />
         <Stack.Screen name="Feed Screen" component={FeedHome} />
         <Stack.Screen name="Add Feed" component={AddFeed} />
@@ -244,11 +253,10 @@ const App: () => Node = () => {
         <Stack.Screen name="Store Page" component={StorePage} />
         <Stack.Screen name="Add Products" component={StoreAdd} />
         <Stack.Screen name="Product Details" component={StoreDetails} />
-        <Stack.Screen name="Cart" component={StoreCart} />
+        <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Card Payment" component={CardPayment} />
         <Stack.Screen name="Edit Product" component={EditProduct} />
         <Stack.Screen name="Search Product" component={SearchProductScreen} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );

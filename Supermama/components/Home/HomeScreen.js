@@ -83,26 +83,22 @@ function HomePost({navigation}) {
                 onPress={() => navigation.navigate('AddPost')}
               />
               <IconButton
+                icon="chat"
+                color={Colors.black}
+                size={25}
+                onPress={() => navigation.navigate('ChatScreen')}
+              />
+              <IconButton
                 icon={require('../Forum/search.png')}
                 color={Colors.black}
                 size={25}
                 onPress={() => navigation.navigate('Search Post')}
               />
-              {/* <IconButton
-                icon="chat"
-                color={Colors.black}
-                size={25}
-                onPress={() => navigation.navigate('ChatScreen')}
-              /> */}
             </View>
           ),
         }}
       />
-      <RootStack.Screen
-        name="ChatScreen"
-        component={Chat}
-        options={{headerShown: false}}
-      />
+      <RootStack.Screen name="ChatScreen" component={Chat} />
       <RootStack.Screen
         name="AddPost"
         component={Add}
