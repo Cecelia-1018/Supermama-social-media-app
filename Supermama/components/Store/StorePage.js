@@ -42,41 +42,45 @@ const StoreScreen = ({navigation, route}) => {
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.item}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Product Details', {
-              item: {
-                category: item.category,
-                description: item.description,
-                imageUrl: item.image,
-                name: item.name,
-                price: item.price,
-                userId: item.userId,
-                username: item.username,
-                productId: item.productId,
-              },
-            });
-          }}>
-          <View
-            style={[
-              {
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 6,
-                marginBottom: 6,
-              },
-            ]}>
-            <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
-              <Image source={{uri: item.image}} style={styles.image} />
-            </View>
-            <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-              <Text style={[styles.title]}> {item.name}</Text>
-              <Text style={[styles.price]}> RM {item.price}</Text>
-            </View>
+      <>
+        {item.approve == 'approved' ? (
+          <View style={styles.item}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Product Details', {
+                  item: {
+                    category: item.category,
+                    description: item.description,
+                    imageUrl: item.image,
+                    name: item.name,
+                    price: item.price,
+                    userId: item.userId,
+                    username: item.username,
+                    productId: item.productId,
+                  },
+                });
+              }}>
+              <View
+                style={[
+                  {
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 6,
+                    marginBottom: 6,
+                  },
+                ]}>
+                <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
+                  <Image source={{uri: item.image}} style={styles.image} />
+                </View>
+                <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
+                  <Text style={[styles.title]}> {item.name}</Text>
+                  <Text style={[styles.price]}> RM {item.price}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View>
+        ) : null}
+      </>
     );
   };
   return (
@@ -87,7 +91,6 @@ const StoreScreen = ({navigation, route}) => {
         keyExtractor={item => item.productId}
         renderItem={renderItem}
       />
-      
     </View>
   );
 };
