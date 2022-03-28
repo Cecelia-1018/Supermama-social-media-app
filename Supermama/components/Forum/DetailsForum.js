@@ -141,12 +141,28 @@ function DetailsForum({navigation, route}) {
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [answers, setAnswer] = useState([]); // Initial empty array of forums
-  const [verify, setVerify] = useState('');
+  const [verify, setVerify] = useState('Normal');
+
+  useEffect(() =>{
+    firestore()
+    .collection('verifyPro')
+    .doc('VP' + user.uid)
+    .get()
+    .then(documentSnapshot => {
+      console.log('User exists: ', documentSnapshot.exists);
+
+      if (documentSnapshot.exists) {
+        console.log('User data: ', documentSnapshot.data().status);
+        setVerify(documentSnapshot.data().status);
+      }
+    });
+  },[]);
   
   async function addAnswerCol() {
     if (!txtAns.trim()) {
       alert('Please enter your answer for submit.');
     } else {
+     
       await ref
         .doc(AnsDocId)
         .set({
@@ -176,18 +192,7 @@ function DetailsForum({navigation, route}) {
   }
 
   const renderItem3 = ({item}) => {
-    firestore()
-    .collection('verifyPro')
-    .doc('VP' + user.uid)
-    .get()
-    .then(documentSnapshot => {
-      console.log('User exists: ', documentSnapshot.exists);
-
-      if (documentSnapshot.exists) {
-        console.log('User data: ', documentSnapshot.data().status);
-        setVerify(documentSnapshot.data().status);
-      }
-    });
+    
   
     return (
       <SafeAreaProvider>
