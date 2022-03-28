@@ -279,7 +279,8 @@ function DetailsForum({navigation, route}) {
           <View style={{flexDirection: 'row', padding: 5, margin: 3}}>
             <Avatar.Image size={40} source={{uri: item.photoUrl}} />
             <View style={{flexDirection: 'column', paddingLeft: 10}}>
-              <Text> {item.username} </Text>
+              <Text style={{fontWeight: 'bold',
+    color: '#3D155F',}}> {item.username} </Text>
               <Text>
                 {' '}
                 Posted by {item.date} {item.time}{' '}

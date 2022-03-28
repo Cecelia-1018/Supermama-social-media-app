@@ -69,7 +69,8 @@ function ProfileView({navigation, route}) {
       <View style={styles.scroll}>
         <View style={styles.userRow}>
           <Avatar.Image size={90} source={{uri: imageUrl}} />
-          <Text>{item.username}</Text>
+          <Text style={{fontWeight: 'bold',
+    color: '#3D155F',}}>{item.username}</Text>
           <Text>{item.bio}</Text>
           {item.following ? (
             <Button

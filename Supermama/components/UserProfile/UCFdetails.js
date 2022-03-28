@@ -100,6 +100,7 @@ function UCFdetails({navigation, route}) {
           userId: user.uid,
           username: user.displayName,
           photoUrl: imageUrl,
+          verify: verify,
         })
         .then(() => {
           console.log('Answer Forum added!');
@@ -121,6 +122,22 @@ function UCFdetails({navigation, route}) {
     flatlistRef.current.scrollToEnd({animating: true});
   };
   const [answers, setAnswer] = useState([]); // Initial empty array of forums
+  const [verify, setVerify] = useState('Normal');
+
+  useEffect(() =>{
+    firestore()
+    .collection('verifyPro')
+    .doc('VP' + user.uid)
+    .get()
+    .then(documentSnapshot => {
+      console.log('User exists: ', documentSnapshot.exists);
+
+      if (documentSnapshot.exists) {
+        console.log('User data: ', documentSnapshot.data().status);
+        setVerify(documentSnapshot.data().status);
+      }
+    });
+  },[]);
   
   const renderItem3 = ({item}) => {
     return (
@@ -136,7 +153,25 @@ function UCFdetails({navigation, route}) {
                     paddingLeft: 10,
                     fontSize: 12,
                   }}>
-                  <Text style={styles.text}> {item.username} </Text>
+                   <View style={{
+                    flexDirection: 'row',
+                  }}> 
+                  <Text style={styles.text2}> {item.username} </Text>
+                  <LinearGradient
+                colors={['#f4c4f3', '#F3F9A7']}
+                // style={styles.box1}
+                start={{x: 0.3, y: 0}}
+                style={{
+                  borderRadius: 5,
+                  marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                  alignSelf: 'flex-start',
+                }}>
+              <Text style={styles.text3}>{item.verify}</Text>
+              </LinearGradient>
+              </View>
+
                   <Text style={styles.text}>
                     {' '}
                     Answered by {item.date} {item.time}{' '}
@@ -146,34 +181,7 @@ function UCFdetails({navigation, route}) {
               <Text style={styles.answer}>{item.answer}</Text>
             </Card.Content>
 
-            {/* <Card.Actions>
-              {user ? (
-                <IconButton
-                  color="#FE7E9C"
-                  size={20}
-                  icon={require('./delete-bin.png')}
-                  onPress={() =>
-                    Alert.alert('Confirmation', 'Confirm to delete?', [
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      {
-                        text: 'Confirm',
-                        onPress: () =>
-                          ref
-                            .doc(item.answerId)
-                            .delete()
-                            .then(() => {
-                              console.log('Forum deleted!');
-                            }),
-                      },
-                    ])
-                  }
-                />
-              ) : null}
-            </Card.Actions> */}
+           
           </Card>
         </View>
       </SafeAreaProvider>
@@ -193,7 +201,7 @@ function UCFdetails({navigation, route}) {
                 <View style={{flexDirection: 'row', padding: 5, margin: 3}}>
                   <Avatar.Image size={40} source={{uri: item.photoUrl}} />
                   <View style={{flexDirection: 'column', paddingLeft: 10}}>
-                    <Text> {item.username} </Text>
+                    <Text style={styles.text2}> {item.username} </Text>
                     <Text>
                       {' '}
                       Posted by {item.date} {item.time}{' '}
@@ -422,4 +430,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#3D155F',
   },
+  text3:{
+    color: 'black',
+    fontSize: 10
+  }
 });

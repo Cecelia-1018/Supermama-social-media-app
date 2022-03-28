@@ -229,7 +229,8 @@ function ProfileInfo() {
           {imageUrl ? null : (
             <Text>Press pink circle to upload your profile photo.</Text>
           )}
-          <Text> {item.name}</Text>
+          <Text style={{fontWeight: 'bold',
+    color: '#3D155F',}}> {item.name}</Text>
           <Text style={{alignItems: 'center'}}> {item.bio}</Text>
           {/* <Text> {item.userType} user </Text> */}
         </View>
