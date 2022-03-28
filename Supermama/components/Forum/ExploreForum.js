@@ -41,6 +41,7 @@ function ExploreForum({navigation}) {
                 time: item.time,
                 hashtag: item.hashtag,
                 category: item.category,
+                userId: item.userId,
               },
             });
           }}>

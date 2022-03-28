@@ -45,7 +45,8 @@ function Verify() {
       <View>
         <Card>
           <Card.Content>
-          <Paragraph><Text style={styles.baseText}>Verification Status :</Text> <Text style={{color:'red'}}>{item.status}</Text> </Paragraph>  
+          <Paragraph><Text style={styles.baseText}>Verification Status :</Text> <Text style={{color:'red'}}>{item.status}</Text> </Paragraph> 
+          <Text>If you get status "normal" mean your application being rejected. Kindly upload valid info for apply.</Text> 
           <Paragraph><Text style={styles.baseText}>Professional Field  :</Text> {item.proField} </Paragraph> 
           <Paragraph><Text style={styles.baseText}>Applied Datetime    :</Text> {item.datetime} </Paragraph> 
           <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>

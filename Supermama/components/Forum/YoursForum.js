@@ -60,6 +60,7 @@ function YoursForum({navigation}) {
                 photoUrl: item.photoUrl,
                 hashtag: item.hashtag,
                 category: item.category,
+                userId: item.userId,
               },
             });
           }}>

@@ -123,30 +123,7 @@ function DetailsForum({navigation, route}) {
       .catch(e => console.log('Errors while downloading => ', e));
   }, []);
 
-  async function addAnswerCol() {
-    if (!txtAns.trim()) {
-      alert('Please enter your answer for submit.');
-    } else {
-      await ref
-        .doc(AnsDocId)
-        .set({
-          //add id here
-          answerId: txtansId,
-          answer: txtAns,
-          date: ansDate,
-          time: ansTime,
-          forumId: forumId,
-          userId: user.uid,
-          username: user.displayName,
-          photoUrl: imageUrl,
-        })
-        .then(() => {
-          console.log('Answer Forum added!');
-        });
-      setTxtAnswer('');
-    }
-  }
-
+  
   //bottom sheet
   const [visible, setVisible] = useState(false);
 
@@ -164,8 +141,54 @@ function DetailsForum({navigation, route}) {
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [answers, setAnswer] = useState([]); // Initial empty array of forums
+  const [verify, setVerify] = useState('');
+  
+  async function addAnswerCol() {
+    if (!txtAns.trim()) {
+      alert('Please enter your answer for submit.');
+    } else {
+      await ref
+        .doc(AnsDocId)
+        .set({
+          //add id here
+          answerId: txtansId,
+          answer: txtAns,
+          date: ansDate,
+          time: ansTime,
+          forumId: forumId,
+          userId: user.uid,
+          username: user.displayName,
+          photoUrl: imageUrl,
+          verify: verify,
+        })
+        .then(() => {
+          console.log('Answer Forum added!');
+        });
+      setTxtAnswer('');
+    }
+  }
+
+  
+  const renderBadge = ({item}) => {
+    return(
+      <View><Text>{item.status}</Text></View>
+    )
+  }
 
   const renderItem3 = ({item}) => {
+    firestore()
+    .collection('verifyPro')
+    .doc('VP' + user.uid)
+    .get()
+    .then(documentSnapshot => {
+      console.log('User exists: ', documentSnapshot.exists);
+
+      if (documentSnapshot.exists) {
+        console.log('User data: ', documentSnapshot.data().status);
+        setVerify(documentSnapshot.data().status);
+      }
+    });
+  
     return (
       <SafeAreaProvider>
         <View>
@@ -173,13 +196,31 @@ function DetailsForum({navigation, route}) {
             <Card.Content>
               <View style={styles.top}>
                 <Avatar.Image size={30} source={{uri: item.photoUrl}} />
+               
                 <View
                   style={{
                     flexDirection: 'column',
                     paddingLeft: 10,
                     fontSize: 12,
                   }}>
-                  <Text style={styles.text}> {item.username} </Text>
+                  <View style={{
+                    flexDirection: 'row',
+                  }}> 
+                  <Text style={styles.text2}> {item.username} </Text>
+                  <LinearGradient
+                colors={['#f4c4f3', '#F3F9A7']}
+                // style={styles.box1}
+                start={{x: 0.3, y: 0}}
+                style={{
+                  borderRadius: 5,
+                  marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                  alignSelf: 'flex-start',
+                }}>
+              <Text style={styles.text3}>{item.verify}</Text>
+              </LinearGradient>
+              </View>
                   <Text style={styles.text}>
                     {' '}
                     Answered by {item.date} {item.time}{' '}
@@ -187,36 +228,9 @@ function DetailsForum({navigation, route}) {
                 </View>
               </View>
               <Text style={styles.answer}>{item.answer}</Text>
+             
             </Card.Content>
 
-            {/* <Card.Actions>
-              {user ? (
-                <IconButton
-                  color="#FE7E9C"
-                  size={20}
-                  icon={require('./delete-bin.png')}
-                  onPress={() =>
-                    Alert.alert('Confirmation', 'Confirm to delete?', [
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      {
-                        text: 'Confirm',
-                        onPress: () =>
-                          ref
-                            .doc(item.answerId)
-                            .delete()
-                            .then(() => {
-                              console.log('Forum deleted!');
-                            }),
-                      },
-                    ])
-                  }
-                />
-              ) : null}
-            </Card.Actions> */}
           </Card>
         </View>
       </SafeAreaProvider>
@@ -437,6 +451,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#3D155F',
   },
+  text3:{
+    color: 'black',
+    fontSize: 10
+  }
 });
 
 export default DetailsForum;
