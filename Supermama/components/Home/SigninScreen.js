@@ -180,6 +180,13 @@ const SigninScreen = ({navigation}) => {
           </View>
 
           <View>
+            <Button
+              style={[styles.forget]}
+              color="black"
+              onPress={() => navigation.navigate('ForgetPassword')}
+              mode="text">
+              Forget Password?
+            </Button>
             <Text style={[styles.text_footer, {marginTop: 20}]}>
               Don't have an account ?{' '}
             </Text>
@@ -264,5 +271,8 @@ const styles = StyleSheet.create({
 
     height: 50,
     marginTop: 5,
+  },
+  forget: {
+    width: '100%',
   },
 });

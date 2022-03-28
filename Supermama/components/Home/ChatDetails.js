@@ -26,10 +26,20 @@ const ChatScreen = ({route}) => {
     setMessages([
       {
         _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
+        text: 'Hey, I will send it out as fast as possible',
+        createdAt: new Date('2022-03-27 11:08:23'),
         user: {
           _id: 2,
+          name: 'React Native',
+          avatar: {uri: imageUrl},
+        },
+      },
+      {
+        _id: 2,
+        text: 'Hi, I have bought a product from your side',
+        createdAt: new Date('2022-03-27 11:07:23'),
+        user: {
+          _id: 1,
           name: 'React Native',
           avatar: {uri: imageUrl},
         },

@@ -63,7 +63,8 @@ function AddEntertainment2({navigation, route}) {
         post: Boolean(false),
       })
       .then(() => {
-        Alert.alert('Success ✅', 'Post Added Success'), navigation.navigate('Home');
+        Alert.alert('Success ✅', 'Post Added Success'),
+          navigation.navigate('Home');
       });
     setTxtHashtag('');
     setTxtDes('');

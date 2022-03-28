@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ForYouX from './ForYouX';
 import SigninScreen from './SigninScreen';
 import SignupScreen from './SignupScreen';
+import ForgetPassword from './ForgetPassword';
 import {View} from 'react-native';
 
 const RootStack = createStackNavigator();
@@ -24,6 +25,11 @@ const MainSign = ({navigation}) => (
     <RootStack.Screen
       name="SignupScreen"
       component={SignupScreen}
+      options={{headerShown: false}}
+    />
+    <RootStack.Screen
+      name="ForgetPassword"
+      component={ForgetPassword}
       options={{headerShown: false}}
     />
   </RootStack.Navigator>

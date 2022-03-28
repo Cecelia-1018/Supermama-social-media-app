@@ -193,8 +193,8 @@ const App: () => Node = () => {
           screenOptions={{
             cardStyle: {backgroundColor: '#fff'},
           }}
-          initialRouteName="Main Sign">
-          <Stack.Screen name="Main Sign" component={MainSign} />
+          initialRouteName="Supermama">
+          <Stack.Screen name="Supermama" component={MainSign} />
         </Stack.Navigator>
       </NavigationContainer>
     );
