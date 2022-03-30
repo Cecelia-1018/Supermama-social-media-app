@@ -28,31 +28,34 @@ const EntertainmentHome = ({navigation}) => {
 
   // fetch entertainments
   useEffect(() => {
-    const subscriber = firestore()
-      .collection('entertainment')
-      .onSnapshot(querySnapshot => {
-        querySnapshot.forEach(async documentSnapshot => {
-          const like = await firestore()
-            .collection('likeEnt')
-            .doc(user.uid)
-            .collection('userLike')
-            .doc(documentSnapshot.data().entertainmentId)
-            .get();
+    const subscriber = navigation.addListener('focus', () => {
+      setEntertainments([]);
+      firestore()
+        .collection('entertainment')
+        .onSnapshot(querySnapshot => {
+          querySnapshot.forEach(async documentSnapshot => {
+            const like = await firestore()
+              .collection('likeEnt')
+              .doc(user.uid)
+              .collection('userLike')
+              .doc(documentSnapshot.data().entertainmentId)
+              .get();
 
-          setEntertainments(value => [
-            ...value,
-            {
-              ...documentSnapshot.data(),
-              like: like.exists,
-              key: documentSnapshot.id,
-            },
-          ]);
+            setEntertainments(value => [
+              ...value,
+              {
+                ...documentSnapshot.data(),
+                like: like.exists,
+                key: documentSnapshot.id,
+              },
+            ]);
+          });
         });
-      });
+    });
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [user.uid]);
+  }, [user.uid, navigation]);
 
   const setLikeById = useCallback(
     (id, like) =>
