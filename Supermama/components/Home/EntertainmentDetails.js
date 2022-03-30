@@ -138,7 +138,9 @@ function EntertainmentDetails({route}) {
       .doc(user.uid)
       .collection('userFollowing')
       .doc(item.userId)
-      .set({});
+      .set({
+        userId: item.userId,
+      });
     setFollowing(true);
   }, [setFollowing, user, item]);
 
@@ -152,7 +154,7 @@ function EntertainmentDetails({route}) {
     setFollowing(false);
   }, [setFollowing, user, item]);
 
-  //bookmark 
+  //bookmark
   const [bookmark, setBookmark] = useState(false);
   const [bookmarkId, setbookmarkId] = useState(item.entId);
   //reference id
@@ -166,8 +168,7 @@ function EntertainmentDetails({route}) {
 
       .onSnapshot(querySnapshot =>
         querySnapshot.forEach(
-          documentSnapshot =>
-            documentSnapshot.id == entId && setBookmark(true),
+          documentSnapshot => documentSnapshot.id == entId && setBookmark(true),
         ),
       );
     return () => subscriber();
@@ -221,25 +222,25 @@ function EntertainmentDetails({route}) {
       <View style={[styles.grid]}>
         <Image style={styles.image} source={{uri: item.image}} />
       </View>
-      
+
       {bookmark ? (
-            <IconButton
-              icon="book"
-              color="red"
-              style={[styles.bookmark]}
-              size={20}
-              onPress={() => onUnBookmark()}
-            />
-          ) : (
-            <IconButton
-              icon="book"
-              color="#FE7E9C"
-              style={[styles.bookmark]}
-              size={20}
-              onPress={() => onBookmark()}
-            />
-          )}
-    
+        <IconButton
+          icon="book"
+          color="red"
+          style={[styles.bookmark]}
+          size={20}
+          onPress={() => onUnBookmark()}
+        />
+      ) : (
+        <IconButton
+          icon="book"
+          color="#FE7E9C"
+          style={[styles.bookmark]}
+          size={20}
+          onPress={() => onBookmark()}
+        />
+      )}
+
       {following ? (
         <Button
           style={[styles.follow]}
@@ -257,8 +258,6 @@ function EntertainmentDetails({route}) {
           Follow
         </Button>
       )}
-     
-
 
       <View style={[styles.commentcolumn]}>
         <Text style={[styles.description]}>Comment {replyNum}</Text>

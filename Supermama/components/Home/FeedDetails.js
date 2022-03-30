@@ -15,8 +15,9 @@ import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
 
 //check user
-const user = firebase.auth().currentUser;
+
 function FeedDetails({navigation, route}) {
+  const user = firebase.auth().currentUser;
   // past value
   const {item} = route.params;
   //Comment
@@ -24,13 +25,14 @@ function FeedDetails({navigation, route}) {
   const commRef = firestore().collection('comment');
   const [CommentId, setCommentId] = useState('');
   const [commentDocId, setCommentDocId] = useState('');
-
+  const [following, setFollowing] = useState(false);
   const flatlistRef = useRef();
   const onPressFunction = () => {
     flatlistRef.current.scrollToEnd({animating: true});
   };
   const [comment, setComment] = useState([]);
   const [feed, setFeed] = useState([]);
+  const [postId, setPostId] = useState(item.userid);
 
   const [feedId, setFeedId] = useState(item.feedId);
   useEffect(() => {
@@ -58,6 +60,44 @@ function FeedDetails({navigation, route}) {
       });
     setTxtComment('');
   }
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('following')
+      .doc(user.uid)
+      .collection('userFollowing')
+
+      .onSnapshot(querySnapshot =>
+        querySnapshot.forEach(
+          documentSnapshot =>
+            documentSnapshot.id === postId && setFollowing(true),
+        ),
+      );
+    return () => subscriber();
+  }, [user, setFollowing, postId]);
+
+  const onFollow = useCallback(async () => {
+    console.log('follow');
+    await firestore()
+      .collection('following')
+      .doc(user.uid)
+      .collection('userFollowing')
+      .doc(item.userid)
+      .set({
+        userId: item.userid,
+      });
+    setFollowing(true);
+  }, [setFollowing, item, user]);
+
+  const onUnfollow = useCallback(async () => {
+    await firestore()
+      .collection('following')
+      .doc(user.uid)
+      .collection('userFollowing')
+      .doc(item.userId)
+      .delete();
+    setFollowing(false);
+  }, [setFollowing, user, item]);
 
   //   const CommentView = () => {
   //     setVisible(!visible);
@@ -101,50 +141,50 @@ function FeedDetails({navigation, route}) {
     return () => subscriber();
   }, []);
 
-   //bookmark 
-   const [bookmark, setBookmark] = useState(false);
-   const [bookmarkId, setbookmarkId] = useState(item.feedId);
-   //reference id
-   // const [entId, setentId] = useState(item.entId);
-   //start at here to refer waiyi again after exam
-   useEffect(() => {
-     const subscriber = firestore()
-       .collection('bookmark')
-       .doc(user.uid)
-       .collection('userMarkFeed')
- 
-       .onSnapshot(querySnapshot =>
-         querySnapshot.forEach(
-           documentSnapshot =>
-             documentSnapshot.id == feedId && setBookmark(true),
-         ),
-       );
-     return () => subscriber();
-   }, [user, setBookmark, feedId]);
- 
-   const onBookmark = useCallback(async () => {
-     console.log('bookmark');
-     await firestore()
-       .collection('bookmark')
-       .doc(user.uid)
-       .collection('userMarkFeed')
-       .doc(item.feedId)
-       .set({
-         feedId: item.feedId,
-         title: item.title,
-       });
-     setBookmark(true);
-   }, [setBookmark, user, item]);
- 
-   const onUnBookmark = useCallback(async () => {
-     await firestore()
-       .collection('bookmark')
-       .doc(user.uid)
-       .collection('userMarkFeed')
-       .doc(item.feedId)
-       .delete();
-     setBookmark(false);
-   }, [setBookmark, user, item]);
+  //bookmark
+  const [bookmark, setBookmark] = useState(false);
+  const [bookmarkId, setbookmarkId] = useState(item.feedId);
+  //reference id
+  // const [entId, setentId] = useState(item.entId);
+  //start at here to refer waiyi again after exam
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkFeed')
+
+      .onSnapshot(querySnapshot =>
+        querySnapshot.forEach(
+          documentSnapshot =>
+            documentSnapshot.id == feedId && setBookmark(true),
+        ),
+      );
+    return () => subscriber();
+  }, [user, setBookmark, feedId]);
+
+  const onBookmark = useCallback(async () => {
+    console.log('bookmark');
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkFeed')
+      .doc(item.feedId)
+      .set({
+        feedId: item.feedId,
+        title: item.title,
+      });
+    setBookmark(true);
+  }, [setBookmark, user, item]);
+
+  const onUnBookmark = useCallback(async () => {
+    await firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkFeed')
+      .doc(item.feedId)
+      .delete();
+    setBookmark(false);
+  }, [setBookmark, user, item]);
 
   return (
     <View style={[styles.container, styles.item]}>
@@ -166,31 +206,42 @@ function FeedDetails({navigation, route}) {
         // onPress={() => navigation.navigate('Bookmark')}
       />
       {bookmark ? (
-            <IconButton
-              icon="book"
-              color="red"
-              style={[styles.bookmark]}
-              size={20}
-              onPress={() => onUnBookmark()}
-            />
-          ) : (
-            <IconButton
-              icon="book"
-              color="#FE7E9C"
-              style={[styles.bookmark]}
-              size={20}
-              onPress={() => onBookmark()}
-            />
-          )}
-    
+        <IconButton
+          icon="book"
+          color="red"
+          style={[styles.bookmark]}
+          size={20}
+          onPress={() => onUnBookmark()}
+        />
+      ) : (
+        <IconButton
+          icon="book"
+          color="#FE7E9C"
+          style={[styles.bookmark]}
+          size={20}
+          onPress={() => onBookmark()}
+        />
+      )}
+
       <View style={[styles.follow]}>
         <Text style={[styles.user]}>{item.username}</Text>
-        <Button
-          color="black"
-          mode="outlined"
-          onPress={() => console.log('Follow')}>
-          Follow
-        </Button>
+        {following ? (
+          <Button
+            style={[styles.follow]}
+            color="black"
+            mode="outlined"
+            onPress={() => onUnfollow()}>
+            Following
+          </Button>
+        ) : (
+          <Button
+            style={[styles.follow]}
+            color="black"
+            mode="outlined"
+            onPress={() => onFollow()}>
+            Follow
+          </Button>
+        )}
       </View>
       {/* <View style={styles.commentcolumn}>
           <Text

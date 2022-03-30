@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -8,21 +8,15 @@ import {
   Pressable,
   TouchableOpacity,
   Image,
-  Alert
-} from "react-native";
-import {  
-  Card, 
-  Title, 
-  Paragraph,
-  Avatar,
-  IconButton
-} from 'react-native-paper';
+  Alert,
+} from 'react-native';
+import {Card, Title, Paragraph, Avatar, IconButton} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import auth, {firebase} from '@react-native-firebase/auth';
 
-function UCFdisplay ({navigation}){
- //check user
+function UCFdisplay({navigation}) {
+  //check user
   const user = firebase.auth().currentUser;
   const flatlistRef = useRef();
 
@@ -36,10 +30,10 @@ function UCFdisplay ({navigation}){
 
   const renderItem2 = ({item}) => {
     // //firebase reference
-  const ref = firestore()
-  .collection('bookmark')
-  .doc(user.uid)
-  .collection('userMarkForum');
+    const ref = firestore()
+      .collection('bookmark')
+      .doc(user.uid)
+      .collection('userMarkForum');
 
     async function deleteBook() {
       ref
@@ -49,9 +43,9 @@ function UCFdisplay ({navigation}){
           console.log('Forum bookmark deleted!');
         });
     }
-    return(
-       <SafeAreaProvider>
-       <TouchableOpacity
+    return (
+      <SafeAreaProvider>
+        <TouchableOpacity
           onPress={() => {
             navigation.navigate('Your Collect Forum', {
               //pass params here
@@ -61,85 +55,69 @@ function UCFdisplay ({navigation}){
             });
           }}>
           <View>
-         
             <Card>
               <Card.Content>
-                 <Paragraph>Saved - {item.title} </Paragraph>
-                 <View style={styles.delete}>
-          <IconButton
-            color="#FE7E9C"
-            size={20}
-            icon={require('../Forum/delete-bin.png')}
-            onPress={() =>
-              Alert.alert('Confirmation', 'Confirm to delete?', [
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
-                },
-                {
-                  text: 'Confirm',
-                  onPress: () => {
-                    deleteBook()
-                  },
-                },
-              ])
-            }
-          />
-        </View>
+                <Paragraph>Saved - {item.title} </Paragraph>
+                <View style={styles.delete}>
+                  <IconButton
+                    color="#FE7E9C"
+                    size={20}
+                    icon={require('../Forum/delete-bin.png')}
+                    onPress={() =>
+                      Alert.alert('Confirmation', 'Confirm to delete?', [
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {
+                          text: 'Confirm',
+                          onPress: () => {
+                            deleteBook();
+                          },
+                        },
+                      ])
+                    }
+                  />
+                </View>
               </Card.Content>
             </Card>
-            </View>
-              </TouchableOpacity>
-          </SafeAreaProvider>
+          </View>
+        </TouchableOpacity>
+      </SafeAreaProvider>
     );
   };
-
-
 
   useEffect(() => {
     const subscriber = firestore()
       .collection('bookmark')
       .doc(user.uid)
       .collection('userMarkForum')
-      .onSnapshot(
-        querySnapshot => {
-          const bookmark = [];
-         
+      .onSnapshot(querySnapshot => {
+        const bookmark = [];
 
-          querySnapshot.forEach(documentSnapshot => {
-          
-            bookmark.push({
-              ...documentSnapshot.data(),
-              key:documentSnapshot.id
-            });
-
-           
-            //start at here 
-            console.log('ID: ', documentSnapshot.id);
-           
-            
+        querySnapshot.forEach(documentSnapshot => {
+          bookmark.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
           });
-    
-          
-          setBookmark(bookmark);
-          setLoading(false);
-          setSize(querySnapshot.size);
-          
-          
+
+          //start at here
+          console.log('ID: ', documentSnapshot.id);
         });
-    
+
+        setBookmark(bookmark);
+        setLoading(false);
+        setSize(querySnapshot.size);
+      });
 
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
 
- 
   if (loading) {
     return <ActivityIndicator size="large" color="#FFC0CB" />;
   }
-
- 
 
   return (
     <View style={styles.container}>
@@ -152,22 +130,19 @@ function UCFdisplay ({navigation}){
       />
     </View>
   );
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  word:{
+  word: {
     margin: 10,
     padding: 5,
   },
   delete: {
     marginLeft: -10,
   },
- 
 });
-
 
 export default UCFdisplay;

@@ -19,31 +19,33 @@ const ForYou = ({navigation}) => {
   const [userEnt, setUserEnt] = useState([]);
   // const user = firebase.auth().currentUser;
   useEffect(() => {
-    const subscriber = firestore()
-      .collection('users')
-      .onSnapshot(querySnapshot => {
-        querySnapshot.forEach(async documentSnapshot => {
-          const following = await firestore()
-            .collection('following')
-            .doc(user.uid)
-            .collection('userFollowing')
-            .doc(documentSnapshot.id)
-            .get();
+    const subscriber = navigation.addListener('focus', () => {
+      setUserEnt([]);
+      firestore()
+        .collection('users')
+        .onSnapshot(querySnapshot => {
+          querySnapshot.forEach(async documentSnapshot => {
+            const following = await firestore()
+              .collection('following')
+              .doc(user.uid)
+              .collection('userFollowing')
+              .doc(documentSnapshot.id)
+              .get();
 
-          setUserEnt(value => [
-            ...value,
-            {
-              ...documentSnapshot.data(),
-              following: following.exists,
-              key: documentSnapshot.id,
-            },
-          ]);
+            setUserEnt(value => [
+              ...value,
+              {
+                ...documentSnapshot.data(),
+                following: following.exists,
+                key: documentSnapshot.id,
+              },
+            ]);
+          });
         });
-      });
-
+    });
     // Unsubscribe from events when no longer in use
     return () => subscriber();
-  }, [user.uid]);
+  }, [navigation, user.uid]);
 
   const renderPostItem = ({item}) => {
     return (
