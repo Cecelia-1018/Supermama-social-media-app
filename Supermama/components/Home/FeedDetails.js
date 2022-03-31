@@ -13,6 +13,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Button, TextInput, IconButton, Card, Avatar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
+import LinearGradient from 'react-native-linear-gradient';
 
 //check user
 
@@ -193,9 +194,16 @@ function FeedDetails({navigation, route}) {
           <Image source={{uri: item.image}} style={styles.image} />
         </View>
         <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-          <Text style={[styles.title]}> {item.title}</Text>
-          <Text style={[styles.description]}> {item.description}</Text>
+          <Text style={[styles.title]}>{item.title}</Text>
+          <Text style={[styles.description]}>{item.description}</Text>
+          <LinearGradient
+                  colors={['#EF629F','#EECDA3']}
+                  // style={styles.box1}
+                  start={{x: 0.0, y: 0.5}}
+                  end={{x: 1.0, y:0.5}}
+                  style={{borderRadius: 5,paddingRight: 5, paddingLeft: 2, alignSelf: 'flex-start'}}>
           <Text style={[styles.hash]}> #{item.hashtag}</Text>
+          </LinearGradient>
         </View>
         {bookmark ? (
         <IconButton
@@ -338,7 +346,7 @@ const styles = StyleSheet.create({
   },
   user: {textAlignVertical: 'top', fontSize: 20, color: 'black', marginTop: 10},
   description: {fontSize: 17, color: 'black'},
-  hash: {textAlignVertical: 'top', fontSize: 10, color: 'grey'},
+  hash: {textAlignVertical: 'top', fontSize: 10, color: 'black'},
   bookmark: {flexDirection: 'row',},
   question: {position: 'absolute', right: 50, top: 12},
 });
