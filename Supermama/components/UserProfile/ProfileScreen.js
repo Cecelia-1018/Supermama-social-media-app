@@ -244,7 +244,7 @@ function ProfileInfo() {
                <Button mode="default" onPress={() => {
               navigation.navigate('Your Collection Posts',);
             }}>
-                  Collections
+                  Bookmarking Collection
               </Button>
             </Card.Actions>
              
