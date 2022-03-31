@@ -1,5 +1,5 @@
 import React,{useState, useEffect, useRef} from 'react';
-import {View, Text, Button, StyleSheet, Image,FlatList} from 'react-native';
+import {View, Text, Button, StyleSheet, Image,FlatList, Linking,} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -38,17 +38,23 @@ function Verify() {
        .catch((e) => console.log('Errors while downloading => ', e));
      }
    }, []);
- 
-
+   
+  
   const renderItem = ({item}) => {
+    let web = item.web;
+
     return (
       <View>
         <Card>
           <Card.Content>
           <Paragraph><Text style={styles.baseText}>Verification Status :</Text> <Text style={{color:'red'}}>{item.status}</Text> </Paragraph> 
           <Text>If you get status "normal" mean your application being rejected. Kindly upload valid info for apply.</Text> 
-          <Paragraph><Text style={styles.baseText}>Professional Field  :</Text> {item.proField} </Paragraph> 
+          <Paragraph><Text style={styles.baseText}>Professional Field :</Text> {item.proField} </Paragraph> 
+          <Paragraph><Text style={styles.baseText}>Location :</Text> {item.location} </Paragraph> 
+          <Paragraph><Text style={styles.baseText}>Contact Method :</Text> {item.contact} </Paragraph> 
+          <Paragraph><Text style={styles.baseText}>Website Link :</Text> {item.web} </Paragraph> 
           <Paragraph><Text style={styles.baseText}>Applied Datetime    :</Text> {item.datetime} </Paragraph> 
+          
           <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>
          
           </Card.Content>

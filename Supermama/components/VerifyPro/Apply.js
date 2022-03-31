@@ -3,7 +3,9 @@ import {View, Text, StyleSheet,SafeAreaView,ScrollView, StatusBar,Alert,} from '
 import { 
   Button,
   RadioButton,
-  IconButton
+  IconButton,
+  TextInput,
+  Card,
  } from "react-native-paper";
 // * Step 1 : Import   step 5 at Certificate.js
 import {ImageOrVideo} from 'react-native-image-crop-picker';
@@ -33,31 +35,15 @@ const onImageChange = (image: ImageOrVideo) => {
   }
 };
 
-// // * Step 2 : Write a image change
-// const onImageDelete = (image: ImageOrVideo) => {
-//   console.log(image);
-
-//   const user = firebase.auth().currentUser;
-
-//   if(user){
-//   let Id = "Verify" + user.uid;
-
-//   //* step 2 a : upload image to storage
-//   let reference = storage().ref('gs://supermama-6aa87.appspot.com/VerifyPro/' + Id); //2
-//   let task = reference.delete();
-
-//   task
-//     .then(() => {
-//       console.log('Image uploaded to the bucket!');
-//     })
-//     .catch(e => console.log('uploading image error =>', e));
-//   }
-// };
-
 function Apply({navigation}){
 
   const user = firebase.auth().currentUser;
   const [verify, setVerify] = React.useState([]);
+
+  //input
+  const [txtLoc, setTxtLoc] = React.useState('');
+  const [txtContact, setTxtContact] = React.useState('');
+  const [txtWebUrl, setWebUrl]= React.useState('');
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
   const [imageUrl, setImageUrl] = useState(undefined);
@@ -119,11 +105,18 @@ function Apply({navigation}){
           status: pending,
           photoURL: imageUrl,
           datetime: datetime,
+          location: txtLoc,
+          contact: txtContact,
+          web: txtWebUrl,
+
         })
         .then(() =>{
           console.log('Verify Pro added!')
         });
         setValue('');
+        setTxtLoc('');
+        setTxtContact('');
+        setWebUrl('');
         navigation.navigate('Verify');
       }
     }
@@ -177,7 +170,8 @@ function Apply({navigation}){
  
     <SafeAreaView style={styles.container}>
      <ScrollView style={styles.scrollView}>
-        
+     
+
            <View style={styles.imageContainer}> 
            {applied ?  null : 
            <View> 
@@ -241,12 +235,51 @@ function Apply({navigation}){
                 <RadioButton.Item color='pink' label="Social Work" value="Social Work" />
                 <RadioButton.Item color='pink' label="Others" value="Others" />
             </RadioButton.Group>
+          
+           
+      <Card>
+      <Card.Content>
+      <Text style={styles.instruction2}>Step 3: Fill in your other details. {'\n'} </Text>
+      <Text style={styles.instruction2}>Enter Your Workplace's Location (Optional)</Text>
+          <TextInput
+            value={txtLoc}
+            onChangeText={setTxtLoc}
+            mode="outlined"
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+          />
+        </Card.Content>
+       
+        <Card.Content>
+        <Text style={styles.instruction2}>Enter Your Contact (Optional)</Text>
+          <TextInput
+            value={txtContact}
+            onChangeText={setTxtContact}
+            mode="outlined"
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+          />
+          <Text>Email / Phone No / Other contact method</Text>
+        </Card.Content>
+      <Card.Content>
+      <Text style={styles.instruction2}>Give Your Company Website (Optional)</Text>
+          <TextInput
+            value={txtWebUrl}
+            onChangeText={setWebUrl}
+            mode="outlined"
+            outlineColor="#FFC0CB"
+            activeOutlineColor="#FE7E9C"
+          />
+          </Card.Content>
+          </Card>
           <Button mode="contained" onPress={createTwoButtonAlert}  color="#f0ccd2" style={styles.imageContainer}>
             Submit
           </Button>
           </View>
           
          ) }
+      
+      
          
         
         
@@ -270,6 +303,13 @@ const styles = StyleSheet.create({
   instruction:{
     marginTop: 15,
     marginLeft:15,
+    marginRight: 15,
+    fontWeight: "bold",
+    color: "black",
+  },
+  instruction2:{
+    marginTop: 15,
+    marginLeft:5,
     marginRight: 15,
     fontWeight: "bold",
     color: "black",
