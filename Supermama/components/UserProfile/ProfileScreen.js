@@ -9,7 +9,8 @@ import {
   Alert,
   Image,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  ScrollView,
 } from 'react-native';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Avatar} from './Avatar';
@@ -38,6 +39,7 @@ function LogOut() {
   };
 
   return (
+    <ScrollView>
     <View
       style={{
         flex: 1,
@@ -47,6 +49,7 @@ function LogOut() {
       }}>
       <Button onPress={logoutClick} color="#FE7E9C">
         You will be logged out once click.
+        
       </Button>
       <TouchableOpacity onPress={logoutClick}>
         <Image
@@ -60,6 +63,7 @@ function LogOut() {
         Designed by / Freepik
       </Text>
     </View>
+    </ScrollView>
   );
 }
 

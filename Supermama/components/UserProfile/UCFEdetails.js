@@ -118,13 +118,7 @@ function UCFEdetails({navigation, route}){
           <Text style={[styles.hash]}> #{item.hashtag}</Text>
         </View>
       </View>
-      <IconButton
-        style={[styles.question]}
-        icon={'account-question'}
-        color="black"
-        size={25}
-        // onPress={() => navigation.navigate('Bookmark')}
-      />
+    
         <View style={[styles.follow]}>
         <Text style={[styles.user]}>{item.username}</Text>
         <Button

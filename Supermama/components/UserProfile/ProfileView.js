@@ -27,6 +27,7 @@ function ProfileView({navigation, route}) {
   //add photo url
   //display user profile picture
   const [imageUrl, setImageUrl] = useState(undefined);
+  const [following, setFollowing] = useState(item.following);
 
   useEffect(() => {
     storage()
@@ -46,7 +47,7 @@ function ProfileView({navigation, route}) {
         .collection('userFollowing')
         .doc(item.userId)
         .set({});
-      follow(true);
+      setFollowing(true);
     },
     [item.userId, user.uid],
   );
@@ -59,7 +60,7 @@ function ProfileView({navigation, route}) {
         .collection('userFollowing')
         .doc(item.userId)
         .delete();
-      follow(false);
+      setFollowing(false);
     },
     [user, item],
   );
@@ -72,7 +73,7 @@ function ProfileView({navigation, route}) {
           <Text style={{fontWeight: 'bold',
     color: '#3D155F',}}>{item.username}</Text>
           <Text>{item.bio}</Text>
-          {item.following ? (
+          {following ? (
             <Button
               style={[styles.follow]}
               color="black"

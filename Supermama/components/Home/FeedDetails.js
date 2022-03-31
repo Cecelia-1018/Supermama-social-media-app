@@ -197,15 +197,7 @@ function FeedDetails({navigation, route}) {
           <Text style={[styles.description]}> {item.description}</Text>
           <Text style={[styles.hash]}> #{item.hashtag}</Text>
         </View>
-      </View>
-      <IconButton
-        style={[styles.question]}
-        icon={'account-question'}
-        color="black"
-        size={25}
-        // onPress={() => navigation.navigate('Bookmark')}
-      />
-      {bookmark ? (
+        {bookmark ? (
         <IconButton
           icon="book"
           color="red"
@@ -222,9 +214,14 @@ function FeedDetails({navigation, route}) {
           onPress={() => onBookmark()}
         />
       )}
+      </View>
+      
+      
+      
 
       <View style={[styles.follow]}>
         <Text style={[styles.user]}>{item.username}</Text>
+        
         {following ? (
           <Button
             style={[styles.follow]}
@@ -242,6 +239,7 @@ function FeedDetails({navigation, route}) {
             Follow
           </Button>
         )}
+        
       </View>
       {/* <View style={styles.commentcolumn}>
           <Text
@@ -341,6 +339,6 @@ const styles = StyleSheet.create({
   user: {textAlignVertical: 'top', fontSize: 20, color: 'black', marginTop: 10},
   description: {fontSize: 17, color: 'black'},
   hash: {textAlignVertical: 'top', fontSize: 10, color: 'grey'},
-  bookmark: {position: 'absolute', right: 15, top: 12},
+  bookmark: {flexDirection: 'row',},
   question: {position: 'absolute', right: 50, top: 12},
 });

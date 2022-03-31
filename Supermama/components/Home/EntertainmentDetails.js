@@ -27,6 +27,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import EntCom from './EntCom.js';
+import LinearGradient from 'react-native-linear-gradient';
 
 function EntertainmentDetails({route}) {
   //user
@@ -214,8 +215,15 @@ function EntertainmentDetails({route}) {
           <Avatar.Image size={50} source={{uri: item.avatar}} />
         </View>
         <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
-          <Text style={[styles.user]}> {item.username}</Text>
-          <Text style={[styles.user]}> #{item.hashtag}</Text>
+          <Text style={[styles.user]}>   {item.username}</Text>
+          <LinearGradient
+                  colors={['#EF629F','#EECDA3']}
+                  // style={styles.box1}
+                  start={{x: 0.0, y: 0.5}}
+                  end={{x: 1.0, y:0.5}}
+                  style={{borderRadius: 5,marginLeft: 10,paddingRight: 5, paddingLeft: 2, alignSelf: 'flex-start'}}>
+          <Text style={[styles.user2]}> #{item.hashtag}</Text>
+          </LinearGradient>
         </View>
       </View>
       <Text style={[styles.description]}>{item.description}</Text>
@@ -321,13 +329,14 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 10,
   },
-  user: {textAlignVertical: 'top', fontSize: 15, color: 'black'},
+  user: {textAlignVertical: 'top', fontSize: 15, color: 'black',fontWeight: 'bold'},
+  user2: {textAlignVertical: 'top', fontSize: 15, color: 'black'},
   description: {fontSize: 17, color: 'black', marginLeft: 25},
   image: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 190,
-    height: 210,
+    width: 250,
+    height: 250,
     margin: 5,
     borderRadius: 10,
   },

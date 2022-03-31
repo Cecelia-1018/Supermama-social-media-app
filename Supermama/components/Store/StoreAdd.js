@@ -111,6 +111,7 @@ const StoreAdd = ({navigation}) => {
             image: imageUrl,
             price: txtPrice,
             category: txtCategory,
+            approve: 'pending',
           })
           .then(() => {
             Alert.alert('Success ✅', 'Product were ready for sell');

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet,SafeAreaView,ScrollView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {TextInput, Card, Title,Switch, Paragraph, Button, Snackbar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
@@ -117,7 +117,8 @@ function EditForum({navigation, route}) {
 }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollView}>
       <Card>
         <Card.Content>
           <Title>Your Question</Title>
@@ -222,13 +223,19 @@ function EditForum({navigation, route}) {
           Back
         </Button>
       </View>
-    </View>
+    
+    </ScrollView>
+     
+     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollView: {
+    backgroundColor: 'white',
   },
   btnContainer: {
     flexDirection: 'row-reverse',
