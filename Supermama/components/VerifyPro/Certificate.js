@@ -45,10 +45,11 @@ const styles = StyleSheet.create({
   // * Step 5 : You may shape you image bigger here or above play with image picker width and height
   avatar: {
     paddingTop: 10,
-    height: 600,
-    width: 370,
+    height: 500,
+    width: 320,
     borderRadius: 5,
-    padding: 20,
+    margin: 15,
+    // padding: 20,
     borderColor: "pink",
     borderWidth: 2,
   },

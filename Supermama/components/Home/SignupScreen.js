@@ -121,8 +121,8 @@ const SigninScreen = ({navigation}) => {
           res.user.updateProfile({
             displayName: data.displayName,
           });
-          Alert.alert('Success ✅', 'Account created successfully'),
-            RNRestart.Restart();
+          Alert.alert('Success ✅', 'Account created successfully. Please sign in with your registered email again'),
+            firebase.auth().signOut(),RNRestart.Restart();
         })
         .catch(error => this.setState({errorMessage: error.message}));
     }

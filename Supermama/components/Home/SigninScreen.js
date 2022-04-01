@@ -69,7 +69,8 @@ const SigninScreen = ({navigation}) => {
         Alert.alert('Success ✅', 'Logged successfully'), RNRestart.Restart();
       }
     } catch (e) {
-      Alert.alert(e.message);
+      // Alert.alert(e.message);
+      Alert.alert(error)
     }
   };
 
@@ -117,7 +118,7 @@ const SigninScreen = ({navigation}) => {
       <View style={styles.footer}>
         <ScrollView>
           {/* <Animatable.View style={styles.footer} animation="fadeInUpBig"> */}
-          <Text style={styles.text_footer}>Username/Email</Text>
+          <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
             <Icon
               size={20}
