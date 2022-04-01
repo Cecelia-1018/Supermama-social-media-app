@@ -61,6 +61,20 @@ function Apply({navigation}){
     }
   }, []);
 
+  const deleteFromFirebase = (url) => {
+     //name in storage in firebase console
+   //2.
+   storage().ref('gs://supermama-6aa87.appspot.com/VerifyPro/' + "Verify" +user.uid).delete()
+      .then(() => {
+        //3.
+        setImageUrl(imageUrl.filter((image) => image !== url));
+        alert("Picture is deleted successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   //radio button
   const [value, setValue] = React.useState('');
   const [applied, setApplied] = React.useState(false);
@@ -94,8 +108,8 @@ function Apply({navigation}){
       if(!value.trim()){
         alert('Please select one of the field for submission.');
         return;
-      } else if (!imageUrl){
-        alert('Upload your certificate before submit.')
+      // } else if (imageUrl){
+      //   alert('Upload your certificate before submit.')
       } else {
         await ref.doc(id)
         .set({
@@ -113,10 +127,20 @@ function Apply({navigation}){
         .then(() =>{
           console.log('Verify Pro added!')
         });
+        await ref.doc(id)
+        .update({
+          photoURL: imageUrl,
+
+        })
+        .then(() =>{
+          console.log('Verify Pro added!')
+        });
+       
         setValue('');
         setTxtLoc('');
         setTxtContact('');
         setWebUrl('');
+        setImageUrl('');
         navigation.navigate('Verify');
       }
     }
@@ -210,7 +234,10 @@ function Apply({navigation}){
                           .delete()
                           .then(() => {
                               console.log('submission deleted!');
-                          })}
+                          }), 
+                          deleteFromFirebase(imageUrl)
+                        }
+
                       },
                     ])
                   }/> 
@@ -315,7 +342,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   imageContainer: {
-    margin: 12,
+    margin: 5,
   },
 
   

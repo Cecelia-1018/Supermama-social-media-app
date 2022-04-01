@@ -55,7 +55,7 @@ function Verify() {
           <Paragraph><Text style={styles.baseText}>Website Link :</Text> {item.web} </Paragraph> 
           <Paragraph><Text style={styles.baseText}>Applied Datetime    :</Text> {item.datetime} </Paragraph> 
           
-          <Image style={styles.tinyLogo} source={{uri: imageUrl}}/>
+          <Image style={styles.tinyLogo} source={{uri: item.photoURL}}/>
          
           </Card.Content>
         </Card>
