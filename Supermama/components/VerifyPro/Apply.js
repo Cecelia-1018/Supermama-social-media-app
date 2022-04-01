@@ -46,7 +46,7 @@ function Apply({navigation}){
   const [txtWebUrl, setWebUrl]= React.useState('');
 
   // * step 3 declare picture url for displaying (rmb import useState at top)
-  const [imageUrl, setImageUrl] = useState(undefined);
+  const [imageUrl, setImageUrl] = useState('');
   
   // * step 3a call image from storage (rmb import useEffect at top)
   useEffect(() => {
@@ -111,25 +111,19 @@ function Apply({navigation}){
       // } else if (imageUrl){
       //   alert('Upload your certificate before submit.')
       } else {
+
+        const url = await storage().ref('gs://supermama-6aa87.appspot.com/VerifyPro/' + "Verify" +user.uid).getDownloadURL();
         await ref.doc(id)
         .set({
           verifyProId: id,
           proField: value,
           userId: user.uid,
           status: pending,
-          photoURL: imageUrl,
+          photoURL: url.toString(),
           datetime: datetime,
           location: txtLoc,
           contact: txtContact,
           web: txtWebUrl,
-
-        })
-        .then(() =>{
-          console.log('Verify Pro added!')
-        });
-        await ref.doc(id)
-        .update({
-          photoURL: imageUrl,
 
         })
         .then(() =>{
@@ -203,7 +197,7 @@ function Apply({navigation}){
            <Certificate onChange={onImageChange} source={{uri: imageUrl}} /> 
            </View>
            }
-            {imageUrl ?  null : <Text>Press above box to upload photo.</Text>}
+           
             </View>
     
             
@@ -235,7 +229,7 @@ function Apply({navigation}){
                           .then(() => {
                               console.log('submission deleted!');
                           }), 
-                          deleteFromFirebase(imageUrl)
+                          deleteFromFirebase(imageUrl);
                         }
 
                       },

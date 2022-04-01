@@ -153,7 +153,11 @@ function DetailsForum({navigation, route}) {
 
       if (documentSnapshot.exists) {
         console.log('User data: ', documentSnapshot.data().status);
+        if(documentSnapshot.data().status == "Pending"){
+          setVerify("Normal");
+        }else{
         setVerify(documentSnapshot.data().status);
+        }
       }
     });
   },[]);
