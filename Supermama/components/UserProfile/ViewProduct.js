@@ -26,6 +26,7 @@ const ViewProduct = ({navigation, route}) => {
     const subscriber = firestore()
       .collection('product')
       .where('userId', 'in', [item.userId])
+      .where('approve','==','approved')
       .onSnapshot(querySnapshot => {
         const product = [];
 

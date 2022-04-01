@@ -65,7 +65,8 @@ const ViewEnt = ({navigation, route}) => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('entertainment')
-      .where('userId', '==', item.userId)   
+      .where('userId', '==', item.userId)  
+      .where('post','==',true) 
       .onSnapshot(querySnapshot => {
         const entertainment = [];
         const varName = [];
@@ -96,7 +97,6 @@ const ViewEnt = ({navigation, route}) => {
         maxToRenderPerBatch={entertainment.length}
         windowSize={5}
         horizontal={false}
-        numColumns={2}
       />
     </View>
   );
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
   image: {
     // justifyContent: 'center',
     // alignItems: 'center',
-    width: 170,
-    height: 170,
+    width: 250,
+    height: 250,
     margin: 5,
     borderRadius: 10,
   },

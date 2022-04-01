@@ -33,6 +33,7 @@ const UserFeed = ({navigation}) => {
                 hashtag: item.hashtag,
                 userid: item.userId,
                 username: item.username,
+                image: item.image,
               },
             });
           }}>

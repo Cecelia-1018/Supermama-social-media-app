@@ -34,6 +34,7 @@ const ViewFeed = ({navigation, route}) => {
                 hashtag: item.hashtag,
                 userid: item.userId,
                 username: item.username,
+                image: item.image,
               },
             });
           }}>
@@ -41,7 +42,7 @@ const ViewFeed = ({navigation, route}) => {
             <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 'auto'}]}>
               
               <Image
-                source={require('../Home/AddPost_img.jpg')}
+                source={{uri: item.image}}
                 style={styles.image}
               />
             </View>
@@ -61,13 +62,6 @@ const ViewFeed = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          <IconButton
-            style={[styles.bookmark]}
-            icon={'book'}
-            color="black"
-            size={25}
-            // onPress={() => navigation.navigate('Bookmark')}
-          />
           <Text style={[{fontSize: 0}]}> {item.details}</Text>
           <Text style={[{fontSize: 0}]}> {item.hyperlink}</Text>
         </TouchableOpacity>
@@ -79,6 +73,7 @@ const ViewFeed = ({navigation, route}) => {
     const subscriber = firestore()
       .collection('feed')
       .where('userId', '==', item.userId)
+      .where('post','==',true) 
       .onSnapshot(querySnapshot => {
         const feed = [];
 

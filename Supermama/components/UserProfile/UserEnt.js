@@ -134,7 +134,6 @@ const EntertainmentHome = ({navigation}) => {
         maxToRenderPerBatch={entertainment.length}
         windowSize={5}
         horizontal={false}
-        numColumns={2}
       />
     </View>
   );
@@ -157,9 +156,9 @@ const styles = StyleSheet.create({
   image: {
     // justifyContent: 'center',
     // alignItems: 'center',
-    width: 170,
-    height: 170,
-    margin: 5,
+    width: 250,
+    height: 250,
+    margin: 10,
     borderRadius: 10,
   },
   like: {textAlignVertical: 'center', color: 'black'},

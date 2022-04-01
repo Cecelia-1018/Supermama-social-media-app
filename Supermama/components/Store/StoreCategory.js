@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
-import {IconButton, Button,Title} from 'react-native-paper';
+import {IconButton, Button,Title, Card} from 'react-native-paper';
 
 function StoreCategory({navigation}) {
   const catRef = useRef();
@@ -22,7 +22,7 @@ function StoreCategory({navigation}) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const renderProduct = ({item}) => {
     return (
-      <View style={styles.product}>
+      
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Store Page', {
@@ -31,11 +31,12 @@ function StoreCategory({navigation}) {
               },
             });
           }}>
-          <Image style={styles.img} source={{uri: item.image}} />
-
+          <Card style={{margin:10,borderRadius:5}}>
+            <Card.Cover source={{uri: item.image}}  />
           <Title style={styles.title}>{item.name}</Title>
+          </Card>
         </TouchableOpacity>
-      </View>
+     
     );
   };
 
