@@ -26,6 +26,7 @@ import firestore from '@react-native-firebase/firestore';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 function UCEdetails({route}){
    //user
@@ -194,31 +195,20 @@ function UCEdetails({route}){
         </View>
         <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
           <Text style={[styles.user]}> {item.username}</Text>
-          <Text style={[styles.user]}> #{item.hashtag}</Text>
+          <LinearGradient
+                  colors={['#EF629F','#EECDA3']}
+                  // style={styles.box1}
+                  start={{x: 0.0, y: 0.5}}
+                  end={{x: 1.0, y:0.5}}
+                  style={{borderRadius: 5,paddingRight: 5, paddingLeft: 2, alignSelf: 'flex-start'}}>
+          <Text style={[styles.user2]}> #{item.hashtag}</Text>
+          </LinearGradient>
         </View>
       </View>
       <Text style={[styles.description]}>{item.description}</Text>
       <View style={[styles.grid]}>
         <Image style={styles.image} source={{uri: item.image}} />
       </View>
-    
-      {following ? (
-        <Button
-          style={[styles.follow]}
-          color="black"
-          mode="outlined"
-          onPress={() => onUnfollow()}>
-          Following
-        </Button>
-      ) : (
-        <Button
-          style={[styles.follow]}
-          color="black"
-          mode="outlined"
-          onPress={() => onFollow()}>
-          Follow
-        </Button>
-      )}
     
      <View style={[styles.commentcolumn]}>
      <Text style={[styles.description]}>Comment {replyNum}</Text>
@@ -300,7 +290,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 10,
   },
-  user: {textAlignVertical: 'top', fontSize: 15, color: 'black'},
+  user: {textAlignVertical: 'top', fontSize: 15, color: 'black',fontWeight:'bold'},
+  user2: {textAlignVertical: 'top', fontSize: 15, color: 'black'},
   description: {fontSize: 17, color: 'black', marginLeft: 25},
   image: {
     justifyContent: 'center',

@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   },
   user: {textAlignVertical: 'top', fontSize: 15, color: 'black',fontWeight: 'bold'},
   user2: {textAlignVertical: 'top', fontSize: 15, color: 'black'},
-  description: {fontSize: 17, color: 'black', marginLeft: 25},
+  description: {fontSize: 17, color: 'black', marginLeft: 15},
   image: {
     justifyContent: 'center',
     alignItems: 'center',

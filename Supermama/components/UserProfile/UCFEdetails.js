@@ -14,6 +14,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Button, TextInput, IconButton, Card, Avatar} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
+import LinearGradient from 'react-native-linear-gradient';
+
 //check user
 const user = firebase.auth().currentUser;
 
@@ -32,6 +34,7 @@ function UCFEdetails({navigation, route}){
   const [feed, setFeeds] = useState([]); // Initial empty array of forums
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [comment, setComment] = useState([]);
+  const [following, setFollowing] = useState(false);
   
 
   const [feedId, setFeedId] = useState(item.feedId);
@@ -45,6 +48,7 @@ function UCFEdetails({navigation, route}){
     setCommentDocId('C' + date + hours + min + sec);
   }, []);
 
+ 
   async function addCommentCol() {
     await commRef
       .doc(commentDocId)
@@ -105,6 +109,7 @@ function UCFEdetails({navigation, route}){
 
  
   const renderItem = ({item}) => {
+    
    
     return (
     <View style={[styles.container, styles.item]}>
@@ -115,18 +120,20 @@ function UCFEdetails({navigation, route}){
         <View style={[{flexGrow: 0, flexShrink: 1, flexBasis: 200}]}>
           <Text style={[styles.title]}> {item.title}</Text>
           <Text style={[styles.description]}> {item.description}</Text>
+          <LinearGradient
+                  colors={['#EF629F','#EECDA3']}
+                  // style={styles.box1}
+                  start={{x: 0.0, y: 0.5}}
+                  end={{x: 1.0, y:0.5}}
+                  style={{borderRadius: 5,paddingRight: 5, paddingLeft: 2, alignSelf: 'flex-start'}}>
           <Text style={[styles.hash]}> #{item.hashtag}</Text>
+          </LinearGradient>
         </View>
       </View>
     
         <View style={[styles.follow]}>
         <Text style={[styles.user]}>{item.username}</Text>
-        <Button
-          color="black"
-          mode="outlined"
-          onPress={() => console.log('Follow')}>
-          Follow
-        </Button>
+      
       </View>
       <View style={[styles.content]}>
         <Text style={[styles.user]}>{item.details}</Text>
@@ -257,7 +264,7 @@ const styles = StyleSheet.create({
   },
   user: {textAlignVertical: 'top', fontSize: 20, color: 'black', marginTop: 10},
   description: {fontSize: 17, color: 'black'},
-  hash: {textAlignVertical: 'top', fontSize: 10, color: 'grey'},
+  hash: {textAlignVertical: 'top', fontSize: 10,color: 'black'},
   bookmark: {position: 'absolute', right: 15, top: 12},
   question: {position: 'absolute', right: 50, top: 12},
 });

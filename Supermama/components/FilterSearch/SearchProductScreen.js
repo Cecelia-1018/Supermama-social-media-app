@@ -34,6 +34,7 @@ function SearchByName({navigation}) {
     useEffect(() => {
         const subscriber = firestore()
           .collection('product')
+          .where('approve','==','approved')
           .onSnapshot(
             querySnapshot => {
               const product= [];
@@ -99,25 +100,24 @@ function SearchByName({navigation}) {
               },
             });
           }}
-          style={{borderRadius: 10, marginRight: 3, marginLeft: 5, marginBottom: 5}}
+         
           >
-             <LinearGradient
+        
+        <LinearGradient
         colors={['#DAE2F8', '#ffdde1' ]}
         // style={styles.box1}
         start={{x: 0.3, y: 0}}
-        style={{borderRadius: 5,}}
+        style={{borderRadius: 5,flexDirection: 'row', margin: 10}}
         >
-          <View style={styles.gridStyle}> 
-       
-          <View> 
+          <View style={styles.box2}> 
             <Image style={styles.image} source={{uri: item.image}} />
           </View>
     
           <View> 
-          <Text style={styles.itemStyle}>{item.name} {'\n'}RM {item.price}</Text>
+          <Text style={styles.box}>{item.name} {'\n'}RM {item.price}</Text>
           </View>
          
-          </View>
+         
           </LinearGradient>
           </TouchableOpacity> 
         );
@@ -152,7 +152,6 @@ function SearchByName({navigation}) {
             keyExtractor={(item, index) => index.toString()}
             // ItemSeparatorComponent={ItemSeparatorView}
             renderItem={ItemView}
-            numColumns={2}
             ref={flatlistRef}
             windowSize={5}
             initialNumToRender={product.length}
@@ -178,6 +177,7 @@ function SearchByPrice({navigation}) {
      useEffect(() => {
         const subscriber = firestore()
           .collection('product')
+          .where('approve','==','approved')
           .onSnapshot(
             querySnapshot => {
               const product= [];
@@ -243,29 +243,36 @@ function SearchByPrice({navigation}) {
               },
             });
           }}
-          style={{borderRadius: 10, marginRight: 3, marginLeft: 5, marginBottom: 5}}
           >
-             <LinearGradient
+             
+           
+        <View style={{borderRadius: 5,flexDirection: 'row', margin: 10}}>
+       
+          <View style={styles.box2}> 
+            <Image style={styles.image2} source={{uri: item.image}} />
+          </View>
+    
+        <View style={styles.box3}>  
+        <LinearGradient
         colors={['#DAE2F8', '#ffdde1' ]}
         // style={styles.box1}
         start={{x: 0.3, y: 0}}
-        style={{borderRadius: 5,}}
-        >
-           <View style={{alignItems: 'center'}}>
+        style={{
+          borderRadius: 5,
+          // marginLeft: 5,
+          paddingRight: 5,
+          paddingLeft: 5,
+          alignSelf: 'flex-start',
+        }}>
+        
          <Title>RM {item.price}</Title>
-         </View>
-          <View style={styles.gridStyle}> 
-       
-          <View> 
-            <Image style={styles.image} source={{uri: item.image}} />
-          </View>
-    
-          <View> 
-          <Text style={styles.itemStyle}>{item.name} {'\n'}Category: {item.category}</Text>
-          </View>
+         </LinearGradient>
+         <Text>{item.name} {'\n'}Category: {item.category}</Text>
+        </View>
+        </View>
          
-          </View>
-          </LinearGradient>
+          
+         
           </TouchableOpacity> 
         );
       };
@@ -299,7 +306,6 @@ function SearchByPrice({navigation}) {
             keyExtractor={(item, index) => index.toString()}
             // ItemSeparatorComponent={ItemSeparatorView}
             renderItem={ItemView}
-            numColumns={2}
             ref={flatlistRef}
             windowSize={5}
             initialNumToRender={product.length}
@@ -325,6 +331,7 @@ function SearchByCategory({navigation}) {
      useEffect(() => {
         const subscriber = firestore()
           .collection('product')
+          .where('approve','==','approved')
           .onSnapshot(
             querySnapshot => {
               const product= [];
@@ -389,30 +396,32 @@ function SearchByCategory({navigation}) {
                 productId: item.productId,
               },
             });
-          }}
-          style={{borderRadius: 10, marginRight: 3, marginLeft: 5, marginBottom: 5}}
-          >
-             <LinearGradient
+          }}>
+        <View style={{borderRadius: 5,flexDirection: 'row', margin: 10}}>       
+          <View style={styles.box2}> 
+            <Image style={styles.image2} source={{uri: item.image}} />
+          </View>
+    
+          <View style={styles.box3}> 
+          <LinearGradient
         colors={['#DAE2F8', '#ffdde1' ]}
         // style={styles.box1}
         start={{x: 0.3, y: 0}}
-        style={{borderRadius: 5,}}
-        >
-          <View style={{alignItems: 'center'}}>
+        style={{
+          borderRadius: 5,
+          // marginLeft: 5,
+          paddingRight: 5,
+          paddingLeft: 5,
+          alignSelf: 'flex-start',
+        }}>
+        
          <Title>{item.category}</Title>
-         </View>
-          <View style={styles.gridStyle}> 
-       
-          <View> 
-            <Image style={styles.image} source={{uri: item.image}} />
-          </View>
-    
-          <View> 
-          <Text style={styles.itemStyle}>{item.name} {'\n'}RM {item.price}</Text>
+         </LinearGradient>
+          <Text>{item.name} {'\n'}RM {item.price}</Text>
           </View>
          
           </View>
-          </LinearGradient>
+         
           </TouchableOpacity> 
         );
       };
@@ -452,7 +461,6 @@ function SearchByCategory({navigation}) {
             keyExtractor={(item, index) => index.toString()}
             // ItemSeparatorComponent={ItemSeparatorView}
             renderItem={ItemView}
-            numColumns={2}
             ref={flatlistRef}
             windowSize={5}
             initialNumToRender={product.length}
@@ -502,20 +510,37 @@ const styles = StyleSheet.create({
       borderRadius: 5,
     },
     image:{
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       borderRadius: 10,
     },
-    gridStyle: {
-        flex:1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 170,
-        // margin: 5,
-        // backgroundColor: '#FFC0CB',
-        borderRadius: 5,
-        
-        
+    image2:{
+      width: 75,
+      height: 75,
+      borderRadius: 10,
+    },
+      box:{
+        flexGrow: 0,
+        flexShrink: 1,
+        flexBasis: "auto",
+        fontSize: 15,
+        fontWeight: "bold",
+        marginLeft: 10,
+        color: 'black',
+        marginTop: 5,
+      },
+      box3:{
+        flexGrow: 0,
+        flexShrink: 1,
+        flexBasis: "auto",
+        fontSize: 15,
+        fontWeight: "bold",
+        marginLeft: 10,
+        color: 'black',
+      
+      },
+      box2:{
+        alignItems: "flex-end",
       },
    
   });

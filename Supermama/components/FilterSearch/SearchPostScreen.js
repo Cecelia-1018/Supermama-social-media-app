@@ -10,9 +10,12 @@ import {
   FlatList,
   TextInput,
   Alert,
-  Image
+  Image,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import LinearGradient from 'react-native-linear-gradient';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,6 +31,7 @@ function SearchEntertainments({navigation}) {
   useEffect(() => {
     const subscriber = firestore()
       .collection('entertainment')
+      .where('post','==', true)
       .onSnapshot(
         querySnapshot => {
           const entertainment = [];
@@ -78,14 +82,8 @@ function SearchEntertainments({navigation}) {
   const ItemView = ({item}) => {
     return (
       // Flat List Item
-      <View style={{flexDirection: 'row', margin: 10}}> 
-      <View style={styles.box2}> 
-        <Image style={styles.image} source={{uri: item.image}} />
-      </View>
-
-      <View style={styles.box}> 
-      <Text
-        style={styles.itemStyle}
+      <TouchableOpacity
+        style={{flexDirection: 'row', margin: 10}}
         onPress={() => {
           navigation.navigate('Entertainment Details', {
             item: {
@@ -98,14 +96,30 @@ function SearchEntertainments({navigation}) {
               userId: item.userId,
             },
           });
-        }}
-          >
-        #{item.hashtag}  {'\n'}
-        {item.description}
-        
-      </Text>
-      </View>
-      </View> 
+        }}>
+        <View style={styles.box2}>
+          <Image style={styles.image} source={{uri: item.image}} />
+        </View>
+
+        <View style={styles.box}>
+        <LinearGradient
+                colors={['#EF629F', '#EECDA3']}
+                // style={styles.box1}
+                start={{x: 0.0, y: 0.5}}
+                end={{x: 1.0, y: 0.5}}
+                style={{
+                  borderRadius: 5,
+                  // marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                 
+                  alignSelf: 'flex-start',
+                }}>
+          <Text style={{color: 'black',fontWeight:'bold'}}>#{item.hashtag}</Text>
+          </LinearGradient>
+          <Text style={{color: 'black'}}>{item.description}</Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -125,6 +139,7 @@ function SearchEntertainments({navigation}) {
 
   return(
     <SafeAreaView style={{flex: 1}}>
+    
     <View style={styles.container}>
       <TextInput
         style={styles.textInputStyle}
@@ -140,6 +155,7 @@ function SearchEntertainments({navigation}) {
         renderItem={ItemView}
       />
     </View>
+    
   </SafeAreaView>
   );
 }
@@ -152,6 +168,7 @@ function SearchFeeds({navigation}) {
   useEffect(() => {
     const subscriber = firestore()
       .collection('feed')
+      .where('post','==', true)
       .onSnapshot(
         querySnapshot => {
           const feed = [];
@@ -202,14 +219,8 @@ function SearchFeeds({navigation}) {
   const ItemView = ({item}) => {
     return (
       // Flat List Item
-      <View style={{flexDirection: 'row', margin: 10}}> 
-      <View style={styles.box2}> 
-        <Image style={styles.image} source={{uri: item.image}} />
-      </View>
-
-      <View style={styles.box}> 
-      <Text
-        style={styles.itemStyle}
+      <TouchableOpacity
+        style={{flexDirection: 'row', margin: 10}}
         onPress={() => {
           navigation.navigate('Feed Detail', {
             item: {
@@ -223,14 +234,30 @@ function SearchFeeds({navigation}) {
               image: item.image,
             },
           });
-        }}
-          >
-        #{item.hashtag}  {'\n'}
-        {item.description}
-        
-      </Text>
-      </View>
-      </View> 
+        }}>
+        <View style={styles.box2}>
+          <Image style={styles.image} source={{uri: item.image}} />
+        </View>
+
+        <View style={styles.box}>
+        <LinearGradient
+                colors={['#EF629F', '#EECDA3']}
+                // style={styles.box1}
+                start={{x: 0.0, y: 0.5}}
+                end={{x: 1.0, y: 0.5}}
+                style={{
+                  borderRadius: 5,
+                  // marginLeft: 5,
+                  paddingRight: 5,
+                  paddingLeft: 2,
+                 
+                  alignSelf: 'flex-start',
+                }}>
+          <Text style={{color: 'black',fontWeight:'bold'}}>#{item.hashtag}</Text>
+          </LinearGradient>
+          <Text style={{color: 'black'}}> {item.description} </Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -290,6 +317,7 @@ export default SearchPostScreen;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    flex: 1,
   },
   itemStyle: {
     padding: 10,
@@ -305,14 +333,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   image:{
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     borderRadius: 10,
   },
   box:{
     flexGrow: 0,
     flexShrink: 1,
     flexBasis: "auto",
+    marginLeft:10
   },
   box2:{
     alignItems: "flex-end",

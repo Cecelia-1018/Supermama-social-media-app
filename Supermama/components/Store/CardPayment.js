@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Alert, ScrollView} from 'react-native';
 import {Button} from 'react-native-paper';
 import stripe from 'tipsi-stripe';
 stripe.setOptions({
@@ -54,6 +54,7 @@ const makePayment= ()=> {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
       <Text style={styles.header}>Card Form Example</Text>
       <Text style={styles.instruction}>
         Click button to show Card Form dialog.
@@ -116,6 +117,7 @@ const makePayment= ()=> {
           </Text>
         )}
       </View>
+      </ScrollView>
     </View>
   );
 };

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Searchbar, Avatar, Paragraph, Chip, Title} from 'react-native-paper';
+import React, {useState, useEffect,useRef} from 'react';
+import {Searchbar, Avatar, Paragraph, Chip, Title,Card} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 // step 1 : import all the components we are going to use
 import {
@@ -15,10 +15,16 @@ import {
 } from 'react-native';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LinearGradient from 'react-native-linear-gradient';
+//display part
 
 const Tab = createMaterialTopTabNavigator();
 
 function SearchByHashTag({navigation}) {
+  const flatlistRef = useRef();
+
+const onPressFunction = () => {
+  flatlistRef.current.scrollToEnd({animating: true});
+};
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
@@ -77,8 +83,8 @@ function SearchByHashTag({navigation}) {
     return (
       // Flat List Item
 
-      < TouchableOpacity
-        style={styles.itemStyle}
+      <TouchableOpacity
+     
          onPress={() => {
             navigation.navigate('Detail Forum', {
               //pass params here
@@ -95,8 +101,9 @@ function SearchByHashTag({navigation}) {
               },
             });
           }}>
-           
-         <View style={{flexDirection:'row', }}> 
+        <Card>
+          <Card.Content>
+         <View style={{flexDirection:'row',}}> 
          
          <Avatar.Image size={40} source={{uri: item.photoUrl}} />
          <View style={{marginLeft: 5, width: 320}} >
@@ -119,7 +126,8 @@ function SearchByHashTag({navigation}) {
          <Paragraph>{item.title}</Paragraph>
          </View>
          </View>
-         
+         </Card.Content>
+         </Card>
       </ TouchableOpacity>
     );
   };
@@ -153,11 +161,16 @@ function SearchByHashTag({navigation}) {
           underlineColorAndroid="transparent"
           placeholder="Search By Hashtag"
         />
+      
         <FlatList
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
+          windowSize={10}
           renderItem={ItemView}
+          ref={flatlistRef}
+          initialNumToRender={filteredDataSource.length}
+          maxToRenderPerBatch={filteredDataSource.length}
         />
       </View>
     </SafeAreaView>
@@ -375,7 +388,7 @@ function SearchByQuestion({navigation}){
     return (
       // Flat List Item
 
-      < TouchableOpacity
+      <TouchableOpacity
         style={styles.itemStyle}
          onPress={() => {
             navigation.navigate('Detail Forum', {
@@ -438,7 +451,7 @@ function SearchByQuestion({navigation}){
         <FlatList
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={ItemSeparatorView}
+          // ItemSeparatorComponent={ItemSeparatorView}
           renderItem={ItemView}
         />
       </View>
@@ -457,8 +470,8 @@ function SearchForumScreen({navigation}) {
    >
      {/* <Tab.Screen name="Search Video" component={SearchVideo} /> */}
       <Tab.Screen name="Questions" component={SearchByQuestion} />
-      <Tab.Screen name="Forum Category" component={SearchByCategory} />
       <Tab.Screen name="Forum Hashtag" component={SearchByHashTag} />
+      <Tab.Screen name="Forum Category" component={SearchByCategory} />
    </Tab.Navigator>
  );
  
@@ -470,6 +483,10 @@ const styles = StyleSheet.create({
   },
   itemStyle: {
     padding: 10,
+  },
+  itemStyle2: {
+    padding: 10,
+    
   },
   textInputStyle: {
     height: 40,

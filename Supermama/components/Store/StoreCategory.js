@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth, {firebase} from '@react-native-firebase/auth';
-import {IconButton, Button} from 'react-native-paper';
+import {IconButton, Button,Title} from 'react-native-paper';
 
 function StoreCategory({navigation}) {
   const catRef = useRef();
@@ -32,14 +32,8 @@ function StoreCategory({navigation}) {
             });
           }}>
           <Image style={styles.img} source={{uri: item.image}} />
-          {/* <IconButton
-          style={styles.icon}
-          size={30}
-          icon="cart"
-          onPress={() => console.log('Add One')}
-        /> */}
 
-          <Text style={styles.title}>{item.name}</Text>
+          <Title style={styles.title}>{item.name}</Title>
         </TouchableOpacity>
       </View>
     );
@@ -68,7 +62,6 @@ function StoreCategory({navigation}) {
         data={store}
         renderItem={renderProduct}
         horizontal={false}
-        numColumns={2}
         keyExtractor={item => item.catId}
       />
     </SafeAreaView>
@@ -90,9 +83,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   img: {
-    width: 170,
-    height: 170,
-    margin: 13,
+    width: 360,
+    height: 360,
+    margin: 15,
     borderRadius: 40,
   },
   icon: {
@@ -101,7 +94,7 @@ const styles = StyleSheet.create({
     right: 1,
   },
   title: {
-    fontSize: 15,
+    // fontSize: 25,
     textAlign: 'center',
   },
 });

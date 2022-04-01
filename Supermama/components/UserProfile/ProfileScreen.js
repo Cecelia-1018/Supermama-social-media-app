@@ -144,11 +144,19 @@ function ProfileInfo() {
   //reference of user
   const ref = firestore().collection('users').doc(uid);
 
+  const username = user.displayName;
+
   //check this user exist or not
   ref.get().then(documentSnapshot => {
      
 
   if(documentSnapshot.exists) {
+    ref.update({
+      name: user.displayName,
+    })
+   .then(() => {
+   console.log('User Info update!');
+   });
          return null;
        } else {
           //firebase with create users 
@@ -161,6 +169,7 @@ function ProfileInfo() {
     .then(() => {
       console.log('User Info added!');
     });
+   
        }
     })
  
@@ -234,7 +243,7 @@ function ProfileInfo() {
             <Text>Press pink circle to upload your profile photo.</Text>
           )}
           <Text style={{fontWeight: 'bold',
-    color: '#3D155F',}}> {item.name}</Text>
+    color: '#3D155F',}}> {user.displayName}</Text>
           <Text style={{alignItems: 'center'}}> {item.bio}</Text>
           {/* <Text> {item.userType} user </Text> */}
         </View>
